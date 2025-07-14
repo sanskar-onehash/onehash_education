@@ -8,7 +8,13 @@
  "field_order": [
   "academic_year_name",
   "year_start_date",
-  "year_end_date"
+  "year_end_date",
+  "column_break_frzl",
+  "admission_open",
+  "section_break_mgyx",
+  "admissions_open_for",
+  "add_all",
+  "clear"
  ],
  "fields": [
   {
@@ -32,11 +38,44 @@
    "in_list_view": 1,
    "label": "Year End Date",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "admission_open",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Admission Open"
+  },
+  {
+   "fieldname": "column_break_frzl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "admission_open",
+   "fieldname": "section_break_mgyx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "admissions_open_for",
+   "fieldtype": "Table MultiSelect",
+   "label": "Admissions Open For",
+   "options": "Programs"
+  },
+  {
+   "fieldname": "add_all",
+   "fieldtype": "Button",
+   "label": "Add All"
+  },
+  {
+   "depends_on": "admissions_open_for",
+   "fieldname": "clear",
+   "fieldtype": "Button",
+   "label": "Clear"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-14 14:25:49.315856",
+ "modified": "2025-07-14 15:51:33.878905",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Academic Year",
