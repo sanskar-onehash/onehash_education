@@ -20,6 +20,7 @@ frappe.ui.form.on("Academic Year", {
   },
   clear: function (frm) {
     frm.set_value("admissions_open_for", []);
+    frm.dirty();
   },
 });
 
