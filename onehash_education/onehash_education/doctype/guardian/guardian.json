@@ -6,16 +6,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "first_name",
+  "last_name",
   "guardian_name",
   "email_address",
   "mobile_number",
-  "alternate_number",
   "column_break_qfyi",
   "education",
   "occupation",
   "designation",
   "company",
-  "image"
+  "image",
+  "section_break_ixst",
+  "secondary_email",
+  "column_break_bsms",
+  "alternate_number"
  ],
  "fields": [
   {
@@ -23,7 +28,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Guardian Name",
-   "reqd": 1,
+   "read_only": 1,
    "unique": 1
   },
   {
@@ -73,11 +78,36 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Image"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "section_break_ixst",
+   "fieldtype": "Section Break",
+   "label": "Secondary Contacts"
+  },
+  {
+   "fieldname": "secondary_email",
+   "fieldtype": "Data",
+   "label": "Secondary Email"
+  },
+  {
+   "fieldname": "column_break_bsms",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2025-07-14 14:47:12.161196",
+ "modified": "2025-07-16 08:34:42.191405",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",
