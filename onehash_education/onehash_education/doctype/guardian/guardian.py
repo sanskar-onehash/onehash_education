@@ -7,7 +7,7 @@ from frappe.model.document import Document
 
 class Guardian(Document):
 
-    def validate(self):
+    def before_insert(self):
         self.set_missing_values()
 
     def set_missing_values(self):
