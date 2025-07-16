@@ -1,0 +1,849 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-07-16 10:36:39.429416",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_stfx",
+  "naming_series",
+  "first_name",
+  "middle_name",
+  "last_name",
+  "gender",
+  "column_break_cidi",
+  "email_address",
+  "mobile_number",
+  "date_of_birth",
+  "primary_nationality",
+  "is_non_indian",
+  "column_break_whgm",
+  "academic_year",
+  "program",
+  "extra_details_section",
+  "aadhaar_number",
+  "passport_id",
+  "column_break_jhmz",
+  "blood_group",
+  "category",
+  "religion",
+  "passport_details_section",
+  "passport_number",
+  "country",
+  "column_break_nadf",
+  "place_of_issue",
+  "date_of_issue",
+  "date_of_expiry",
+  "section_break_xxbf",
+  "language_proficiency",
+  "guardian_details_tab",
+  "marital_status",
+  "father_details_section",
+  "father_title",
+  "father_name",
+  "father_mobile_number",
+  "father_email",
+  "column_break_aaxk",
+  "father_occupation",
+  "father_designation",
+  "father_organization",
+  "father_educational_qualification",
+  "mother_details_section",
+  "mother_title",
+  "mother_name",
+  "mother_mobile_number",
+  "mother_email",
+  "column_break_ukwi",
+  "mother_occupation",
+  "mother_designation",
+  "mother_organization",
+  "mother_educational_qualification",
+  "guardian_details_section",
+  "guardian_title",
+  "guardian_name",
+  "guardian_mobile_number",
+  "guardian_email",
+  "column_break_wuzi",
+  "guardian_occupation",
+  "guardian_designation",
+  "guardian_organization",
+  "guardian_educational_qualification",
+  "emergency_contact_details_other_than_parents_section",
+  "emergency_contacts",
+  "medical_details_tab",
+  "medical_needs_section",
+  "pediatrician_name",
+  "uses_medical_equipment",
+  "medical_equipment_details",
+  "has_allergies",
+  "allergy_description",
+  "section_break_omgb",
+  "medical_history",
+  "section_break_okpt",
+  "counselling_records",
+  "address__transport_tab",
+  "bus_facility_required",
+  "distance_from_school",
+  "locality",
+  "correspondence_address_section",
+  "correspondence_country",
+  "correspondence_state",
+  "correspondence_district",
+  "correspondence_city",
+  "column_break_bwkn",
+  "correspondence_address_line_1",
+  "correspondence_address_line_2",
+  "correspondence_pincode",
+  "same_as_permanent",
+  "permanant_address_section",
+  "permanent_country",
+  "permanent_state",
+  "permanent_district",
+  "permanent_city",
+  "column_break_btox",
+  "permanent_address_line_1",
+  "permanent_address_line_2",
+  "permanent_pincode",
+  "academic_background_tab",
+  "currently_studying",
+  "school_name",
+  "current_grade",
+  "previous_school_country",
+  "previous_school_city",
+  "column_break_owyn",
+  "previous_school_contact_person",
+  "previous_school_contact_designation",
+  "previous_school_contact_email",
+  "previous_school_contact_mobile_no",
+  "previous_school_curriculum",
+  "column_break_zqfc",
+  "previous_school_academic_start_date",
+  "previous_school_academic_end_date",
+  "language_of_instruction",
+  "reason_for_leaving",
+  "section_break_aela",
+  "previous_schools",
+  "awards_achievements_section",
+  "awards",
+  "academic_exceptions_section",
+  "repeated_a_grade",
+  "grade_repeated_and_reason",
+  "asked_to_withdraw",
+  "reason_for_withdrawal",
+  "sibling_details_tab",
+  "siblings"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_stfx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "EDU-STU-APP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EDU-STU-APP-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Gender",
+   "options": "Gender",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_cidi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Email Address",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Phone",
+   "in_list_view": 1,
+   "label": "Mobile Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "primary_nationality",
+   "fieldtype": "Link",
+   "label": "Primary Nationality",
+   "options": "Country"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_non_indian",
+   "fieldtype": "Check",
+   "label": "Is Non Indian"
+  },
+  {
+   "fieldname": "column_break_whgm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program"
+  },
+  {
+   "fieldname": "extra_details_section",
+   "fieldtype": "Section Break",
+   "label": "Extra Details"
+  },
+  {
+   "fieldname": "aadhaar_number",
+   "fieldtype": "Data",
+   "label": "Aadhaar Card No."
+  },
+  {
+   "fieldname": "passport_id",
+   "fieldtype": "Data",
+   "label": "Passport ID"
+  },
+  {
+   "fieldname": "column_break_jhmz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Select",
+   "label": "Blood Group",
+   "options": "\nA+\nA-\nB+\nB-\nAB+\nAB-\nO+\nO-"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "label": "Category"
+  },
+  {
+   "fieldname": "religion",
+   "fieldtype": "Link",
+   "label": "Religion",
+   "options": "Religion"
+  },
+  {
+   "fieldname": "passport_details_section",
+   "fieldtype": "Section Break",
+   "label": "Passport Details"
+  },
+  {
+   "fieldname": "passport_number",
+   "fieldtype": "Data",
+   "label": "Passport Number"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "column_break_nadf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "place_of_issue",
+   "fieldtype": "Data",
+   "label": "Place of Issue"
+  },
+  {
+   "fieldname": "date_of_issue",
+   "fieldtype": "Date",
+   "label": "Date of Issue"
+  },
+  {
+   "fieldname": "date_of_expiry",
+   "fieldtype": "Date",
+   "label": "Date of Expiry"
+  },
+  {
+   "fieldname": "section_break_xxbf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "language_proficiency",
+   "fieldtype": "Table",
+   "label": "Language Proficiency",
+   "options": "Language Proficiency"
+  },
+  {
+   "fieldname": "guardian_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Guardian Details"
+  },
+  {
+   "fieldname": "marital_status",
+   "fieldtype": "Select",
+   "label": "Marital Status",
+   "options": "\nSingle\nMarried\nSeparated\nDivorced\nWidowed\nRemarried\nAnnulled\nPrefer not to say"
+  },
+  {
+   "fieldname": "father_details_section",
+   "fieldtype": "Section Break",
+   "label": "Father Details"
+  },
+  {
+   "fieldname": "father_title",
+   "fieldtype": "Link",
+   "label": "Father Title",
+   "options": "Salutation"
+  },
+  {
+   "fieldname": "father_name",
+   "fieldtype": "Data",
+   "label": "Father Name"
+  },
+  {
+   "fieldname": "father_mobile_number",
+   "fieldtype": "Phone",
+   "label": "Father Mobile Number"
+  },
+  {
+   "fieldname": "father_email",
+   "fieldtype": "Data",
+   "label": "Father Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_break_aaxk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "father_occupation",
+   "fieldtype": "Data",
+   "label": "Father Occupation"
+  },
+  {
+   "fieldname": "father_designation",
+   "fieldtype": "Data",
+   "label": "Father Designation"
+  },
+  {
+   "fieldname": "father_organization",
+   "fieldtype": "Data",
+   "label": "Father Organization"
+  },
+  {
+   "fieldname": "father_educational_qualification",
+   "fieldtype": "Link",
+   "label": "Father Educational Qualification",
+   "options": "Educational Qualification Master"
+  },
+  {
+   "fieldname": "mother_details_section",
+   "fieldtype": "Section Break",
+   "label": "Mother Details"
+  },
+  {
+   "fieldname": "mother_title",
+   "fieldtype": "Data",
+   "label": "Mother Title"
+  },
+  {
+   "fieldname": "mother_name",
+   "fieldtype": "Data",
+   "label": "Mother Name"
+  },
+  {
+   "fieldname": "mother_mobile_number",
+   "fieldtype": "Phone",
+   "label": "Mother Mobile Number"
+  },
+  {
+   "fieldname": "mother_email",
+   "fieldtype": "Data",
+   "label": "Mother Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "column_break_ukwi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mother_occupation",
+   "fieldtype": "Data",
+   "label": "Mother Occupation"
+  },
+  {
+   "fieldname": "mother_designation",
+   "fieldtype": "Data",
+   "label": "Mother Designation"
+  },
+  {
+   "fieldname": "mother_organization",
+   "fieldtype": "Data",
+   "label": "Mother Organization"
+  },
+  {
+   "fieldname": "mother_educational_qualification",
+   "fieldtype": "Link",
+   "label": "Mother Educational Qualification",
+   "options": "Educational Qualification Master"
+  },
+  {
+   "fieldname": "guardian_details_section",
+   "fieldtype": "Section Break",
+   "label": "Guardian Details"
+  },
+  {
+   "fieldname": "guardian_title",
+   "fieldtype": "Data",
+   "label": "Guardian Title"
+  },
+  {
+   "fieldname": "guardian_name",
+   "fieldtype": "Data",
+   "label": "Guardian Name"
+  },
+  {
+   "fieldname": "guardian_mobile_number",
+   "fieldtype": "Phone",
+   "label": "Guardian Mobile Number"
+  },
+  {
+   "fieldname": "guardian_email",
+   "fieldtype": "Data",
+   "label": "Guardian Email"
+  },
+  {
+   "fieldname": "column_break_wuzi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "guardian_occupation",
+   "fieldtype": "Data",
+   "label": "Guardian Occupation"
+  },
+  {
+   "fieldname": "guardian_designation",
+   "fieldtype": "Data",
+   "label": "Guardian Designation"
+  },
+  {
+   "fieldname": "guardian_organization",
+   "fieldtype": "Data",
+   "label": "Guardian Organization"
+  },
+  {
+   "fieldname": "guardian_educational_qualification",
+   "fieldtype": "Link",
+   "label": "Guardian Educational Qualification",
+   "options": "Educational Qualification Master"
+  },
+  {
+   "fieldname": "emergency_contact_details_other_than_parents_section",
+   "fieldtype": "Section Break",
+   "label": "Emergency Contact Details (Other than Parents)"
+  },
+  {
+   "fieldname": "emergency_contacts",
+   "fieldtype": "Table",
+   "label": "Emergency Contacts",
+   "options": "Quick Contacts"
+  },
+  {
+   "fieldname": "medical_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Medical Details"
+  },
+  {
+   "fieldname": "medical_needs_section",
+   "fieldtype": "Section Break",
+   "label": "Medical Needs"
+  },
+  {
+   "depends_on": "eval: doc.uses_medical_equipment || doc.has_allergies",
+   "fieldname": "pediatrician_name",
+   "fieldtype": "Data",
+   "label": "Pediatrician Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "uses_medical_equipment",
+   "fieldtype": "Check",
+   "label": "Uses Medical Equipment"
+  },
+  {
+   "depends_on": "uses_medical_equipment",
+   "fieldname": "medical_equipment_details",
+   "fieldtype": "Small Text",
+   "label": "Medical Equipment Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_allergies",
+   "fieldtype": "Check",
+   "label": "Has Allergies"
+  },
+  {
+   "depends_on": "has_allergies",
+   "fieldname": "allergy_description",
+   "fieldtype": "Small Text",
+   "label": "Allergy Description"
+  },
+  {
+   "fieldname": "section_break_omgb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "medical_history",
+   "fieldtype": "Table",
+   "label": "Medical history",
+   "options": "Medical History"
+  },
+  {
+   "fieldname": "section_break_okpt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "Applicant's Record of Counselling, Psychological Referrals and Medical Information",
+   "fieldname": "counselling_records",
+   "fieldtype": "Table",
+   "label": "Counselling Records",
+   "options": "Counselling Records"
+  },
+  {
+   "fieldname": "address__transport_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address / Transport"
+  },
+  {
+   "default": "0",
+   "fieldname": "bus_facility_required",
+   "fieldtype": "Check",
+   "label": "Bus Facility Required"
+  },
+  {
+   "depends_on": "bus_facility_required",
+   "fieldname": "distance_from_school",
+   "fieldtype": "Data",
+   "label": "Distance from School"
+  },
+  {
+   "depends_on": "bus_facility_required",
+   "fieldname": "locality",
+   "fieldtype": "Small Text",
+   "label": "Area/Locality"
+  },
+  {
+   "depends_on": "bus_facility_required",
+   "fieldname": "correspondence_address_section",
+   "fieldtype": "Section Break",
+   "label": "Correspondence Address"
+  },
+  {
+   "fieldname": "correspondence_country",
+   "fieldtype": "Link",
+   "label": "Correspondence Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "correspondence_state",
+   "fieldtype": "Link",
+   "label": "Correspondence State",
+   "options": "State"
+  },
+  {
+   "fieldname": "correspondence_district",
+   "fieldtype": "Link",
+   "label": "Correspondence District",
+   "options": "City"
+  },
+  {
+   "fieldname": "correspondence_city",
+   "fieldtype": "Link",
+   "label": "Correspondence City",
+   "options": "City"
+  },
+  {
+   "fieldname": "column_break_bwkn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "same_as_permanent",
+   "fieldtype": "Check",
+   "label": "Same as Permanent Address?"
+  },
+  {
+   "fieldname": "correspondence_address_line_1",
+   "fieldtype": "Small Text",
+   "label": "Correspondence Address Line 1"
+  },
+  {
+   "fieldname": "correspondence_address_line_2",
+   "fieldtype": "Small Text",
+   "label": "Correspondence Address Line 2"
+  },
+  {
+   "fieldname": "correspondence_pincode",
+   "fieldtype": "Data",
+   "label": "Correspondence Pincode"
+  },
+  {
+   "fieldname": "permanant_address_section",
+   "fieldtype": "Section Break",
+   "label": "Permanant Address"
+  },
+  {
+   "fieldname": "permanent_country",
+   "fieldtype": "Link",
+   "label": "Permanent Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "permanent_state",
+   "fieldtype": "Link",
+   "label": "Permanent State",
+   "options": "State"
+  },
+  {
+   "fieldname": "permanent_district",
+   "fieldtype": "Link",
+   "label": "Permanent District",
+   "options": "City"
+  },
+  {
+   "fieldname": "permanent_city",
+   "fieldtype": "Link",
+   "label": "Permanent City",
+   "options": "City"
+  },
+  {
+   "fieldname": "column_break_btox",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "permanent_address_line_1",
+   "fieldtype": "Small Text",
+   "label": "Permanent Address Line 1"
+  },
+  {
+   "fieldname": "permanent_address_line_2",
+   "fieldtype": "Small Text",
+   "label": "Permanent Address Line 2"
+  },
+  {
+   "fieldname": "permanent_pincode",
+   "fieldtype": "Data",
+   "label": "Permanent Pincode"
+  },
+  {
+   "fieldname": "academic_background_tab",
+   "fieldtype": "Tab Break",
+   "label": "Academic Background"
+  },
+  {
+   "default": "0",
+   "fieldname": "currently_studying",
+   "fieldtype": "Check",
+   "label": "Currently Studying in a School/Preschool?"
+  },
+  {
+   "fieldname": "school_name",
+   "fieldtype": "Data",
+   "label": "School/Preschool"
+  },
+  {
+   "fieldname": "current_grade",
+   "fieldtype": "Data",
+   "label": "Grade or Class currently in"
+  },
+  {
+   "fieldname": "previous_school_country",
+   "fieldtype": "Link",
+   "label": "Previous School Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "previous_school_city",
+   "fieldtype": "Link",
+   "label": "Previous School City",
+   "options": "City"
+  },
+  {
+   "fieldname": "column_break_owyn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "previous_school_contact_person",
+   "fieldtype": "Data",
+   "label": "Previous School Contact Person"
+  },
+  {
+   "fieldname": "previous_school_contact_designation",
+   "fieldtype": "Data",
+   "label": "Previous School Contact Designation"
+  },
+  {
+   "fieldname": "previous_school_contact_email",
+   "fieldtype": "Data",
+   "label": "Previous School Contact Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "previous_school_contact_mobile_no",
+   "fieldtype": "Phone",
+   "label": "Previous School Contact Mobile No"
+  },
+  {
+   "fieldname": "previous_school_curriculum",
+   "fieldtype": "Data",
+   "label": "Previous School Curriculum"
+  },
+  {
+   "fieldname": "column_break_zqfc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "previous_school_academic_start_date",
+   "fieldtype": "Date",
+   "label": "Previous School Academic Start Date"
+  },
+  {
+   "fieldname": "previous_school_academic_end_date",
+   "fieldtype": "Date",
+   "label": "Previous School Academic End Date"
+  },
+  {
+   "fieldname": "language_of_instruction",
+   "fieldtype": "Link",
+   "label": "Language of Instruction",
+   "options": "Language"
+  },
+  {
+   "fieldname": "reason_for_leaving",
+   "fieldtype": "Small Text",
+   "label": "Reason for leaving"
+  },
+  {
+   "fieldname": "section_break_aela",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "previous_schools",
+   "fieldtype": "Table",
+   "label": "Previous Schools",
+   "options": "Previous Schools Data"
+  },
+  {
+   "fieldname": "awards_achievements_section",
+   "fieldtype": "Section Break",
+   "label": "Awards & Achievements"
+  },
+  {
+   "fieldname": "awards",
+   "fieldtype": "Table",
+   "label": "Awards",
+   "options": "Achievements"
+  },
+  {
+   "fieldname": "academic_exceptions_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Exceptions"
+  },
+  {
+   "default": "0",
+   "fieldname": "repeated_a_grade",
+   "fieldtype": "Check",
+   "label": "Repeated a Grade?"
+  },
+  {
+   "depends_on": "repeated_a_grade",
+   "fieldname": "grade_repeated_and_reason",
+   "fieldtype": "Small Text",
+   "label": "Grade repeated and reason",
+   "mandatory_depends_on": "repeated_a_grade"
+  },
+  {
+   "default": "0",
+   "fieldname": "asked_to_withdraw",
+   "fieldtype": "Check",
+   "label": "Asked to Withdraw?"
+  },
+  {
+   "depends_on": "asked_to_withdraw",
+   "fieldname": "reason_for_withdrawal",
+   "fieldtype": "Small Text",
+   "label": "Reason for Withdrawal",
+   "mandatory_depends_on": "asked_to_withdraw"
+  },
+  {
+   "fieldname": "sibling_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sibling Details"
+  },
+  {
+   "fieldname": "siblings",
+   "fieldtype": "Table",
+   "label": "Siblings",
+   "options": "Quick Student Entry"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-07-16 14:55:02.853885",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Student Applicant",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
