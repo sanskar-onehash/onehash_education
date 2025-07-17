@@ -6,7 +6,10 @@
  "engine": "InnoDB",
  "field_order": [
   "current_academic_year",
-  "current_academic_term"
+  "current_academic_term",
+  "email_tab",
+  "application_email_subject",
+  "application_email_template"
  ],
  "fields": [
   {
@@ -20,12 +23,28 @@
    "fieldtype": "Link",
    "label": "Current Academic Term",
    "options": "Academic Term"
+  },
+  {
+   "fieldname": "email_tab",
+   "fieldtype": "Tab Break",
+   "label": "Email"
+  },
+  {
+   "fieldname": "application_email_subject",
+   "fieldtype": "Data",
+   "label": "Application Email Subject"
+  },
+  {
+   "fieldname": "application_email_template",
+   "fieldtype": "Link",
+   "label": "Application Email Template",
+   "options": "Email Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-07-14 14:48:38.424137",
+ "modified": "2025-07-17 10:08:29.838131",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
