@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-17 08:46:48.578940",
+ "modified": "2025-07-17 09:01:07.463910",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Academic Year",
@@ -92,8 +92,27 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Student Applicant",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Student",
+   "select": 1,
+   "share": 1
   }
  ],
  "sort_field": "modified",
