@@ -82,7 +82,7 @@ required_apps = ["https://github.com/sanskar-onehash/crm_geo_addons"]
 # Installation
 # ------------
 
-# before_install = "onehash_education.install.before_install"
+before_install = "onehash_education.install.before_install"
 # after_install = "onehash_education.install.after_install"
 
 # Uninstallation
