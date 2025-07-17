@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:title",
  "creation": "2025-07-14 14:26:26.079007",
@@ -57,7 +58,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-14 14:30:11.750677",
+ "modified": "2025-07-17 08:47:17.466469",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Academic Term",

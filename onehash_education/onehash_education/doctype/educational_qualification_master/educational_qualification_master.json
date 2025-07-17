@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:qualification",
  "creation": "2025-07-16 12:01:29.551350",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-16 12:01:54.962183",
+ "modified": "2025-07-17 08:44:58.485517",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Educational Qualification Master",

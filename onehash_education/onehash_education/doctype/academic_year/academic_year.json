@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:academic_year_name",
  "creation": "2025-07-14 14:24:54.656173",
@@ -75,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-14 15:51:33.878905",
+ "modified": "2025-07-17 08:46:48.578940",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Academic Year",

@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2025-07-16 10:36:39.429416",
@@ -823,7 +824,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-16 14:55:02.853885",
+ "modified": "2025-07-17 08:45:35.363453",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",

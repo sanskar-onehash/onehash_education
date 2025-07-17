@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:program_name",
  "creation": "2025-07-14 15:25:38.984691",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-14 15:30:28.099834",
+ "modified": "2025-07-17 08:47:17.712495",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program",

@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:guardian_name",
  "creation": "2025-07-14 14:24:29.195370",
@@ -107,7 +108,7 @@
  ],
  "image_field": "image",
  "links": [],
- "modified": "2025-07-16 08:34:42.191405",
+ "modified": "2025-07-17 08:45:23.339370",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",
