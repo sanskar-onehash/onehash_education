@@ -12,16 +12,17 @@
   "first_name",
   "middle_name",
   "last_name",
+  "applicant_name",
   "gender",
   "column_break_cidi",
   "email_address",
   "mobile_number",
   "date_of_birth",
   "primary_nationality",
-  "is_non_indian",
   "column_break_whgm",
   "academic_year",
   "program",
+  "student_user",
   "extra_details_section",
   "aadhaar_number",
   "passport_id",
@@ -204,12 +205,6 @@
    "fieldtype": "Link",
    "label": "Primary Nationality",
    "options": "Country"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_non_indian",
-   "fieldtype": "Check",
-   "label": "Is Non Indian"
   },
   {
    "fieldname": "column_break_whgm",
@@ -820,11 +815,24 @@
    "fieldtype": "Table",
    "label": "Siblings",
    "options": "Quick Student Entry"
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "student_user",
+   "fieldtype": "Link",
+   "label": "Student User",
+   "options": "User",
+   "set_only_once": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-17 08:45:35.363453",
+ "modified": "2025-07-18 12:04:43.517209",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",

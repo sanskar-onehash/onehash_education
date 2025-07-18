@@ -8,7 +8,30 @@ DEFAULT_WELCOME_TEMPLATE = "new_user"
 
 
 class StudentApplicant(Document):
-    pass
+
+    def before_validate(self):
+        self.set_missing_values()
+
+    def before_insert(self):
+        self.set_missing_values()
+
+    def set_missing_values(self):
+
+        # Full name
+        if (
+            not self.get("applicant_name")
+            or self.has_value_changed("first_name")
+            or self.has_value_changed("last_name")
+        ):
+            self.update(
+                {
+                    "applicant_name": f"{self.get('first_name')} {self.get('last_name', default='')}"
+                }
+            )
+
+        # Student User
+        if not self.student_user and frappe.user.has_role("Student Applicant"):
+            self.update({"student_user": frappe.session.user})
 
 
 @frappe.whitelist()
