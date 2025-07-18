@@ -23,6 +23,7 @@
   "academic_year",
   "program",
   "student_user",
+  "submitted",
   "extra_details_section",
   "aadhaar_number",
   "passport_id",
@@ -828,6 +829,13 @@
    "label": "Student User",
    "options": "User",
    "set_only_once": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "submitted",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Submitted"
   }
  ],
  "index_web_pages_for_search": 1,
