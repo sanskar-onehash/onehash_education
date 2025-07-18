@@ -12,5 +12,5 @@ def convert_autocomplete_back_to_link(web_form_fields):
             applicant_field = applicant_meta.get_field(field.fieldname)
 
             if applicant_field.fieldtype != field.fieldtype:
-                field.fieldtype = "Link"
+                field.fieldtype = applicant_field.fieldtype
                 field.options = applicant_field.options
