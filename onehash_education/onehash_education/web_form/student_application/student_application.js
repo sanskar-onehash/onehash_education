@@ -11,8 +11,10 @@ frappe.ready(function () {
   function setupFormUI() {
     // `FIXES:` clientside app web.html template
     // Wrap page-content in container
-    $(".page-content-wrapper").append($("<div class='container my-4'><div>"));
-    $(".page-content-wrapper .container.my-4").append(
+    $(".page-content-wrapper").append(
+      $("<div class='container my-4 fix-container'><div>"),
+    );
+    $(".page-content-wrapper .fix-container").append(
       $(".page-content-wrapper .page_content"),
     );
 
