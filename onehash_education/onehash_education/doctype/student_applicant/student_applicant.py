@@ -18,14 +18,14 @@ class StudentApplicant(Document):
     def set_missing_values(self):
 
         # Full name
-        if (
+        if self.get("first_name") and (
             not self.get("applicant_name")
             or self.has_value_changed("first_name")
             or self.has_value_changed("last_name")
         ):
             self.update(
                 {
-                    "applicant_name": f"{self.get('first_name')} {self.get('last_name', default='')}"
+                    "applicant_name": f"{self.get('first_name')}{(self.get('last_name', default='') and f' {self.last_name}')}"
                 }
             )
 
