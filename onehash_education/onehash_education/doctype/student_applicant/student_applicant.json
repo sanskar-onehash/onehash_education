@@ -156,7 +156,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "First Name",
-   "reqd": 1
+   "mandatory_depends_on": "naming_series"
   },
   {
    "fieldname": "middle_name",
@@ -173,8 +173,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Gender",
-   "options": "Gender",
-   "reqd": 1
+   "options": "Gender"
   },
   {
    "fieldname": "column_break_cidi",
@@ -185,21 +184,21 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Email Address",
-   "options": "Email",
-   "reqd": 1
+   "mandatory_depends_on": "naming_series",
+   "options": "Email"
   },
   {
    "fieldname": "mobile_number",
    "fieldtype": "Phone",
    "in_list_view": 1,
    "label": "Mobile Number",
-   "reqd": 1
+   "mandatory_depends_on": "naming_series"
   },
   {
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
    "label": "Date of Birth",
-   "reqd": 1
+   "mandatory_depends_on": "naming_series"
   },
   {
    "fieldname": "primary_nationality",
@@ -840,7 +839,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-18 12:04:43.517209",
+ "modified": "2025-07-21 08:45:14.514655",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
