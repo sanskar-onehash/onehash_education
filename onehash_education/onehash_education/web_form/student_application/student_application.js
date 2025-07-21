@@ -1,6 +1,8 @@
 frappe.ready(function () {
   const frm = frappe.web_form;
   const $submitBtn = $(".submit-btn");
+  const $discardBtn = $(".discard-btn.btn");
+  const $editBtn = $(".edit-button.btn");
 
   setupForm();
 
@@ -20,8 +22,19 @@ frappe.ready(function () {
       );
     }
 
+    // Fixes overflowing S.No.
+    frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
+
     setupDependsOn();
     setupActionButtons();
+
+    if (!$submitBtn.length) {
+      $(".save-btn-custom").hide();
+      $(".submit-btn-custom").hide();
+    } else {
+      $(".save-btn-custom").show();
+      $(".submit-btn-custom").show();
+    }
   }
 
   async function setupDependsOn() {
