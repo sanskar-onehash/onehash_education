@@ -30,7 +30,7 @@ class StudentApplicant(Document):
             )
 
         # Student User
-        if not self.student_user and frappe.user.has_role("Student Applicant"):
+        if not self.student_user and "Student Applicant" in frappe.get_roles():
             self.update({"student_user": frappe.session.user})
 
 
