@@ -1,3 +1,6 @@
+// Fixes overflowing S.No.
+frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
+
 frappe.ready(function () {
   const frm = frappe.web_form;
   const $submitBtn = $(".submit-btn");
@@ -21,9 +24,6 @@ frappe.ready(function () {
         $(".page-content-wrapper .page_content"),
       );
     }
-
-    // Fixes overflowing S.No.
-    frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
 
     setupDependsOn();
     setupActionButtons();
