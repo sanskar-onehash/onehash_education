@@ -1,5 +1,6 @@
 // Fixes overflowing S.No.
 frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
+clientsideStylesFix();
 
 frappe.ready(function () {
   const frm = frappe.web_form;
@@ -14,17 +15,6 @@ frappe.ready(function () {
   }
 
   function setupFormUI() {
-    // `FIXES:` clientside app web.html template
-    // Wrap page-content in container
-    if (!$(".page-content-wrapper .container .page-content").length) {
-      $(".page-content-wrapper").append(
-        $("<div class='container my-4 fix-container'><div>"),
-      );
-      $(".page-content-wrapper .fix-container").append(
-        $(".page-content-wrapper .page_content"),
-      );
-    }
-
     setupActionButtons();
 
     if (!$submitBtn.length) {
@@ -121,3 +111,14 @@ frappe.ready(function () {
     $submitBtn.click();
   }
 });
+
+function clientsideStylesFix() {
+  if (!$(".page-content-wrapper .container .page-content").length) {
+    $(".page-content-wrapper").append(
+      $("<div class='container my-4 fix-container'><div>"),
+    );
+    $(".page-content-wrapper .fix-container").append(
+      $(".page-content-wrapper .page_content"),
+    );
+  }
+}
