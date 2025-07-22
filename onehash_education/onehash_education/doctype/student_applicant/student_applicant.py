@@ -12,10 +12,16 @@ class StudentApplicant(Document):
     def before_validate(self):
         self.set_missing_values()
 
+        if not self.get("submitted"):
+            self.flags.ignore_mandatory = 1
+
     def before_insert(self):
         self.set_missing_values()
 
     def set_missing_values(self):
+        title_field = self.meta.get_title_field()
+        if self.get(title_field) is None:
+            self.update({title_field: ""})
 
         # Full name
         if self.get("first_name") and (
@@ -25,7 +31,7 @@ class StudentApplicant(Document):
         ):
             self.update(
                 {
-                    "applicant_name": f"{self.get('first_name')}{(self.get('last_name', default='') and f' {self.last_name}')}"
+                    "applicant_name": f"{self.get('first_name')}{(self.get('last_name') or '') and f' {self.last_name}'}"
                 }
             )
 

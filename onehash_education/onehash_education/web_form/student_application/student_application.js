@@ -25,7 +25,6 @@ frappe.ready(function () {
       );
     }
 
-    setupDependsOn();
     setupActionButtons();
 
     if (!$submitBtn.length) {
@@ -37,36 +36,59 @@ frappe.ready(function () {
     }
   }
 
-  async function setupDependsOn() {
-    if (!frm.doc.naming_series) {
-      // As initial fields are dependant on naming_series
-      await frm.set_value(
-        "naming_series",
-        frm.fields_dict.naming_series.df.default,
-      );
-    }
+  function validateMandatories() {
+    if (!frm.doc.submitted) return;
+
+    const errors = [];
+    const invalidFields = [];
+
     frm.fields_list.forEach((field) => {
-      if (
-        field.df.mandatory_depends_on &&
-        frm.evaluate_depends_on_value(field.df.mandatory_depends_on)
-      ) {
-        frm.set_df_property(field.df.fieldname, "reqd", 1);
-      }
+      if (field.get_value) {
+        let value = field.get_value();
+        if (
+          field.df.reqd &&
+          is_null(typeof value === "string" ? strip_html(value) : value)
+        )
+          errors.push(__(field.df.label));
 
-      if (
-        field.df.read_only_depends_on &&
-        frm.evaluate_depends_on_value(field.df.read_only_depends_on)
-      ) {
-        frm.set_df_property(field.df.fieldname, "read_only", 1);
-      }
+        if (
+          field.df.reqd &&
+          field.df.fieldtype === "Text Editor" &&
+          is_null(strip_html(cstr(value)))
+        )
+          errors.push(__(field.df.label));
 
-      if (
-        field.df.depends_on &&
-        frm.evaluate_depends_on_value(field.df.depends_on)
-      ) {
-        frm.set_value(field.df.fieldname, "hidden", 1);
+        if (field.df.invalid) invalidFields.push(__(field.df.label));
       }
     });
+
+    let message = "";
+    if (invalidFields.length) {
+      message += __(
+        "Invalid values for fields:",
+        null,
+        "Error message in web form",
+      );
+      message += "<br><br><ul><li>" + invalidFields.join("<li>") + "</ul>";
+    }
+
+    if (errors.length) {
+      message += __(
+        "Mandatory fields required:",
+        null,
+        "Error message in web form",
+      );
+      message += "<br><br><ul><li>" + errors.join("<li>") + "</ul>";
+    }
+
+    if (invalidFields.length || errors.length) {
+      frm.set_value("submitted", 0);
+      frappe.throw({
+        title: __("Error", null, "Title of error message in web form"),
+        message: message,
+        indicator: "orange",
+      });
+    }
   }
 
   function setupActionButtons() {
@@ -89,17 +111,13 @@ frappe.ready(function () {
   }
 
   function handleCustomSave(e) {
-    // Unmark mandatory fields
-    frm.fields_list.forEach((field) => {
-      if (field.df.reqd) {
-        frm.set_df_property(field.df.fieldname, "reqd", 0);
-      }
-    });
     $submitBtn.click();
   }
 
-  function handleCustomSaveAndSubmit(e) {
-    frm.set_value("submitted", 1);
+  async function handleCustomSaveAndSubmit(e) {
+    await frm.set_value("submitted", 1);
+    validateMandatories();
+
     $submitBtn.click();
   }
 });
