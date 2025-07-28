@@ -17,6 +17,7 @@ frappe.ready(function () {
   function setupFormUI() {
     setupActionButtons();
 
+    $(".success-title").text("Changes Saved");
     if (!$submitBtn.length) {
       $(".save-btn-custom").hide();
       $(".submit-btn-custom").hide();
