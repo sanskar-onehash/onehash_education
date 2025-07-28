@@ -60,7 +60,7 @@
    "fieldname": "admissions_open_for",
    "fieldtype": "Table MultiSelect",
    "label": "Admissions Open For",
-   "options": "Programs"
+   "options": "Year Groups"
   },
   {
    "fieldname": "add_all",
@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-17 09:01:07.463910",
+ "modified": "2025-07-28 08:46:52.792079",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Academic Year",

@@ -6,15 +6,16 @@ frappe.ui.form.on("Academic Year", {
     setupAcademicYearUI(frm);
   },
   add_all: async function (frm) {
-    const currentPrograms =
-      frm.doc.programs?.map((program) => program.program) || [];
-    const otherPrograms = await frappe.db.get_list("Program", {
+    const currentYearGroups =
+      frm.doc.admissions_open_for?.map((year_group) => year_group.year_group) ||
+      [];
+    const otherYearGroups = await frappe.db.get_list("Year Group", {
       fields: ["name"],
-      filters: { name: ["not in", currentPrograms] },
+      filters: { name: ["not in", currentYearGroups] },
     });
 
-    for (let otherProgram of otherPrograms) {
-      frm.add_child("admissions_open_for", { program: otherProgram.name });
+    for (let otherYearGroup of otherYearGroups) {
+      frm.add_child("admissions_open_for", { year_group: otherYearGroup.name });
     }
     frm.refresh_field("admissions_open_for");
   },

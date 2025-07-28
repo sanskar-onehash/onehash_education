@@ -7,10 +7,10 @@ def get_admission_years():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_admission_programs(academic_year):
+def get_admission_year_groups(academic_year):
     return frappe.db.get_all(
-        "Programs",
-        ["program"],
+        "Year Groups",
+        ["year_group"],
         {
             "parenttype": "Academic Year",
             "parentfield": "admissions_open_for",

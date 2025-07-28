@@ -21,7 +21,7 @@
   "primary_nationality",
   "column_break_whgm",
   "academic_year",
-  "program",
+  "year_group",
   "student_user",
   "submitted",
   "extra_details_section",
@@ -215,12 +215,6 @@
    "fieldtype": "Link",
    "label": "Academic Year",
    "options": "Academic Year"
-  },
-  {
-   "fieldname": "program",
-   "fieldtype": "Link",
-   "label": "Program",
-   "options": "Program"
   },
   {
    "fieldname": "extra_details_section",
@@ -835,11 +829,17 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Submitted"
+  },
+  {
+   "fieldname": "year_group",
+   "fieldtype": "Link",
+   "label": "Year Group",
+   "options": "Year Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-22 08:35:38.011261",
+ "modified": "2025-07-28 08:44:26.270509",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
