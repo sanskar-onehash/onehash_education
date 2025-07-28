@@ -2,26 +2,46 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:year_group",
+ "autoname": "field:year_group_name",
  "creation": "2025-07-14 15:25:38.984691",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "year_group"
+  "year_group",
+  "year_group_name",
+  "column_break_wvar",
+  "grade"
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "year_group",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Year Group",
-   "reqd": 1,
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "grade",
+   "fieldtype": "Data",
+   "label": "Grade"
+  },
+  {
+   "fieldname": "column_break_wvar",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year_group_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Year Group Name",
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-28 08:51:47.997369",
+ "modified": "2025-07-28 10:33:36.551370",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Year Group",

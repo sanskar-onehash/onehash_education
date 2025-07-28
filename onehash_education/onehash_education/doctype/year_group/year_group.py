@@ -6,4 +6,13 @@ from frappe.model.document import Document
 
 
 class YearGroup(Document):
-	pass
+
+    def before_save(self):
+        self.set_docname()
+
+    def before_insert(self):
+        self.set_docname()
+
+    def set_docname(self):
+        if self.is_new():
+            self.name = f"{self.year_group}{f' ({self.grade})' if self.grade else ''}"
