@@ -381,8 +381,9 @@
     },
     {
       "fieldname": "mother_title",
-      "fieldtype": "Data",
-      "label": "Mother Title"
+      "fieldtype": "Link",
+      "label": "Mother Title",
+      "options": "Salutation"
     },
     {
       "fieldname": "mother_name",
@@ -432,8 +433,9 @@
     },
     {
       "fieldname": "guardian_title",
-      "fieldtype": "Data",
-      "label": "Guardian Title"
+      "fieldtype": "Link",
+      "label": "Guardian Title",
+      "options": "Salutation"
     },
     {
       "fieldname": "guardian_name",
@@ -853,7 +855,7 @@
   ],
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2025-07-28 08:44:26.270509",
+  "modified": "2025-07-29 12:16:23.207031",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "Student Applicant",
