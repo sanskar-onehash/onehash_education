@@ -4,6 +4,7 @@ clientsideStylesFix();
 
 frappe.ready(function () {
   const frm = frappe.web_form;
+  const frmDoc = frappe.web_form_doc;
   const $submitBtn = $(".submit-btn");
   const $discardBtn = $(".discard-btn.btn");
   const $editBtn = $(".edit-button.btn");
@@ -12,6 +13,7 @@ frappe.ready(function () {
 
   function setupForm() {
     setupFormUI();
+    runCustomScript();
   }
 
   function setupFormUI() {
@@ -24,6 +26,17 @@ frappe.ready(function () {
     } else {
       $(".save-btn-custom").show();
       $(".submit-btn-custom").show();
+    }
+  }
+
+  function runCustomScript() {
+    if (frmDoc.custom_script) {
+      const customScript = new Function(frmDoc.custom_script);
+      customScript();
+    }
+    if (frmDoc.custom_style) {
+      const $style = $(`<style>${frmDoc.custom_style}</style>`);
+      $("head").append($style);
     }
   }
 

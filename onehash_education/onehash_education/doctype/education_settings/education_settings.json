@@ -9,7 +9,11 @@
   "current_academic_term",
   "email_tab",
   "application_email_subject",
-  "application_email_template"
+  "application_email_template",
+  "customization_tab",
+  "applicant_form_section",
+  "web_form_js",
+  "web_form_css"
  ],
  "fields": [
   {
@@ -39,12 +43,34 @@
    "fieldtype": "Link",
    "label": "Application Email Template",
    "options": "Email Template"
+  },
+  {
+   "fieldname": "customization_tab",
+   "fieldtype": "Tab Break",
+   "label": "Customization"
+  },
+  {
+   "fieldname": "applicant_form_section",
+   "fieldtype": "Section Break",
+   "label": "Applicant Form"
+  },
+  {
+   "fieldname": "web_form_js",
+   "fieldtype": "Code",
+   "label": "Web Form JS",
+   "options": "JS"
+  },
+  {
+   "fieldname": "web_form_css",
+   "fieldtype": "Code",
+   "label": "Web Form CSS",
+   "options": "CSS"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-07-17 10:08:29.838131",
+ "modified": "2025-07-29 08:49:07.456459",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
