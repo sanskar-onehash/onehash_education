@@ -20,6 +20,6 @@ class Guardian(Document):
         ):
             self.update(
                 {
-                    "guardian_name": f"{self.get('first_name')} {self.get('last_name', default='')}"
+                    "applicant_name": f"{self.get('first_name')}{(self.get('last_name') or '') and f' {self.last_name}'}"
                 }
             )
