@@ -14,6 +14,7 @@ frappe.ready(function () {
   function setupForm() {
     setupFormUI();
     runCustomScript();
+    setupListeners();
   }
 
   function setupFormUI() {
@@ -38,6 +39,20 @@ frappe.ready(function () {
       const $style = $(`<style>${frmDoc.custom_style}</style>`);
       $("head").append($style);
     }
+  }
+
+  function setupListeners() {
+    $("body").click((e) => {
+      const stepIdEl = e.target.closest("[data-step-id]");
+      if (stepIdEl) {
+        handleStepClick(e, stepIdEl);
+      }
+    });
+  }
+
+  function handleStepClick(e, stepIdEl) {
+    frm.current_section = +stepIdEl.dataset.stepId;
+    frm.toggle_section();
   }
 
   function validateMandatories() {

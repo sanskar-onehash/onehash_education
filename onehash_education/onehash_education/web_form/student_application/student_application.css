@@ -1,3 +1,7 @@
 .web-form-actions {
   gap: 8px;
 }
+
+[data-step-id] {
+  cursor: pointer;
+}
