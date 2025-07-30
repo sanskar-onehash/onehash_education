@@ -27,6 +27,7 @@
     "year_group",
     "student_user",
     "submitted",
+    "form_completion",
     "extra_details_section",
     "aadhaar_number",
     "passport_id",
@@ -859,12 +860,18 @@
       "fieldtype": "Attach Image",
       "label": "Student Image",
       "reqd": 1
+    },
+    {
+      "fieldname": "form_completion",
+      "fieldtype": "Percent",
+      "label": "Form Completion",
+      "read_only": 1
     }
   ],
   "image_field": "student_image",
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2025-07-29 16:32:55.383856",
+  "modified": "2025-07-30 08:32:33.428115",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "Student Applicant",

@@ -18,7 +18,7 @@
   "list_columns": [],
   "login_required": 1,
   "max_attachment_size": 0,
-  "modified": "2025-07-30 08:26:34.791143",
+  "modified": "2025-07-30 09:21:50.929024",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "student-application",
@@ -265,6 +265,19 @@
       "precision": "",
       "read_only": 0,
       "reqd": 1,
+      "show_in_filter": 0
+    },
+    {
+      "allow_read_on_all_link_options": 0,
+      "fieldname": "form_completion",
+      "fieldtype": "Float",
+      "hidden": 1,
+      "label": "Form Completion",
+      "max_length": 0,
+      "max_value": 0,
+      "precision": "",
+      "read_only": 1,
+      "reqd": 0,
       "show_in_filter": 0
     },
     {

@@ -127,16 +127,22 @@ frappe.ready(function () {
       $customSaveBtn,
       $customSaveAndSubmitBtn,
     ]);
+
+    $submitBtn.hide();
   }
 
   function handleCustomSave(e) {
-    $submitBtn.click();
+    handleSave();
   }
 
   async function handleCustomSaveAndSubmit(e) {
     await frm.set_value("submitted", 1);
     validateMandatories();
+    handleSave();
+  }
 
+  function handleSave() {
+    setFormCompletion(frm);
     $submitBtn.click();
   }
 });
@@ -150,4 +156,28 @@ function clientsideStylesFix() {
       $(".page-content-wrapper .page_content"),
     );
   }
+}
+
+function setFormCompletion(frm) {
+  let totalFields = 0.0;
+  let filledFields = 0.0;
+
+  for (let field of frm.fields_list) {
+    if (frappe.model.layout_fields.includes(field.df.fieldtype)) {
+      continue;
+    }
+
+    if (
+      !field.df.depends_on ||
+      field.layout.evaluate_depends_on_value(field.df.depends_on)
+    ) {
+      totalFields++;
+
+      if (frm.doc[field.df.fieldname]) {
+        filledFields++;
+      }
+    }
+  }
+
+  frm.set_value("form_completion", (filledFields / totalFields) * 100);
 }
