@@ -141,6 +141,7 @@
     "siblings",
     "accounting_tab",
     "billing_currency",
+    "registration_invoice",
     "registration_pay"
   ],
   "fields": [
@@ -881,12 +882,18 @@
       "fieldtype": "Link",
       "label": "Registration Pay",
       "options": "Payment Entry"
+    },
+    {
+      "fieldname": "registration_invoice",
+      "fieldtype": "Link",
+      "label": "Registration Invoice",
+      "options": "Sales Invoice"
     }
   ],
   "image_field": "student_image",
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2025-07-31 10:51:19.634376",
+  "modified": "2025-07-31 12:20:40.404732",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "Student Applicant",
