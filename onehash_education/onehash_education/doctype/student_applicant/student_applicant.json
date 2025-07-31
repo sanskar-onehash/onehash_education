@@ -21,7 +21,6 @@
     "date_of_birth",
     "primary_nationality",
     "mother_tongue",
-    "billing_currency",
     "column_break_whgm",
     "academic_year",
     "year_group",
@@ -139,7 +138,10 @@
     "asked_to_withdraw",
     "reason_for_withdrawal",
     "sibling_details_tab",
-    "siblings"
+    "siblings",
+    "accounting_tab",
+    "billing_currency",
+    "registration_pay"
   ],
   "fields": [
     {
@@ -214,13 +216,15 @@
       "fieldname": "mother_tongue",
       "fieldtype": "Link",
       "label": "Mother Tongue",
-      "options": "Language"
+      "options": "Language",
+      "reqd": 1
     },
     {
       "fieldname": "billing_currency",
       "fieldtype": "Link",
       "label": "Billing Currency",
-      "options": "Currency"
+      "options": "Currency",
+      "reqd": 1
     },
     {
       "fieldname": "column_break_whgm",
@@ -866,12 +870,23 @@
       "fieldtype": "Percent",
       "label": "Form Completion",
       "read_only": 1
+    },
+    {
+      "fieldname": "accounting_tab",
+      "fieldtype": "Tab Break",
+      "label": "Billing & Accounting"
+    },
+    {
+      "fieldname": "registration_pay",
+      "fieldtype": "Link",
+      "label": "Registration Pay",
+      "options": "Payment Entry"
     }
   ],
   "image_field": "student_image",
   "index_web_pages_for_search": 1,
   "links": [],
-  "modified": "2025-07-30 08:32:33.428115",
+  "modified": "2025-07-31 10:51:19.634376",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "Student Applicant",

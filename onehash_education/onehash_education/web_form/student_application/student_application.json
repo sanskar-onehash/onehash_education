@@ -18,7 +18,7 @@
   "list_columns": [],
   "login_required": 1,
   "max_attachment_size": 0,
-  "modified": "2025-07-30 09:21:50.929024",
+  "modified": "2025-07-31 11:03:04.878172",
   "modified_by": "Administrator",
   "module": "OneHash Education",
   "name": "student-application",
@@ -278,20 +278,6 @@
       "precision": "",
       "read_only": 1,
       "reqd": 0,
-      "show_in_filter": 0
-    },
-    {
-      "allow_read_on_all_link_options": 0,
-      "fieldname": "billing_currency",
-      "fieldtype": "Link",
-      "hidden": 0,
-      "label": "Billing Currency",
-      "max_length": 0,
-      "max_value": 0,
-      "options": "Currency",
-      "precision": "",
-      "read_only": 0,
-      "reqd": 1,
       "show_in_filter": 0
     },
     {
@@ -1798,6 +1784,33 @@
       "precision": "",
       "read_only": 0,
       "reqd": 0,
+      "show_in_filter": 0
+    },
+    {
+      "allow_read_on_all_link_options": 0,
+      "fieldname": "accounting_tab",
+      "fieldtype": "Page Break",
+      "hidden": 0,
+      "label": "Billing & Accounting",
+      "max_length": 0,
+      "max_value": 0,
+      "precision": "",
+      "read_only": 0,
+      "reqd": 0,
+      "show_in_filter": 0
+    },
+    {
+      "allow_read_on_all_link_options": 0,
+      "fieldname": "billing_currency",
+      "fieldtype": "Link",
+      "hidden": 0,
+      "label": "Billing Currency",
+      "max_length": 0,
+      "max_value": 0,
+      "options": "Currency",
+      "precision": "",
+      "read_only": 0,
+      "reqd": 1,
       "show_in_filter": 0
     }
   ]
