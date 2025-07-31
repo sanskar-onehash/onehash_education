@@ -231,9 +231,9 @@ frappe.ready(function () {
 
   async function handleCustomSaveAndSubmit(e) {
     await frm.set_value("submitted", 1);
+    validateMandatories();
 
     await triggerBeforeSubmit(frm);
-    validateMandatories();
     handleSave();
   }
 
