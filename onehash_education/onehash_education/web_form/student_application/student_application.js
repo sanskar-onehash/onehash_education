@@ -2,6 +2,8 @@
 frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
 clientsideStylesFix();
 
+const LOCAL_STORAGE_DOC_KEY = "custom_doc";
+
 frappe.ready(function () {
   const frm = frappe.web_form;
   const frmDoc = frappe.web_form_doc;
@@ -13,6 +15,7 @@ frappe.ready(function () {
 
   function setupForm() {
     setupFormUI();
+    loadFromLocalStorage();
     runCustomScript();
     setupListeners();
   }
@@ -41,6 +44,44 @@ frappe.ready(function () {
     }
   }
 
+  function loadFromLocalStorage() {
+    const lastDoc = getLocalStorageDoc();
+    for (let key in lastDoc) {
+      if (!frm.fields_dict[key] || frm.fields_dict[key].df.hidden) {
+        continue;
+      }
+
+      if ($.isArray(frm.doc[key])) {
+        let udpated = false;
+        if (frm.doc[key].length === lastDoc[key].length) {
+          for (let i = 0; i < frm.doc[key].length; i++) {
+            for (let childKey in frm.doc[key][i]) {
+              if (frm.doc[key][i][childKey] !== lastDoc[key][i][childKey]) {
+                udpated = true;
+                break;
+              }
+            }
+            if (udpated) {
+              break;
+            }
+          }
+        } else {
+          udpated = true;
+        }
+        if (udpated) {
+          frm.fields_dict[key].doc[key] = lastDoc[key];
+          frm.fields_dict[key].refresh();
+        }
+      } else if (frm.doc[key] !== lastDoc[key]) {
+        try {
+          frm.set_value(key, lastDoc[key]);
+        } catch (err) {
+          //
+        }
+      }
+    }
+  }
+
   function setupListeners() {
     $("body").click((e) => {
       const stepIdEl = e.target.closest("[data-step-id]");
@@ -48,11 +89,25 @@ frappe.ready(function () {
         handleStepClick(e, stepIdEl);
       }
     });
+
+    $("body").on(
+      "change, input, select, textarea, click",
+      handleDoctypeUpdates,
+    );
+    $discardBtn[0]?.addEventListener("click", handleDiscard, true);
   }
 
   function handleStepClick(e, stepIdEl) {
     frm.current_section = +stepIdEl.dataset.stepId;
     frm.toggle_section();
+  }
+
+  function handleDoctypeUpdates() {
+    updateLocalStorageDoc(frm.get_values(true, false));
+  }
+
+  function handleDiscard() {
+    clearLocalStorageDoc();
   }
 
   function validateMandatories() {
@@ -128,7 +183,37 @@ frappe.ready(function () {
       $customSaveAndSubmitBtn,
     ]);
 
+    const $customDiscardBtn = $(
+      `<div class='btn discard-btn-custom btn-default'>Discard</div>`,
+    );
+    $customDiscardBtn.click(handleCustomDiscard);
+    $customDiscardBtn.after($discardBtn);
+
     $submitBtn.hide();
+    // $discardBtn.hide();
+  }
+
+  function handleCustomDiscard() {
+    if (frappe.form_dirty) {
+      frappe.warn(
+        __("Discard?"),
+        __("Are you sure you want to discard the changes?"),
+        discardForm,
+        __("Discard"),
+      );
+    } else {
+      discardForm();
+    }
+    return false;
+  }
+
+  function discardForm() {
+    let path = window.location.href;
+    // remove new or edit after last / from url
+    path = path.substring(0, path.lastIndexOf("/"));
+
+    clearLocalStorageDoc();
+    window.location.href = path;
   }
 
   function handleCustomSave(e) {
@@ -142,6 +227,7 @@ frappe.ready(function () {
   }
 
   function handleSave() {
+    clearLocalStorageDoc();
     setFormCompletion(frm);
     $submitBtn.click();
   }
@@ -156,6 +242,23 @@ function clientsideStylesFix() {
       $(".page-content-wrapper .page_content"),
     );
   }
+}
+
+function getLocalStorageDoc() {
+  return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_DOC_KEY) || "{}");
+}
+
+function updateLocalStorageDoc(doc) {
+  const preparedDoc = { ...doc };
+  delete preparedDoc.name;
+  window.localStorage.setItem(
+    LOCAL_STORAGE_DOC_KEY,
+    JSON.stringify(preparedDoc),
+  );
+}
+
+function clearLocalStorageDoc() {
+  window.localStorage.removeItem(LOCAL_STORAGE_DOC_KEY);
 }
 
 function setFormCompletion(frm) {
