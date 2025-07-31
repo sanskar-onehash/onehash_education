@@ -17,7 +17,7 @@ frappe.ready(function () {
   function setupEducation() {
     window.education = {};
     education.before_submit_events = [];
-    education.beofre_submit = function (fn) {
+    education.before_submit = function (fn) {
       education.before_submit_events.push(fn);
     };
   }
