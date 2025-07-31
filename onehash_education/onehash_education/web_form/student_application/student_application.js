@@ -11,7 +11,16 @@ frappe.ready(function () {
   const $discardBtn = $(".discard-btn.btn");
   const $editBtn = $(".edit-button.btn");
 
+  setupEducation();
   setupForm();
+
+  function setupEducation() {
+    window.education = {};
+    education.before_submit_events = [];
+    education.beofre_submit = function (fn) {
+      education.before_submit_events.push(fn);
+    };
+  }
 
   function setupForm() {
     setupFormUI();
@@ -222,6 +231,8 @@ frappe.ready(function () {
 
   async function handleCustomSaveAndSubmit(e) {
     await frm.set_value("submitted", 1);
+
+    await triggerBeforeSubmit(frm);
     validateMandatories();
     handleSave();
   }
@@ -230,6 +241,14 @@ frappe.ready(function () {
     clearLocalStorageDoc();
     setFormCompletion(frm);
     $submitBtn.click();
+  }
+
+  async function triggerBeforeSubmit(frm) {
+    return await Promise.all(
+      education.before_submit_events.map(function (fn) {
+        return fn(frm);
+      }),
+    );
   }
 });
 
