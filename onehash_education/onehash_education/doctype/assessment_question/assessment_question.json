@@ -1,0 +1,115 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-08-04 11:12:02.092817",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "question",
+  "question_type",
+  "answer_int",
+  "answer_float",
+  "answer_boolean",
+  "answer_date",
+  "answer_one_word",
+  "options"
+ ],
+ "fields": [
+  {
+   "default": "EDU-QUE-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EDU-QUE-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "label": "Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Question Type",
+   "options": "\nInteger\nFloat\nBoolean\nDate\nSingle Choice\nMultiple Choice\nOne Word\nShort Answer\nLong Answer",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"Integer\"",
+   "fieldname": "answer_int",
+   "fieldtype": "Int",
+   "label": "Answer",
+   "mandatory_depends_on": "eval: doc.question_type === \"Integer\""
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"Float\"",
+   "fieldname": "answer_float",
+   "fieldtype": "Float",
+   "label": "Answer",
+   "mandatory_depends_on": "eval: doc.question_type === \"Float\""
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"Boolean\"",
+   "fieldname": "answer_boolean",
+   "fieldtype": "Select",
+   "label": "Answer",
+   "mandatory_depends_on": "eval: doc.question_type === \"Boolean\"",
+   "options": "\nTrue\nFalse"
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"Date\"",
+   "fieldname": "answer_date",
+   "fieldtype": "Date",
+   "label": "Answer",
+   "mandatory_depends_on": "eval: doc.question_type === \"Date\""
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"One Word\"",
+   "fieldname": "answer_one_word",
+   "fieldtype": "Data",
+   "label": "Answer",
+   "mandatory_depends_on": "eval: doc.question_type === \"One Word\""
+  },
+  {
+   "depends_on": "eval: doc.question_type === \"Single Choice\" || doc.question_type === \"Multiple Choice\"",
+   "fieldname": "options",
+   "fieldtype": "Table",
+   "label": "Options",
+   "mandatory_depends_on": "eval: doc.question_type === \"Single Choice\" || doc.question_type === \"Multiple Choice\"",
+   "options": "Assessment Que Options"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-04 11:36:11.437177",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Assessment Question",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "question,question_type",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

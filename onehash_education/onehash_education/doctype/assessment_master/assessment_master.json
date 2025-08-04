@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:title",
+ "creation": "2025-08-04 11:33:05.222403",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "column_break_rdzv",
+  "year_group",
+  "section_break_cswr",
+  "questions",
+  "assessment_configuration_section",
+  "passing_score"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "questions",
+   "fieldtype": "Table",
+   "label": "Questions",
+   "options": "Assessment Questions",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessment_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Assessment Configuration"
+  },
+  {
+   "description": "Score out of 100",
+   "fieldname": "passing_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Passing Score",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rdzv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year_group",
+   "fieldtype": "Link",
+   "label": "Year Group",
+   "options": "Year Group"
+  },
+  {
+   "fieldname": "section_break_cswr",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-04 11:40:19.020425",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Assessment Master",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
