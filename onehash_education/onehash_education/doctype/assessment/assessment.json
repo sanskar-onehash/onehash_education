@@ -14,7 +14,10 @@
   "column_break_masz",
   "assessment_for",
   "reference_doctype",
-  "reference_doc"
+  "reference_doc",
+  "applicant",
+  "section_break_khns",
+  "assessment_results"
  ],
  "fields": [
   {
@@ -78,14 +81,31 @@
    "label": "Naming Series",
    "options": "EDU-ASSMT-",
    "reqd": 1
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Link",
+   "label": "Applicant",
+   "options": "Student Applicant"
+  },
+  {
+   "fieldname": "section_break_khns",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assessment_results",
+   "fieldtype": "Table",
+   "label": "Assessment Results",
+   "options": "External Assessment Results"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 14:43:11.313890",
+ "modified": "2025-08-05 19:22:56.273904",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

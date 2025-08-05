@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-05 19:17:54.069732",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "external_assessment",
+  "assessment_result",
+  "assessment_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "external_assessment",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Assessment Type",
+   "options": "External Assessment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessment_result",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Assessment Result"
+  },
+  {
+   "columns": 1,
+   "fieldname": "assessment_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Assessment Status",
+   "options": "\nPass\nFail"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-05 19:23:27.283955",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "External Assessment Results",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
