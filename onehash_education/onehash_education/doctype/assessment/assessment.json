@@ -52,6 +52,8 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "applicant.student_user",
+   "fetch_if_empty": 1,
    "fieldname": "assessment_for",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -101,7 +103,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 19:22:56.273904",
+ "modified": "2025-08-05 19:29:21.921592",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment",
