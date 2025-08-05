@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:title",
  "creation": "2025-08-04 11:33:05.222403",
@@ -60,7 +61,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-04 11:40:19.020425",
+ "modified": "2025-08-05 14:43:24.162676",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Master",
@@ -82,5 +83,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

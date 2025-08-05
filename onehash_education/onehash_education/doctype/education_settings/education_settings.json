@@ -83,7 +83,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-07-31 11:18:44.805783",
+ "modified": "2025-08-05 14:43:58.604628",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
@@ -102,5 +102,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

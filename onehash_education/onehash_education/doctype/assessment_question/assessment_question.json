@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2025-08-04 11:12:02.092817",
@@ -83,7 +84,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 11:45:46.592061",
+ "modified": "2025-08-05 14:43:03.654204",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Question",
@@ -106,5 +107,6 @@
  "search_fields": "question,question_type",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

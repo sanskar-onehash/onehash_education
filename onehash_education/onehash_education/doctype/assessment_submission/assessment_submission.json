@@ -34,7 +34,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-04 13:48:23.163265",
+ "modified": "2025-08-05 14:42:57.970292",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Submission",
@@ -55,5 +55,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
