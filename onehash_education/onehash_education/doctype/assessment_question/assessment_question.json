@@ -38,44 +38,39 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Question Type",
-   "options": "\nInteger\nFloat\nBoolean\nDate\nSingle Choice\nMultiple Choice\nOne Word\nShort Answer\nLong Answer",
+   "options": "\nInteger\nFloat\nBoolean\nDate\nHeading\nSingle Choice\nMultiple Choice\nOne Word\nOne Line\nShort Answer\nLong Answer",
    "reqd": 1
   },
   {
    "depends_on": "eval: doc.question_type === \"Integer\"",
    "fieldname": "answer_int",
    "fieldtype": "Int",
-   "label": "Answer",
-   "mandatory_depends_on": "eval: doc.question_type === \"Integer\""
+   "label": "Answer"
   },
   {
    "depends_on": "eval: doc.question_type === \"Float\"",
    "fieldname": "answer_float",
    "fieldtype": "Float",
-   "label": "Answer",
-   "mandatory_depends_on": "eval: doc.question_type === \"Float\""
+   "label": "Answer"
   },
   {
    "depends_on": "eval: doc.question_type === \"Boolean\"",
    "fieldname": "answer_boolean",
    "fieldtype": "Select",
    "label": "Answer",
-   "mandatory_depends_on": "eval: doc.question_type === \"Boolean\"",
    "options": "\nTrue\nFalse"
   },
   {
    "depends_on": "eval: doc.question_type === \"Date\"",
    "fieldname": "answer_date",
    "fieldtype": "Date",
-   "label": "Answer",
-   "mandatory_depends_on": "eval: doc.question_type === \"Date\""
+   "label": "Answer"
   },
   {
    "depends_on": "eval: doc.question_type === \"One Word\"",
    "fieldname": "answer_one_word",
    "fieldtype": "Data",
-   "label": "Answer",
-   "mandatory_depends_on": "eval: doc.question_type === \"One Word\""
+   "label": "Answer"
   },
   {
    "depends_on": "eval: doc.question_type === \"Single Choice\" || doc.question_type === \"Multiple Choice\"",
@@ -88,7 +83,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-04 11:36:11.437177",
+ "modified": "2025-08-05 11:45:46.592061",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Question",

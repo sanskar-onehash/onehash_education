@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title or 'Assessment' }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./assessment.css" />
+  </head>
+  <body>
+    <div class="assessment-bg"></div>
+    <div class="assessment-container">
+      <div class="assessment-card">
+        <header class="assessment-header">
+          <h1>{{ title or 'Assessment' }}</h1>
+          {% if error %}
+          <div class="assessment-error">{{ error }}</div>
+          {% endif %}
+        </header>
+        {% if not error %}
+        <form
+          id="assessmentForm"
+          class="assessment-form"
+          method="post"
+          autocomplete="off"
+        >
+          <ol class="assessment-questions">
+            {% set ns = namespace(q_counter=0) %} {% for group in
+            grouped_questions %}
+            <div class="question-group" data-group-index="{{ loop.index0 }}">
+              {% if group.heading %}
+              <div class="question-heading">{{ group.heading|safe }}</div>
+              {% endif %} {% for q in group.questions %}
+              <li
+                class="question-block"
+                data-question-index="{{ ns.q_counter }}"
+              >
+                <div class="question-text">
+                  <span class="q-index">Q{{ ns.q_counter + 1 }}.</span>
+                  {{ q.question }}
+                </div>
+                <div class="question-input">
+                  {% if q.question_type == 'Integer' %}
+                  <input
+                    type="number"
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    step="1"
+                    required
+                  />
+                  {% elif q.question_type == 'Float' %}
+                  <input
+                    type="number"
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    step="any"
+                    required
+                  />
+                  {% elif q.question_type == 'Boolean' %}
+                  <div class="boolean-group">
+                    <label>
+                      <input
+                        type="radio"
+                        name="answer_{{ ns.q_counter }}"
+                        value="True"
+                        required
+                      />
+                      True
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="answer_{{ ns.q_counter }}"
+                        value="False"
+                      />
+                      False
+                    </label>
+                  </div>
+                  {% elif q.question_type == 'Date' %}
+                  <input
+                    type="date"
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    required
+                  />
+                  {% elif q.question_type == 'Single Choice' %}
+                  <div class="choice-group">
+                    {% for opt in q.options %}
+                    <label class="choice-label">
+                      <input
+                        type="radio"
+                        name="answer_{{ ns.q_counter }}"
+                        value="{{ opt }}"
+                        required
+                      />
+                      <span class="custom-radio"></span>
+                      {{ opt }}
+                    </label>
+                    {% endfor %}
+                  </div>
+                  {% elif q.question_type == 'Multiple Choice' %}
+                  <div
+                    class="multi-choice-group"
+                    data-max="{{ q.options|length }}"
+                  >
+                    {% for opt in q.options %}
+                    <label class="choice-label">
+                      <input
+                        type="checkbox"
+                        name="answer_{{ ns.q_counter }}[]"
+                        value="{{ opt }}"
+                      />
+                      <span class="custom-checkbox"></span>
+                      {{ opt }}
+                    </label>
+                    {% endfor %}
+                  </div>
+                  {% elif q.question_type == 'One Word' %}
+                  <input
+                    type="text"
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    maxlength="50"
+                    required
+                  />
+                  {% elif q.question_type == 'One Line' %}
+                  <input
+                    type="text"
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    maxlength="120"
+                    required
+                  />
+                  {% elif q.question_type == 'Short Answer' %}
+                  <textarea
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    rows="2"
+                    maxlength="300"
+                    required
+                  ></textarea>
+                  {% elif q.question_type == 'Long Answer' %}
+                  <textarea
+                    name="answer_{{ ns.q_counter }}"
+                    class="input-field"
+                    rows="5"
+                    maxlength="2000"
+                    required
+                  ></textarea>
+                  {% endif %}
+                </div>
+              </li>
+              {% set ns.q_counter = ns.q_counter + 1 %} {% endfor %}
+            </div>
+            {% endfor %}
+          </ol>
+          <div class="pagination-controls">
+            <button type="button" id="prev-page-btn" aria-label="Previous Page">
+              Prev
+            </button>
+            <span id="page-info"></span>
+            <button type="button" id="next-page-btn" aria-label="Next Page">
+              Next
+            </button>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" id="submit-btn" disabled>
+              <span>Submit</span>
+            </button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    <script src="./assessment.js"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-04 12:52:24.351387",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "assessment_master",
+  "submitted_answers",
+  "correct_answers"
+ ],
+ "fields": [
+  {
+   "fieldname": "assessment_master",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Assessment Master",
+   "options": "Assessment Master",
+   "reqd": 1
+  },
+  {
+   "fieldname": "submitted_answers",
+   "fieldtype": "Table",
+   "label": "Submitted Answers",
+   "options": "Assessment User Submissions",
+   "reqd": 1
+  },
+  {
+   "fieldname": "correct_answers",
+   "fieldtype": "Int",
+   "label": "Correct Answers",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-04 13:48:23.163265",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Assessment Submission",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

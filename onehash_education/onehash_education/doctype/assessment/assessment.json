@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-08-04 12:46:39.286182",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "is_internal",
+  "assessment_master",
+  "assessment_submission",
+  "assessment_result",
+  "column_break_masz",
+  "assessment_for",
+  "reference_doctype",
+  "reference_doc"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "is_internal",
+   "fieldtype": "Check",
+   "label": "Is Internal"
+  },
+  {
+   "depends_on": "is_internal",
+   "fieldname": "assessment_master",
+   "fieldtype": "Link",
+   "label": "Assessment Master",
+   "mandatory_depends_on": "is_internal",
+   "options": "Assessment Master"
+  },
+  {
+   "depends_on": "is_internal",
+   "fieldname": "assessment_submission",
+   "fieldtype": "Link",
+   "label": "Assessment Submission",
+   "options": "Assessment Submission"
+  },
+  {
+   "fieldname": "assessment_result",
+   "fieldtype": "Select",
+   "label": "Assessment Result",
+   "options": "\nPASS\nFAIL"
+  },
+  {
+   "fieldname": "column_break_masz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessment_for",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Assessment For",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Doctype",
+   "options": "DocType"
+  },
+  {
+   "depends_on": "reference_doctype",
+   "fieldname": "reference_doc",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Doc",
+   "mandatory_depends_on": "reference_doctype",
+   "options": "reference_doctype"
+  },
+  {
+   "default": "EDU-ASSMT-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EDU-ASSMT-",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-04 12:55:14.953377",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Assessment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
