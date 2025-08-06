@@ -2,11 +2,12 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:guardian_name",
+ "autoname": "naming_series:",
  "creation": "2025-07-14 14:24:29.195370",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "first_name",
   "last_name",
   "guardian_name",
@@ -104,15 +105,24 @@
   {
    "fieldname": "column_break_bsms",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "EDU-GRDN-YYYY-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EDU-GRDN-YYYY-",
+   "reqd": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2025-07-17 09:02:25.443798",
+ "modified": "2025-08-06 11:25:19.034647",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",
- "naming_rule": "By fieldname",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -138,8 +148,10 @@
    "share": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "guardian_name",
  "track_changes": 1
 }
