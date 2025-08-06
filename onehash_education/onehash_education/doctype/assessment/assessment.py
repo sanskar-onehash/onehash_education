@@ -31,13 +31,13 @@ def send_assessment_link(assessment):
     )
 
     subject = "Action Required: Complete Your Assessment"
-    message = """Dear {0},
+    message = """<p>Dear {0},</p>
 
-I hope this message finds you well.
+<p>I hope this message finds you well.</p>
 
-Please complete the following assessment using the link below:
+<p>Please complete the following assessment using the link below:</p>
 
-{1}""".format(
+<p>{1}</p>""".format(
         applicant_name, assessment_link
     )
     if assessment_master_doc.email_template:
@@ -60,5 +60,8 @@ Please complete the following assessment using the link below:
         recipients=frappe.db.get_value("User", assessment_doc.assessment_for, "email"),
         send_email=True,
     )
+    assessment_doc = assessment_doc.reload()
+    assessment_doc.set("assessment_sent", 1)
+    assessment_doc.save()
 
     return "success"

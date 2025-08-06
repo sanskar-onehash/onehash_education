@@ -20,7 +20,21 @@ function addSendInternalAssessmentBtn(frm) {
   frm.page.remove_inner_button(BTN_LABEL);
   frm.page.add_inner_button(
     BTN_LABEL,
-    () => {
+    async () => {
+      if (frm.doc.assessment_sent) {
+        try {
+          await new Promise((res, rej) => {
+            frappe.confirm(
+              "Assessment already shared. Do you want to reshare?",
+              res,
+              rej,
+            );
+          });
+        } catch (err) {
+          return;
+        }
+      }
+
       frappe.show_alert("Sending Assessment Link...");
       frappe.call({
         method:
@@ -38,6 +52,8 @@ function addSendInternalAssessmentBtn(frm) {
             frappe.throw(`Error sending assessment: ${res}`);
           }
         },
+        freeze: true,
+        freeze_message: "Sending internal assessment link.",
       });
     },
     null,

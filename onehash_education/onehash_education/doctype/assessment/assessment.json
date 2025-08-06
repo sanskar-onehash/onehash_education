@@ -9,6 +9,7 @@
   "naming_series",
   "is_internal",
   "assessment_master",
+  "assessment_sent",
   "assessment_submission",
   "assessment_result",
   "column_break_masz",
@@ -99,11 +100,19 @@
    "fieldtype": "Table",
    "label": "Assessment Results",
    "options": "External Assessment Results"
+  },
+  {
+   "default": "0",
+   "depends_on": "is_internal",
+   "fieldname": "assessment_sent",
+   "fieldtype": "Check",
+   "label": "Assessment Sent",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 19:29:21.921592",
+ "modified": "2025-08-06 09:06:05.234776",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment",
