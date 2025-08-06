@@ -12,8 +12,8 @@
   "year_group",
   "section_break_cswr",
   "questions",
-  "assessment_configuration_section",
-  "passing_score"
+  "email_customization_section",
+  "email_template"
  ],
  "fields": [
   {
@@ -32,19 +32,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "assessment_configuration_section",
-   "fieldtype": "Section Break",
-   "label": "Assessment Configuration"
-  },
-  {
-   "description": "Score out of 100",
-   "fieldname": "passing_score",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Passing Score",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_rdzv",
    "fieldtype": "Column Break"
   },
@@ -57,11 +44,22 @@
   {
    "fieldname": "section_break_cswr",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "email_customization_section",
+   "fieldtype": "Section Break",
+   "label": "Email Customization"
+  },
+  {
+   "fieldname": "email_template",
+   "fieldtype": "Link",
+   "label": "Email Template",
+   "options": "Email Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 14:43:24.162676",
+ "modified": "2025-08-06 06:30:07.738398",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Master",
