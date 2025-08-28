@@ -195,6 +195,11 @@ frappe.ready(function () {
 
   function loadFromLocalStorage() {
     const lastDoc = getLocalStorageDoc();
+    if (lastDoc.modified !== frm.doc.modified) {
+      clearLocalStorageDoc();
+      return;
+    }
+
     for (let key in lastDoc) {
       if (!frm.fields_dict[key] || frm.fields_dict[key].df.hidden) {
         continue;
@@ -252,7 +257,10 @@ frappe.ready(function () {
   }
 
   function handleDoctypeUpdates() {
-    updateLocalStorageDoc(frm.get_values(true, false));
+    updateLocalStorageDoc({
+      ...frm.get_values(true, false),
+      modified: frm.doc.modified,
+    });
   }
 
   function handleDiscard() {

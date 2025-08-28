@@ -29,6 +29,8 @@
   "student_user",
   "submitted",
   "form_completion",
+  "government_id",
+  "transfer_certificate",
   "extra_details_section",
   "aadhaar_number",
   "aadhaar_document",
@@ -95,6 +97,7 @@
   "medical_equipment_details",
   "has_allergies",
   "allergy_description",
+  "allergies_attachment",
   "section_break_omgb",
   "medical_history",
   "treatment_reports",
@@ -164,7 +167,10 @@
   "accounting_tab",
   "billing_currency",
   "registration_invoice",
-  "registration_pay"
+  "registration_pay",
+  "declaration_tab",
+  "declaration_html",
+  "form_consent"
  ],
  "fields": [
   {
@@ -387,18 +393,18 @@
    "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)",
    "fieldname": "father_designation",
    "fieldtype": "Data",
    "label": "Father's Designation",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)",
    "fieldname": "father_organization",
    "fieldtype": "Data",
    "label": "Father's Organization",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)"
   },
   {
    "fieldname": "father_educational_qualification",
@@ -445,18 +451,18 @@
    "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.mother_occupation)",
    "fieldname": "mother_designation",
    "fieldtype": "Data",
    "label": "Mother's Designation",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.mother_occupation)"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.mother_occupation)",
    "fieldname": "mother_organization",
    "fieldtype": "Data",
    "label": "Mother's Organization",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.mother_occupation)"
   },
   {
    "fieldname": "mother_educational_qualification",
@@ -502,18 +508,18 @@
    "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)",
    "fieldname": "guardian_designation",
    "fieldtype": "Data",
    "label": "Guardian Designation",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)"
   },
   {
-   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)",
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)",
    "fieldname": "guardian_organization",
    "fieldtype": "Data",
    "label": "Guardian Organization",
-   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)"
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)"
   },
   {
    "fieldname": "guardian_educational_qualification",
@@ -1050,12 +1056,43 @@
    "fieldname": "guardian_image",
    "fieldtype": "Attach Image",
    "label": "Guardian Image"
+  },
+  {
+   "fieldname": "allergies_attachment",
+   "fieldtype": "Attach",
+   "label": "Allergies Attachment"
+  },
+  {
+   "fieldname": "government_id",
+   "fieldtype": "Attach",
+   "label": "Government ID"
+  },
+  {
+   "fieldname": "transfer_certificate",
+   "fieldtype": "Attach",
+   "label": "Transfer Certificate"
+  },
+  {
+   "fieldname": "declaration_tab",
+   "fieldtype": "Tab Break",
+   "label": "Declaration"
+  },
+  {
+   "fieldname": "declaration_html",
+   "fieldtype": "HTML",
+   "label": "Declaration HTML"
+  },
+  {
+   "default": "0",
+   "fieldname": "form_consent",
+   "fieldtype": "Check",
+   "label": "Form Consent"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-28 08:51:28.581607",
+ "modified": "2025-08-28 10:46:27.560829",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",

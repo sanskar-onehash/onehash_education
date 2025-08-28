@@ -15,6 +15,9 @@ class StudentApplicant(Document):
         if not self.get("submitted"):
             self.flags.ignore_mandatory = 1
 
+    def before_save(self):
+        self.sync_addresses()
+
     def before_insert(self):
         self.set_missing_values()
 
@@ -38,6 +41,22 @@ class StudentApplicant(Document):
         # Student User
         if not self.student_user and "Student Applicant" in frappe.get_roles():
             self.update({"student_user": frappe.session.user})
+
+    def sync_addresses(self):
+        if not self.same_as_permanent:
+            return
+        if self.correspondence_country != self.permanent_country:
+            self.set("permanent_country", self.correspondence_country)
+        if self.correspondence_state != self.permanent_state:
+            self.set("permanent_state", self.correspondence_state)
+        if self.correspondence_city != self.permanent_city:
+            self.set("permanent_city", self.correspondence_city)
+        if self.correspondence_address_line_1 != self.permanent_address_line_1:
+            self.set("permanent_address_line_1", self.correspondence_address_line_1)
+        if self.correspondence_address_line_2 != self.permanent_address_line_2:
+            self.set("permanent_address_line_2", self.correspondence_address_line_2)
+        if self.correspondence_pincode != self.permanent_pincode:
+            self.set("permanent_pincode", self.correspondence_pincode)
 
 
 @frappe.whitelist()

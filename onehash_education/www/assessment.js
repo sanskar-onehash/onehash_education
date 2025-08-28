@@ -48,7 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
       error.textContent = "Please fill all required fields.";
       form.prepend(error);
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+
+    //
   });
 
   form.querySelectorAll(".multi-choice-group").forEach((group) => {
