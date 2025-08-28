@@ -1,3 +1,12 @@
+:root {
+  --color-primary: #2563eb;
+  --btn-primary-color: #1e429f;
+  --light-gray: #e5e7eb;
+  --middle-gray: #d2d6db;
+  --dark-gray: #b0b7be;
+  --white: #fff;
+}
+
 .navbar,
 .web-footer {
   display: none !important;
@@ -52,7 +61,7 @@ html {
   border-radius: 1.2rem 1.2rem 0 0;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
   padding: 1.5rem 2.5rem 1rem 2.5rem;
-  border-bottom: 1.5px solid #e5e7eb;
+  border-bottom: 1.5px solid var(--light-gray);
 }
 
 .web-form-head .title {
@@ -93,7 +102,7 @@ html {
   border-radius: 0.35em;
   font-size: 0.92em;
   font-weight: 600;
-  border: 1px solid #d2d6db;
+  border: 1px solid var(--middle-gray);
   background: #f7f8fa;
   color: #23272f;
   box-shadow: none;
@@ -106,23 +115,23 @@ html {
 .web-form-actions .btn-info {
   background: #f7f8fa;
   color: #23272f;
-  border: 1px solid #d2d6db;
+  border: 1px solid var(--middle-gray);
   padding: 0.38em 0.9em;
   font-size: 0.92em;
   border-radius: 0.35em;
 }
 .web-form-actions .btn-primary {
-  background: #2563eb;
-  color: #fff;
-  border: 1px solid #2563eb;
+  background: var(--color-primary);
+  color: var(--white);
+  border: 1px solid var(--color-primary);
   padding: 0.38em 0.9em !important;
   font-size: 0.92em;
   border-radius: 0.35em;
 }
 .web-form-actions .btn:hover,
 .web-form-actions .btn:focus {
-  background: #e5e7eb;
-  border-color: #b0b7be;
+  background: var(--light-gray);
+  border-color: var(--dark-gray);
   color: #1e293b;
   outline: none;
 }
@@ -133,34 +142,34 @@ html {
 .web-form-actions .btn-info {
   background: #f7f8fa;
   color: #23272f;
-  border: 1px solid #d2d6db;
+  border: 1px solid var(--middle-gray);
 }
 .web-form-actions .btn-info:hover,
 .web-form-actions .btn-info:focus {
-  background: #e5e7eb;
+  background: var(--light-gray);
   color: #23272f;
-  border-color: #b0b7be;
+  border-color: var(--dark-gray);
 }
 .web-form-actions .btn-primary {
-  background: #2563eb;
-  color: #fff;
-  border: 1px solid #2563eb;
+  background: var(--color-primary);
+  color: var(--white);
+  border: 1px solid var(--color-primary);
 }
 .web-form-actions .btn-primary:hover,
 .web-form-actions .btn-primary:focus {
-  background: #1e429f;
-  color: #fff;
-  border-color: #1e429f;
+  background: var(--btn-primary-color);
+  color: var(--white);
+  border-color: var(--btn-primary-color);
 }
 .web-form-actions .btn-primary:active {
   background: #193366;
-  color: #fff;
+  color: var(--white);
   border-color: #193366;
 }
 .web-form-actions .btn:hover,
 .web-form-actions .btn:focus {
-  background: #1e429f;
-  color: #fff;
+  background: var(--btn-primary-color);
+  color: var(--white);
   box-shadow: 0 2px 10px rgba(37, 99, 235, 0.1);
 }
 .web-form-actions .btn-info {
@@ -173,13 +182,13 @@ html {
   color: #23272f;
 }
 .web-form-actions .btn-primary {
-  background: #2563eb;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--white);
 }
 .web-form-actions .btn-primary:hover,
 .web-form-actions .btn-primary:focus {
-  background: #1e429f;
-  color: #fff;
+  background: var(--btn-primary-color);
+  color: var(--white);
 }
 
 /* Section Divider */
@@ -242,7 +251,7 @@ html {
   border-radius: 0.54em;
   padding: 0.85em 1.2em;
   font-size: 1.07em;
-  background: #fff;
+  background: var(--white);
   color: #23272f;
   transition:
     border 0.15s,
@@ -252,7 +261,7 @@ html {
 
 .form-control {
   color: var(--text-color);
-  background-color: #fff !important;
+  background-color: var(--white) !important;
   border: 1.3px solid #e3e9f5;
   height: 2.6em;
   border-radius: 0.54em;
@@ -263,13 +272,13 @@ html {
 
 .form-control:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 2px #e5edfb;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 2px #e5edfb;
 }
 
@@ -738,7 +747,7 @@ html {
   min-height: 330px;
   border-top: 1px solid var(--table-border);
   text-align: center;
-  color: #b0b7be;
+  color: var(--dark-gray);
   font-size: 1.18em;
   display: flex;
   align-items: center;
