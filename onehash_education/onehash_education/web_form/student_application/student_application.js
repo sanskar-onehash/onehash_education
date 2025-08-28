@@ -1,8 +1,18 @@
 // Fixes overflowing S.No.
 frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
-clientsideStylesFix();
+// clientsideStylesFix();
 
 const LOCAL_STORAGE_DOC_KEY = "custom_doc";
+
+async function fixLanguages() {
+  for (let language of frappe.web_form.doc.language_proficiency || []) {
+    await frappe.utils.fetch_link_title("Language", language.language);
+  }
+  for (let row of frappe.web_form.fields_dict.language_proficiency.grid
+    .grid_rows) {
+    row.refresh();
+  }
+}
 
 frappe.ready(function () {
   const frm = frappe.web_form;
@@ -11,6 +21,7 @@ frappe.ready(function () {
   const $discardBtn = $(".discard-btn.btn");
   const $editBtn = $(".edit-button.btn");
 
+  fixLanguages();
   setupEducation();
   setupForm();
 
@@ -24,12 +35,132 @@ frappe.ready(function () {
 
   function setupForm() {
     setupFormUI();
+
     loadFromLocalStorage();
+
+    refreshLinkFilters();
+
+    setupFormListeners();
+    setupDOMListeners();
+
     runCustomScript();
-    setupListeners();
+  }
+
+  function setupFormListeners() {
+    frm.on("date_of_birth", handleDateOfBirthChange);
+    frm.on("correspondence_country", handleCorrespondanceCountryChange);
+    frm.on("correspondence_state", handleCorrespondanceStateChange);
+    frm.on("permanent_country", handlePermanentCountryChange);
+    frm.on("permanent_state", handlePermanentStateChange);
+  }
+
+  function handleDateOfBirthChange(fieldObj, dateOfBirth) {
+    if (!dateOfBirth) {
+      frm.set_value("age_as_on", "");
+      return;
+    }
+
+    const currentYear = new Date().getFullYear();
+    const dob = new Date(dateOfBirth);
+    const targetDate = new Date(`${currentYear}-08-01`); // 1st August
+
+    if (dob > targetDate) {
+      frappe.msgprint("Invalid Date of Birth.");
+      frm.set_value("date_of_birth", "");
+      return;
+    }
+
+    let years = targetDate.getFullYear() - dob.getFullYear();
+    let months = targetDate.getMonth() - dob.getMonth();
+    let days = targetDate.getDate() - dob.getDate();
+
+    if (days < 0) {
+      months -= 1;
+      const prevMonth = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        0,
+      );
+      days += prevMonth.getDate();
+    }
+
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+
+    frm.set_value(
+      "age_as_on",
+      `${years} years, ${months} months, and ${days} days`,
+    );
+  }
+
+  function handleCorrespondanceCountryChange(field, value) {
+    if (!value) {
+      frm.set_value("correspondence_state", "");
+      return;
+    }
+    refreshLinkFilters();
+  }
+
+  function handleCorrespondanceStateChange(field, value) {
+    if (!value) {
+      frm.set_value("correspondence_city", "");
+      return;
+    }
+    refreshLinkFilters();
+  }
+
+  function handlePermanentCountryChange(field, value) {
+    if (!value) {
+      frm.set_value("permanent_state", "");
+      return;
+    }
+    refreshLinkFilters();
+  }
+
+  function handlePermanentStateChange(field, value) {
+    if (!value) {
+      frm.set_value("permanent_city", "");
+      return;
+    }
+    refreshLinkFilters();
+  }
+
+  function refreshLinkFilters() {
+    if (frm.get_value("correspondence_country")) {
+      frm.fields_dict.correspondence_state.get_query = () => ({
+        filters: { country: frm.get_value("correspondence_country") },
+      });
+    }
+
+    if (frm.get_value("correspondence_state")) {
+      frm.fields_dict.correspondence_city.get_query = () => ({
+        filters: { state: frm.get_value("correspondence_state") },
+      });
+    }
+
+    if (frm.get_value("permanent_country")) {
+      frm.fields_dict.permanent_state.get_query = () => ({
+        filters: { country: frm.get_value("permanent_country") },
+      });
+    }
+
+    if (frm.get_value("permanent_state")) {
+      frm.fields_dict.permanent_city.get_query = () => ({
+        filters: { state: frm.get_value("permanent_state") },
+      });
+    }
   }
 
   function setupFormUI() {
+    const currentYear = new Date().getFullYear();
+    frm.set_df_property(
+      "age_as_on",
+      "label",
+      `Age as on 1st August ${currentYear}`,
+    );
+
     setupActionButtons();
 
     $(".success-title").text("Changes Saved");
@@ -91,7 +222,7 @@ frappe.ready(function () {
     }
   }
 
-  function setupListeners() {
+  function setupDOMListeners() {
     $("body").click((e) => {
       const stepIdEl = e.target.closest("[data-step-id]");
       if (stepIdEl) {

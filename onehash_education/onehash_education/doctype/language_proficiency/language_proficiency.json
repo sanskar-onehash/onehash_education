@@ -15,10 +15,9 @@
  "fields": [
   {
    "fieldname": "language",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Language",
-   "options": "Language",
+   "label": "Language(s)",
    "reqd": 1
   },
   {
@@ -26,27 +25,27 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Read",
-   "options": "None\nBasic\nConversational\nIntermediate\nFluent\nNative / Bilingual"
+   "options": "\nBeginner\nIntermediate\nProfessional\nNative"
   },
   {
    "fieldname": "write",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Write",
-   "options": "None\nBasic\nConversational\nIntermediate\nFluent\nNative / Bilingual"
+   "options": "\nBeginner\nIntermediate\nProfessional\nNative"
   },
   {
    "fieldname": "speak",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Speak",
-   "options": "None\nBasic\nConversational\nIntermediate\nFluent\nNative / Bilingual"
+   "options": "\nBeginner\nIntermediate\nProfessional\nNative"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-07-31 09:00:04.409657",
+ "modified": "2025-08-27 13:03:52.282872",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Language Proficiency",

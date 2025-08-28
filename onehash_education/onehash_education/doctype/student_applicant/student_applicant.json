@@ -19,8 +19,10 @@
   "email_address",
   "mobile_number",
   "date_of_birth",
+  "age_as_on",
   "primary_nationality",
   "mother_tongue",
+  "food_preferences",
   "column_break_whgm",
   "academic_year",
   "year_group",
@@ -29,7 +31,8 @@
   "form_completion",
   "extra_details_section",
   "aadhaar_number",
-  "passport_id",
+  "aadhaar_document",
+  "birth_certificate",
   "column_break_jhmz",
   "blood_group",
   "category",
@@ -37,6 +40,8 @@
   "passport_details_section",
   "passport_number",
   "country",
+  "passport_document",
+  "residence_document",
   "column_break_nadf",
   "place_of_issue",
   "date_of_issue",
@@ -50,8 +55,10 @@
   "father_name",
   "father_mobile_number",
   "father_email",
+  "father_image",
   "column_break_aaxk",
   "father_occupation",
+  "father_occupation_other",
   "father_designation",
   "father_organization",
   "father_educational_qualification",
@@ -60,8 +67,10 @@
   "mother_name",
   "mother_mobile_number",
   "mother_email",
+  "mother_image",
   "column_break_ukwi",
   "mother_occupation",
+  "mother_occupation_other",
   "mother_designation",
   "mother_organization",
   "mother_educational_qualification",
@@ -70,8 +79,10 @@
   "guardian_name",
   "guardian_mobile_number",
   "guardian_email",
+  "guardian_image",
   "column_break_wuzi",
   "guardian_occupation",
+  "guardian_occupation_other",
   "guardian_designation",
   "guardian_organization",
   "guardian_educational_qualification",
@@ -86,8 +97,13 @@
   "allergy_description",
   "section_break_omgb",
   "medical_history",
+  "treatment_reports",
+  "vaccination_card",
   "section_break_okpt",
+  "requires_special_treatment",
+  "special_treatment",
   "counselling_records",
+  "counselling_documents",
   "address__transport_tab",
   "bus_facility_required",
   "distance_from_school",
@@ -117,19 +133,24 @@
   "current_grade",
   "previous_school_country",
   "previous_school_city",
+  "previous_school_report_card",
   "column_break_owyn",
   "previous_school_contact_person",
   "previous_school_contact_designation",
   "previous_school_contact_email",
   "previous_school_contact_mobile_no",
   "previous_school_curriculum",
+  "other_curriculum",
   "column_break_zqfc",
   "previous_school_academic_start_date",
   "previous_school_academic_end_date",
   "language_of_instruction",
   "reason_for_leaving",
   "section_break_aela",
+  "attended_any_other_school",
   "previous_schools",
+  "other_school_report_card",
+  "other_school_assessment",
   "awards_achievements_section",
   "awards",
   "academic_exceptions_section",
@@ -138,6 +159,7 @@
   "asked_to_withdraw",
   "reason_for_withdrawal",
   "sibling_details_tab",
+  "has_siblings",
   "siblings",
   "accounting_tab",
   "billing_currency",
@@ -211,7 +233,7 @@
    "fieldname": "primary_nationality",
    "fieldtype": "Link",
    "label": "Primary Nationality",
-   "options": "Country"
+   "options": "Nationality"
   },
   {
    "fieldname": "mother_tongue",
@@ -245,12 +267,7 @@
   {
    "fieldname": "aadhaar_number",
    "fieldtype": "Data",
-   "label": "Aadhaar Card No."
-  },
-  {
-   "fieldname": "passport_id",
-   "fieldtype": "Data",
-   "label": "Passport ID"
+   "label": "Aadhaar Card No. / Passport ID"
   },
   {
    "fieldname": "column_break_jhmz",
@@ -265,8 +282,9 @@
   },
   {
    "fieldname": "category",
-   "fieldtype": "Data",
-   "label": "Category"
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "\nGeneral\nOBC\nSC\nST\nOther"
   },
   {
    "fieldname": "religion",
@@ -322,15 +340,16 @@
   {
    "fieldname": "guardian_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Guardian Details"
+   "label": "Parent Details"
   },
   {
    "fieldname": "marital_status",
    "fieldtype": "Select",
    "label": "Marital Status",
-   "options": "\nSingle\nMarried\nSeparated\nDivorced\nWidowed\nRemarried\nAnnulled\nPrefer not to say"
+   "options": "\nMarried\nSingle parent Father\nSingle parent Mother\nGuardian"
   },
   {
+   "depends_on": "eval: doc.marital_status === \"Married\" || doc.marital_status === \"Single parent Father\"",
    "fieldname": "father_details_section",
    "fieldtype": "Section Break",
    "label": "Father Details"
@@ -338,23 +357,23 @@
   {
    "fieldname": "father_title",
    "fieldtype": "Link",
-   "label": "Father Title",
+   "label": "Title",
    "options": "Salutation"
   },
   {
    "fieldname": "father_name",
    "fieldtype": "Data",
-   "label": "Father Name"
+   "label": "Father's Name"
   },
   {
    "fieldname": "father_mobile_number",
    "fieldtype": "Phone",
-   "label": "Father Mobile Number"
+   "label": "Father's Mobile Number"
   },
   {
    "fieldname": "father_email",
    "fieldtype": "Data",
-   "label": "Father Email",
+   "label": "Father's Email",
    "options": "Email"
   },
   {
@@ -363,26 +382,32 @@
   },
   {
    "fieldname": "father_occupation",
-   "fieldtype": "Data",
-   "label": "Father Occupation"
+   "fieldtype": "Select",
+   "label": "Father's Occupation",
+   "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)",
    "fieldname": "father_designation",
    "fieldtype": "Data",
-   "label": "Father Designation"
+   "label": "Father's Designation",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)",
    "fieldname": "father_organization",
    "fieldtype": "Data",
-   "label": "Father Organization"
+   "label": "Father's Organization",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.father_occupation)"
   },
   {
    "fieldname": "father_educational_qualification",
    "fieldtype": "Link",
-   "label": "Father Educational Qualification",
+   "label": "Father's Educational Qualification",
    "options": "Educational Qualification Master"
   },
   {
+   "depends_on": "eval: doc.marital_status === \"Married\" || doc.marital_status === \"Single parent Mother\"",
    "fieldname": "mother_details_section",
    "fieldtype": "Section Break",
    "label": "Mother Details"
@@ -390,23 +415,23 @@
   {
    "fieldname": "mother_title",
    "fieldtype": "Link",
-   "label": "Mother Title",
+   "label": "Title",
    "options": "Salutation"
   },
   {
    "fieldname": "mother_name",
    "fieldtype": "Data",
-   "label": "Mother Name"
+   "label": "Mother's Name"
   },
   {
    "fieldname": "mother_mobile_number",
    "fieldtype": "Phone",
-   "label": "Mother Mobile Number"
+   "label": "Mother's Mobile Number"
   },
   {
    "fieldname": "mother_email",
    "fieldtype": "Data",
-   "label": "Mother Email",
+   "label": "Mother's Email",
    "options": "Email"
   },
   {
@@ -415,26 +440,32 @@
   },
   {
    "fieldname": "mother_occupation",
-   "fieldtype": "Data",
-   "label": "Mother Occupation"
+   "fieldtype": "Select",
+   "label": "Mother's Occupation",
+   "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)",
    "fieldname": "mother_designation",
    "fieldtype": "Data",
-   "label": "Mother Designation"
+   "label": "Mother's Designation",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)",
    "fieldname": "mother_organization",
    "fieldtype": "Data",
-   "label": "Mother Organization"
+   "label": "Mother's Organization",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.mother_occupation)"
   },
   {
    "fieldname": "mother_educational_qualification",
    "fieldtype": "Link",
-   "label": "Mother Educational Qualification",
+   "label": "Mother's Educational Qualification",
    "options": "Educational Qualification Master"
   },
   {
+   "depends_on": "eval: doc.marital_status === \"Guardian\"",
    "fieldname": "guardian_details_section",
    "fieldtype": "Section Break",
    "label": "Guardian Details"
@@ -466,18 +497,23 @@
   },
   {
    "fieldname": "guardian_occupation",
-   "fieldtype": "Data",
-   "label": "Guardian Occupation"
+   "fieldtype": "Select",
+   "label": "Guardian Occupation",
+   "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)",
    "fieldname": "guardian_designation",
    "fieldtype": "Data",
-   "label": "Guardian Designation"
+   "label": "Guardian Designation",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)"
   },
   {
+   "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)",
    "fieldname": "guardian_organization",
    "fieldtype": "Data",
-   "label": "Guardian Organization"
+   "label": "Guardian Organization",
+   "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].contains(doc.guardian_occupation)"
   },
   {
    "fieldname": "guardian_educational_qualification",
@@ -712,7 +748,7 @@
   },
   {
    "fieldname": "previous_school_city",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Previous School City",
    "options": "City"
   },
@@ -743,8 +779,9 @@
   },
   {
    "fieldname": "previous_school_curriculum",
-   "fieldtype": "Data",
-   "label": "Previous School Curriculum"
+   "fieldtype": "Select",
+   "label": "Previous School Curriculum",
+   "options": "\nEnglish National Curriculum (IGCSE)\nIB\nCBSE\nICSE\nSSC (Maharashtra State Board)\nOther"
   },
   {
    "fieldname": "column_break_zqfc",
@@ -888,12 +925,137 @@
    "fieldtype": "Link",
    "label": "Registration Invoice",
    "options": "Sales Invoice"
+  },
+  {
+   "fieldname": "age_as_on",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fieldname": "aadhaar_document",
+   "fieldtype": "Attach",
+   "label": "Aadhaar Card No. / Passport ID Document"
+  },
+  {
+   "fieldname": "birth_certificate",
+   "fieldtype": "Attach",
+   "label": "Birth Certificate"
+  },
+  {
+   "depends_on": "eval: doc.father_occupation === \"Other\"",
+   "fieldname": "father_occupation_other",
+   "fieldtype": "Data",
+   "label": "Father Occupation Other",
+   "mandatory_depends_on": "eval: doc.father_occupation === \"Other\""
+  },
+  {
+   "depends_on": "eval: doc.mother_occupation === \"Other\"",
+   "fieldname": "mother_occupation_other",
+   "fieldtype": "Data",
+   "label": "Mother Occupation Other",
+   "mandatory_depends_on": "eval: doc.mother_occupation === \"Other\""
+  },
+  {
+   "depends_on": "eval: doc.guardian_occupation === \"Other\"",
+   "fieldname": "guardian_occupation_other",
+   "fieldtype": "Data",
+   "label": "Guardian Occupation Other",
+   "mandatory_depends_on": "eval: doc.guardian_occupation === \"Other\""
+  },
+  {
+   "fieldname": "passport_document",
+   "fieldtype": "Attach",
+   "label": "Passport Document"
+  },
+  {
+   "fieldname": "residence_document",
+   "fieldtype": "Attach",
+   "label": "Residence Document"
+  },
+  {
+   "fieldname": "food_preferences",
+   "fieldtype": "Select",
+   "label": "Food Preferences",
+   "options": "\nVegetarian\nNon Vegetarian\nEggetarian\nOther"
+  },
+  {
+   "default": "0",
+   "fieldname": "attended_any_other_school",
+   "fieldtype": "Check",
+   "label": "Attended any other school"
+  },
+  {
+   "fieldname": "previous_school_report_card",
+   "fieldtype": "Attach",
+   "label": "Previous School Report Card"
+  },
+  {
+   "fieldname": "other_school_report_card",
+   "fieldtype": "Attach",
+   "label": "Other School Report Card"
+  },
+  {
+   "fieldname": "other_curriculum",
+   "fieldtype": "Data",
+   "label": "Other Curriculum"
+  },
+  {
+   "fieldname": "other_school_assessment",
+   "fieldtype": "Attach",
+   "label": "Other School Assessment"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_siblings",
+   "fieldtype": "Check",
+   "label": "Has Siblings"
+  },
+  {
+   "fieldname": "treatment_reports",
+   "fieldtype": "Attach",
+   "label": "Treatment Reports"
+  },
+  {
+   "fieldname": "vaccination_card",
+   "fieldtype": "Attach",
+   "label": "Vaccination Card"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_special_treatment",
+   "fieldtype": "Check",
+   "label": "Requires Special Treatment"
+  },
+  {
+   "fieldname": "special_treatment",
+   "fieldtype": "Data",
+   "label": "Special Treatment"
+  },
+  {
+   "fieldname": "counselling_documents",
+   "fieldtype": "Attach",
+   "label": "Counselling Documents"
+  },
+  {
+   "fieldname": "father_image",
+   "fieldtype": "Attach Image",
+   "label": "Father Image"
+  },
+  {
+   "fieldname": "mother_image",
+   "fieldtype": "Attach Image",
+   "label": "Mother Image"
+  },
+  {
+   "fieldname": "guardian_image",
+   "fieldtype": "Attach Image",
+   "label": "Guardian Image"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 14:43:40.684592",
+ "modified": "2025-08-28 08:51:28.581607",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
