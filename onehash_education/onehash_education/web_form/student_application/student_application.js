@@ -39,6 +39,7 @@ frappe.ready(function () {
     loadFromLocalStorage();
 
     refreshLinkFilters();
+    refreshCalculatedFields();
 
     setupFormListeners();
     setupDOMListeners();
@@ -47,15 +48,23 @@ frappe.ready(function () {
   }
 
   function setupFormListeners() {
-    frm.on("date_of_birth", handleDateOfBirthChange);
+    frm.on("date_of_birth", calculateAndSetAge);
     frm.on("correspondence_country", handleCorrespondanceCountryChange);
     frm.on("correspondence_state", handleCorrespondanceStateChange);
     frm.on("permanent_country", handlePermanentCountryChange);
     frm.on("permanent_state", handlePermanentStateChange);
   }
 
-  function handleDateOfBirthChange(fieldObj, dateOfBirth) {
-    if (!dateOfBirth) {
+  function refreshCalculatedFields() {
+    calculateAndSetAge();
+  }
+
+  function calculateAndSetAge() {
+    const dateOfBirth = frm.get_value("date_of_birth");
+    const lastAge = frm.get_value("age_as_on");
+    if (!dateOfBirth && !lastAge) {
+      return;
+    } else if (!dateOfBirth) {
       frm.set_value("age_as_on", "");
       return;
     }
@@ -89,10 +98,10 @@ frappe.ready(function () {
       months += 12;
     }
 
-    frm.set_value(
-      "age_as_on",
-      `${years} years, ${months} months, and ${days} days`,
-    );
+    const age = `${years} years, ${months} months, and ${days} days`;
+    if (age !== lastAge) {
+      frm.set_value("age_as_on", age);
+    }
   }
 
   function handleCorrespondanceCountryChange(field, value) {
