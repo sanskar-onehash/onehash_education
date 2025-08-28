@@ -20,7 +20,7 @@
   },
   {
    "fieldname": "age",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Age"
   },
@@ -28,13 +28,13 @@
    "fieldname": "grade",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Class/Grade"
+   "label": "Class and Section"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-07-16 14:19:04.025509",
+ "modified": "2025-08-28 11:56:49.929291",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Quick Student Entry",

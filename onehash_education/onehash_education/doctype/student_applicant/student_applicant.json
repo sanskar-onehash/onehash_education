@@ -170,7 +170,12 @@
   "registration_pay",
   "declaration_tab",
   "declaration_html",
-  "form_consent"
+  "form_consent",
+  "health_consent",
+  "parent_name",
+  "date_of_declaration",
+  "applicant_source",
+  "applicant_source_other"
  ],
  "fields": [
   {
@@ -1087,12 +1092,41 @@
    "fieldname": "form_consent",
    "fieldtype": "Check",
    "label": "Form Consent"
+  },
+  {
+   "fieldname": "parent_name",
+   "fieldtype": "Data",
+   "label": "Parent Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_declaration",
+   "fieldtype": "Date",
+   "label": "Date of declaration",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "health_consent",
+   "fieldtype": "Check",
+   "label": "Health Consent"
+  },
+  {
+   "fieldname": "applicant_source",
+   "fieldtype": "Select",
+   "label": "Applicant Source",
+   "options": "\nGoogle\nInstagram\nFacebook\nWord of Mouth\nCommunity\nPrint Ad\nLinkedIn\nHoarding\nOther"
+  },
+  {
+   "fieldname": "applicant_source_other",
+   "fieldtype": "Data",
+   "label": "Applicant Source Other"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-28 10:46:27.560829",
+ "modified": "2025-08-28 12:52:42.771017",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
