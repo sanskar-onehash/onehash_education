@@ -14,7 +14,12 @@ function addAssessmentActions(frm) {
 }
 
 function addSendInternalAssessmentBtn(frm) {
-  if (!frm.doc.is_internal) return;
+  if (
+    !frm.doc.is_internal ||
+    frm.doc.assessment_submission ||
+    frm.doc.assessment_result
+  )
+    return;
 
   const BTN_LABEL = "Send Assessment";
   frm.page.remove_inner_button(BTN_LABEL);
