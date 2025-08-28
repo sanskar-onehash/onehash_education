@@ -282,9 +282,8 @@ html {
   box-shadow: 0 0 0 2px #e5edfb;
 }
 
-.like-disabled-input {
-  background: #f3f4f7;
-  color: #b0b7c3;
+.link-btn {
+  display: none !important;
 }
 
 ::-webkit-input-placeholder {
@@ -765,6 +764,12 @@ html {
   text-align: right;
 }
 
+.data-row.row .selected-phone,
+.form-section .data-row.section-body .selected-phone,
+.data-row.dialog-assignment-row .selected-phone {
+  top: calc(50% - 20.1px) !important;
+}
+
 /* Form customizations */
 [data-fieldname="medical_details_tab"] .frappe-control,
 [data-fieldname="address__transport_tab"] .frappe-control,
@@ -778,7 +783,8 @@ html {
 [data-fieldname="correspondence_address_line_2"].frappe-control,
 [data-fieldname="permanent_address_line_1"].frappe-control,
 [data-fieldname="permanent_address_line_2"].frappe-control,
-[data-fieldname="reason_for_leaving"].frappe-control {
+[data-fieldname="academic_background_tab"]
+  [data-fieldname="reason_for_leaving"].frappe-control {
   max-width: 50%;
 }
 
