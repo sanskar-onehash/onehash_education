@@ -760,7 +760,8 @@ html {
 [data-fieldname="medical_details_tab"] .frappe-control,
 [data-fieldname="address__transport_tab"] .frappe-control,
 [data-fieldname="academic_exceptions_section"] .frappe-control,
-[data-fieldname="other_school_attachment"].frappe-control {
+[data-fieldname="other_school_attachment"].frappe-control,
+[data-fieldname="__section_21"] .frappe-control {
   max-width: 100%;
 }
 
