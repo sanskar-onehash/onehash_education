@@ -2,7 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.model.document import Document
+from frappe.model.document import Document, DocStatus
 
 DEFAULT_WELCOME_TEMPLATE = "new_user"
 
@@ -17,6 +17,9 @@ class StudentApplicant(Document):
 
     def before_save(self):
         self.sync_addresses()
+
+        if self.submitted and not self.get_db_value("submitted"):
+            self.docstatus = DocStatus.submitted()
 
     def before_insert(self):
         self.set_missing_values()

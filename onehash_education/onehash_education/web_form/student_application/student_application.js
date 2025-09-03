@@ -378,11 +378,15 @@ frappe.ready(function () {
   }
 
   async function handleCustomSaveAndSubmit(e) {
-    await frm.set_value("submitted", 1);
     validateMandatories();
 
     await triggerBeforeSubmit(frm);
-    handleSave();
+    await frm.set_value("submitted", 1);
+    try {
+      handleSave();
+    } catch (err) {
+      await frm.set_value("submitted", 0);
+    }
   }
 
   function handleSave() {

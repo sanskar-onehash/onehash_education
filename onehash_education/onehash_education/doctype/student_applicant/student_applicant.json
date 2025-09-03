@@ -175,7 +175,8 @@
   "parent_name",
   "date_of_declaration",
   "applicant_source",
-  "applicant_source_other"
+  "applicant_source_other",
+  "amended_from"
  ],
  "fields": [
   {
@@ -926,16 +927,19 @@
    "label": "Billing & Accounting"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "registration_pay",
    "fieldtype": "Link",
    "label": "Registration Pay",
-   "options": "Payment Entry"
+   "options": "Payment Entry",
+   "permlevel": 1
   },
   {
    "fieldname": "registration_invoice",
    "fieldtype": "Link",
    "label": "Registration Invoice",
-   "options": "Sales Invoice"
+   "options": "Sales Invoice",
+   "permlevel": 1
   },
   {
    "fieldname": "age_as_on",
@@ -1121,12 +1125,23 @@
    "fieldname": "applicant_source_other",
    "fieldtype": "Data",
    "label": "Applicant Source Other"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Student Applicant",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2025-08-28 12:52:42.771017",
+ "modified": "2025-09-03 16:34:06.062730",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
