@@ -10,7 +10,8 @@
   "year_group",
   "year_group_name",
   "column_break_wvar",
-  "grade"
+  "grade",
+  "priority"
  ],
  "fields": [
   {
@@ -37,11 +38,18 @@
    "hidden": 1,
    "label": "Year Group Name",
    "unique": 1
+  },
+  {
+   "default": "0",
+   "description": "This will be used for sorting. Smaller digits will have higher priority.",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Priority"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 14:44:10.571762",
+ "modified": "2025-09-05 09:58:27.814216",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Year Group",
@@ -80,8 +88,8 @@
    "share": 1
   }
  ],
- "sort_field": "modified",
- "sort_order": "DESC",
+ "sort_field": "priority",
+ "sort_order": "ASC",
  "states": [],
  "track_changes": 1
 }
