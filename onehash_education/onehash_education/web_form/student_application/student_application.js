@@ -2,6 +2,9 @@
 frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
 // clientsideStylesFix();
 
+// Increase link fields list size
+frappe.boot.sysdefaults.link_field_results_limit = 50;
+
 const LOCAL_STORAGE_DOC_KEY = "custom_doc";
 
 async function fixLanguages() {
@@ -53,6 +56,7 @@ frappe.ready(function () {
     frm.on("correspondence_state", handleCorrespondanceStateChange);
     frm.on("permanent_country", handlePermanentCountryChange);
     frm.on("permanent_state", handlePermanentStateChange);
+    frm.on("academic_year", handleAcademicYearChange);
   }
 
   function refreshCalculatedFields() {
@@ -136,6 +140,47 @@ frappe.ready(function () {
     refreshLinkFilters();
   }
 
+  function handleAcademicYearChange(field, academicYear) {
+    handleYearGroupForAcademicYear(academicYear);
+  }
+
+  async function handleYearGroupForAcademicYear(academicYear) {
+    frm.set_df_property("year_group", "hidden", 1);
+    if (academicYear) {
+      const { message: yearGroups } = await frappe.call({
+        method: "onehash_education.api.get_admission_year_groups",
+        args: { academic_year: academicYear },
+      });
+      frm.fields_dict.year_group.get_query = {
+        name: ["in", yearGroups.map((yg) => yg.year_group)],
+      };
+      frm.set_df_property("year_group", "hidden", 0);
+    }
+  }
+
+  function fixYearGroupAwesomeListSorting() {
+    frm.fields_dict.year_group.awesomplete.sort = (a, b) => {
+      const getSortValue = (item) => {
+        const label = item.label?.trim() || "";
+
+        // Pre-Nursery, Nursery, and Reception should come first
+        if (label.startsWith("Pre-Nursery")) return 0;
+        if (label.startsWith("Nursery")) return 1;
+        if (label.startsWith("Reception")) return 2;
+
+        // Handle dynamic Year entries like "Year 1 (KG 2)"
+        const match = label.match(/^Year (\d+)/);
+        if (match) {
+          return 2 + parseInt(match[1], 10);
+        }
+
+        return Infinity;
+      };
+
+      return getSortValue(a) - getSortValue(b);
+    };
+  }
+
   function refreshLinkFilters() {
     if (frm.get_value("correspondence_country")) {
       frm.fields_dict.correspondence_state.get_query = () => ({
@@ -170,6 +215,8 @@ frappe.ready(function () {
       `Age as on 1st August ${currentYear}`,
     );
 
+    handleYearGroupForAcademicYear();
+    fixYearGroupAwesomeListSorting();
     setupActionButtons();
 
     $(".success-title").text("Changes Saved");
