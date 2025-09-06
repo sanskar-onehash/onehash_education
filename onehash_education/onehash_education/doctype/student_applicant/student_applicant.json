@@ -269,7 +269,8 @@
    "fieldname": "academic_year",
    "fieldtype": "Link",
    "label": "Academic Year",
-   "options": "Academic Year"
+   "options": "Academic Year",
+   "reqd": 1
   },
   {
    "fieldname": "extra_details_section",
@@ -907,7 +908,8 @@
    "fieldname": "year_group",
    "fieldtype": "Link",
    "label": "Year Group",
-   "options": "Year Group"
+   "options": "Year Group",
+   "reqd": 1
   },
   {
    "fieldname": "student_image",
@@ -1141,7 +1143,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-03 16:34:06.062730",
+ "modified": "2025-09-04 16:33:24.921346",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",

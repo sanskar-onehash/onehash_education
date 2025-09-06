@@ -17,12 +17,24 @@ class StudentApplicant(Document):
 
     def before_save(self):
         self.sync_addresses()
+        self.clear_name_for_new_child_entries()
 
         if self.submitted and not self.get_db_value("submitted"):
+            self.run_method("before_submit")
             self.docstatus = DocStatus.submitted()
 
     def before_insert(self):
         self.set_missing_values()
+
+    def clear_name_for_new_child_entries(self):
+        # Webform saves new child table entries with name like 'row 1'
+        # which conflicts on other entries at idx 1
+        table_fields = self.meta.get_table_fields()
+        for field in table_fields:
+            rows = self.get(field.fieldname)
+            for row in rows:
+                if row.is_new():
+                    row.name = None
 
     def set_missing_values(self):
         title_field = self.meta.get_title_field()
