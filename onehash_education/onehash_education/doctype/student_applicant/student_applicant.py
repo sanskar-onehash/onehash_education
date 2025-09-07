@@ -53,10 +53,6 @@ class StudentApplicant(Document):
                 }
             )
 
-        # Student User
-        if not self.student_user and "Student Applicant" in frappe.get_roles():
-            self.update({"student_user": frappe.session.user})
-
     def sync_addresses(self):
         if not self.same_as_permanent:
             return
@@ -133,7 +129,8 @@ def send_student_application(
         }
     ).save()
 
-    send_student_login_mail(student_user_doc, education_settings)
+    if student_user_doc:
+        send_student_login_mail(student_user_doc, education_settings)
 
     return "success"
 
