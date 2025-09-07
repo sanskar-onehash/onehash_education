@@ -84,28 +84,63 @@ def send_student_application(
     birth_date=None,
     phone=None,
 ):
-    student_user = frappe.get_doc(
-        {
-            "doctype": "User",
-            "email": student_email,
-            "first_name": first_name,
-            "middle_name": middle_name,
-            "last_name": last_name,
-            "gender": gender,
-            "birth_date": birth_date,
-            "phone": phone,
-            "send_welcome_email": 0,
-        }
-    )
-    student_user.add_roles("Student Applicant")
-    student_user = student_user.save()
-
     education_settings = frappe.get_doc(
         "Education Settings",
     )
+    student_user = frappe.db.exists("User", {"email": student_email})
 
+    birth_date = frappe.utils.getdate(birth_date)
+    student_user_doc = None
+
+    if not student_user:
+        student_user_doc = frappe.get_doc(
+            {
+                "doctype": "User",
+                "email": student_email,
+                "first_name": first_name,
+                "middle_name": middle_name,
+                "last_name": last_name,
+                "gender": gender,
+                "birth_date": birth_date,
+                "phone": phone,
+                "send_welcome_email": 0,
+            }
+        )
+        student_user_doc.add_roles("Student Applicant")
+        student_user_doc = student_user_doc.save()
+        student_user = student_user_doc.name
+
+        student_user_permission = frappe.get_doc(
+            {
+                "doctype": "User Permission",
+                "user": student_user,
+                "allow": "User",
+                "for_value": student_user,
+                "apply_to_all_doctypes": 0,
+                "applicable_for": "Student Applicant",
+            }
+        ).save(ignore_permissions=True)
+
+    student_applicant_doc = frappe.get_doc(
+        {
+            "doctype": "Student Applicant",
+            "first_name": first_name,
+            "last_name": last_name,
+            "gender": gender,
+            "date_of_birth": birth_date,
+            "student_user": student_user,
+            "owner": student_user,
+        }
+    ).save()
+
+    send_student_login_mail(student_user_doc, education_settings)
+
+    return "success"
+
+
+def send_student_login_mail(student_user_doc, education_settings):
     add_args = {
-        "link": student_user.reset_password(),
+        "link": student_user_doc.reset_password(),
         "site_url": frappe.utils.get_url(),
     }
     subject = education_settings.get("application_email_subject")
@@ -114,8 +149,6 @@ def send_student_application(
     if not subject:
         subject = f"Welcome to {frappe.defaults.get_defaults().company}"
 
-    student_user.send_login_mail(
+    student_user_doc.send_login_mail(
         subject, DEFAULT_WELCOME_TEMPLATE, add_args, custom_template=email_template
     )
-
-    return "success"
