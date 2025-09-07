@@ -9,4 +9,5 @@ ROLES = [
     },
     {"name": "Admissions User"},
     {"name": "Admissions Manager"},
+    {"name": "Academic Counsellor"},
 ]

@@ -19,6 +19,7 @@
   "designation",
   "company",
   "image",
+  "counsellor",
   "section_break_ixst",
   "secondary_email",
   "column_break_bsms",
@@ -114,11 +115,18 @@
    "label": "Naming Series",
    "options": "EDU-GRDN-YYYY-",
    "reqd": 1
+  },
+  {
+   "fieldname": "counsellor",
+   "fieldtype": "Link",
+   "label": "Counsellor",
+   "options": "User",
+   "read_only": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2025-08-06 11:25:19.034647",
+ "modified": "2025-09-07 08:57:22.905520",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",
