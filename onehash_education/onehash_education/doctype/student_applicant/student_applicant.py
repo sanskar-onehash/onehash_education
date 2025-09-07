@@ -132,7 +132,7 @@ def send_student_application(
     if student_user_doc:
         send_student_login_mail(student_user_doc, education_settings)
 
-    return "success"
+    return student_applicant_doc.name
 
 
 def send_student_login_mail(student_user_doc, education_settings):
