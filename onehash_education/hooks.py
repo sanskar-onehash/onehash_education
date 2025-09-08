@@ -30,7 +30,7 @@ required_apps = ["https://github.com/sanskar-onehash/crm_geo_addons"]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/onehash_education/css/onehash_education.css"
-# web_include_js = "/assets/onehash_education/js/onehash_education.js"
+web_include_js = "onehash_education-web.bundle.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "onehash_education/public/scss/website"
