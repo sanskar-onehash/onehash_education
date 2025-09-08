@@ -24,7 +24,7 @@ class StudentApplicant(Document):
             self.docstatus = DocStatus.submitted()
 
     def before_insert(self):
-        if frappe.user.has_role("Student Applicant"):
+        if "Student Applicant" in frappe.get_roles():
             frappe.throw("Student Applicant can not create an application by his own.")
         self.set_missing_values()
 
