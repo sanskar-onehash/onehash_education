@@ -159,6 +159,9 @@ frappe.ready(function () {
   }
 
   function fixYearGroupAwesomeListSorting() {
+		if (!frm.fields_dict.year_group.awesomplete?.sort) {
+			return;
+		}
     frm.fields_dict.year_group.awesomplete.sort = (a, b) => {
       const getSortValue = (item) => {
         const label = item.label?.trim() || "";
