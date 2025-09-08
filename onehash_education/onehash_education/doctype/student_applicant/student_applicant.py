@@ -127,9 +127,15 @@ def send_student_application(
             "gender": gender,
             "date_of_birth": birth_date,
             "student_user": student_user,
-            "owner": student_user,
         }
     ).save()
+    frappe.db.set_value(
+        "Student Applicant",
+        student_applicant_doc.name,
+        "owner",
+        student_user,
+        update_modified=False,
+    )
 
     if student_user_doc:
         send_student_login_mail(student_user_doc, education_settings)
