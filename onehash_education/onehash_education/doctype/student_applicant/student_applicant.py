@@ -24,7 +24,10 @@ class StudentApplicant(Document):
             self.docstatus = DocStatus.submitted()
 
     def before_insert(self):
-        if "Student Applicant" in frappe.get_roles() and frappe.session.user != "Administrator":
+        if (
+            "Student Applicant" in frappe.get_roles()
+            and frappe.session.user != "Administrator"
+        ):
             frappe.throw("Student Applicant can not create an application by his own.")
         self.set_missing_values()
 
@@ -87,7 +90,8 @@ def send_student_application(
     )
     student_user = frappe.db.exists("User", {"email": student_email})
 
-    birth_date = frappe.utils.getdate(birth_date)
+    if birth_date:
+        birth_date = frappe.utils.getdate(birth_date)
     student_user_doc = None
 
     if not student_user:
