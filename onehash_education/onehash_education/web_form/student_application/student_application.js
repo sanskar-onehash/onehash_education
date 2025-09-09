@@ -48,6 +48,8 @@ frappe.ready(function () {
     setupDOMListeners();
 
     runCustomScript();
+
+    customizePhoneFields();
   }
 
   function setupFormListeners() {
@@ -184,6 +186,14 @@ frappe.ready(function () {
     };
   }
 
+  function customizePhoneFields() {
+    frm.fields_list.forEach((field) => {
+      if (field.df.fieldtype === "Phone") {
+        setupPhoneField(field);
+      }
+    });
+  }
+
   function refreshLinkFilters() {
     if (frm.get_value("correspondence_country")) {
       frm.fields_dict.correspondence_state.get_query = () => ({
@@ -207,6 +217,43 @@ frappe.ready(function () {
       frm.fields_dict.permanent_city.get_query = () => ({
         filters: { state: frm.get_value("permanent_state") },
       });
+    }
+  }
+
+  function setupPhoneField(field) {
+    const originalReadOnly = field.df.read_only;
+    field.df.read_only = true;
+    field.refresh();
+
+    const setFieldInputListeners = () => {
+      field.$input.off("focus", handlePhoneInputFocus);
+      field.$input.on("focus", handlePhoneInputFocus);
+
+      field.df.read_only = originalReadOnly;
+      field.refresh();
+    };
+
+    if (field.$input) {
+      setFieldInputListeners();
+    } else {
+      // There is no event fired when input is ready,
+      // the one which is fired: `field.df.on_make` doesn't consider
+      // that the make_input can be an async function
+      const inputWaitInterval = setInterval(() => {
+        if (field.$input) {
+          clearInterval(inputWaitInterval);
+          setFieldInputListeners();
+        }
+      }, 150);
+    }
+  }
+
+  function handlePhoneInputFocus(e) {
+    const { fieldname } = this.dataset;
+    const field = frm.fields_dict[fieldname];
+    if (!field.country_code_picker.country) {
+      field.$input.blur();
+      field.$wrapper.popover("show");
     }
   }
 
