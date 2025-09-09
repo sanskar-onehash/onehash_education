@@ -161,9 +161,9 @@ frappe.ready(function () {
   }
 
   function fixYearGroupAwesomeListSorting() {
-		if (!frm.fields_dict.year_group.awesomplete?.sort) {
-			return;
-		}
+    if (!frm.fields_dict.year_group.awesomplete?.sort) {
+      return;
+    }
     frm.fields_dict.year_group.awesomplete.sort = (a, b) => {
       const getSortValue = (item) => {
         const label = item.label?.trim() || "";
@@ -259,11 +259,16 @@ frappe.ready(function () {
 
   function setupFormUI() {
     const currentYear = new Date().getFullYear();
+    const today = frappe.datetime.get_today();
+
     frm.set_df_property(
       "age_as_on",
       "label",
       `Age as on 1st August ${currentYear}`,
     );
+    if (!frm.doc.submitted) {
+      frm.set_value("date_of_declaration", today);
+    }
 
     handleYearGroupForAcademicYear();
     fixYearGroupAwesomeListSorting();

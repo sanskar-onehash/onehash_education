@@ -18,7 +18,7 @@
  "list_columns": [],
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-09-07 23:30:09.733020",
+ "modified": "2025-09-09 12:46:11.572105",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
@@ -2752,7 +2752,7 @@
    "max_length": 0,
    "max_value": 0,
    "precision": "",
-   "read_only": 0,
+   "read_only": 1,
    "reqd": 1,
    "show_in_filter": 0
   },
