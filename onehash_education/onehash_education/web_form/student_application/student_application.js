@@ -253,7 +253,23 @@ frappe.ready(function () {
     const field = frm.fields_dict[fieldname];
     if (!field.country_code_picker.country) {
       field.$input.blur();
-      field.$wrapper.popover("show");
+
+      // Delay the click to allow event propagation to finish
+      setTimeout(() => {
+        field.$wrapper.popover("show");
+        $("body").on("click.phone-popover", (ev) => {
+          if (!$(ev.target).parents().is(".popover")) {
+            field.$wrapper.popover("hide");
+          }
+        });
+        $(window).on("hashchange.phone-popover", () => {
+          field.$wrapper.popover("hide");
+        });
+        field.$wrapper.on("hidden.bs.popover", () => {
+          $("body").off("click.phone-popover");
+          $(window).off("hashchange.phone-popover");
+        });
+      }, 250);
     }
   }
 
