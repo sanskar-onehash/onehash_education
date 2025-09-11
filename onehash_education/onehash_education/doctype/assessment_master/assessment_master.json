@@ -13,7 +13,10 @@
   "section_break_cswr",
   "questions",
   "email_customization_section",
-  "email_template"
+  "email_template",
+  "assessment_page_customization_section",
+  "script",
+  "styles"
  ],
  "fields": [
   {
@@ -55,11 +58,28 @@
    "fieldtype": "Link",
    "label": "Email Template",
    "options": "Email Template"
+  },
+  {
+   "fieldname": "assessment_page_customization_section",
+   "fieldtype": "Section Break",
+   "label": "Assessment Page Customization"
+  },
+  {
+   "fieldname": "script",
+   "fieldtype": "Code",
+   "label": "Script",
+   "options": "JS"
+  },
+  {
+   "fieldname": "styles",
+   "fieldtype": "Code",
+   "label": "Styles",
+   "options": "CSS"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-06 06:30:07.738398",
+ "modified": "2025-09-11 08:36:04.370990",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Master",

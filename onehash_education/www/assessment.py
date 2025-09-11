@@ -3,20 +3,6 @@ from onehash_education.onehash_education.doctype.assessment_question.assessment_
     QUESTION_TYPES,
 )
 
-# QUESTION_TYPES = {
-#     "INTEGER": "Integer",
-#     "FLOAT": "Float",
-#     "BOOLEAN": "Boolean",
-#     "DATE": "Date",
-#     "HEADING": "Heading",
-#     "SINGLE_CHOICE": "Single Choice",
-#     "MULTIPLE_CHOICE": "Multiple Choice",
-#     "ONE_WORD": "One Word",
-#     "ONE_LINE": "One Line",
-#     "SHORT_ANSWER": "Short Answer",
-#     "LONG_ANSWER": "Long Answer",
-# }
-
 
 def get_context(context):
     assessment_name = frappe.request.args.get("assessment")
@@ -95,3 +81,5 @@ def build_assessment_context(context, assessment_name: str) -> None:
 
     context.title = assessment_master.title
     context.grouped_questions = grouped_questions
+    context.custom_script = assessment_master.script
+    context.custom_style = assessment_master.styles
