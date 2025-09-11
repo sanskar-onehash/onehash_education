@@ -1,10 +1,12 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2025-08-04 12:52:24.351387",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "assessment_master",
   "submitted_answers",
   "correct_answers"
@@ -30,14 +32,24 @@
    "fieldtype": "Int",
    "label": "Correct Answers",
    "read_only": 1
+  },
+  {
+   "default": "EDU-ASSMT-SUB-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "\nEDU-ASSMT-SUB-",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-05 14:42:57.970292",
+ "modified": "2025-09-11 12:31:20.971771",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Submission",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
