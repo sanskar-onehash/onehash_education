@@ -40,7 +40,8 @@
    "fieldname": "assessment_submission",
    "fieldtype": "Link",
    "label": "Assessment Submission",
-   "options": "Assessment Submission"
+   "options": "Assessment Submission",
+   "read_only": 1
   },
   {
    "fieldname": "assessment_result",
@@ -112,7 +113,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-06 09:06:05.234776",
+ "modified": "2025-09-11 12:27:37.184894",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment",

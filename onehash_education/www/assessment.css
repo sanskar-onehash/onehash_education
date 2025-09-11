@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
+  --color-success-text: #1b5e20;
+  --color-success-border: #b2f5cb;
+  --color-success-bg: #e6ffed;
+
   --color-bg-body: #f7f8fa;
   --color-text-body: #21243a;
 
@@ -87,6 +91,7 @@
 
 body {
   min-height: 100vh;
+  height: auto;
   margin: 0;
   font-family: "Inter", system-ui, "Segoe UI", "Roboto", Arial, sans-serif;
   background: var(--color-bg-body);
@@ -122,7 +127,7 @@ body {
   background: var(--color-card-bg);
   border-radius: 10px;
   box-shadow: 0 2px 8px 0 var(--color-card-shadow);
-  max-width: 800px;
+  max-width: 1000px;
   min-width: 320px;
   width: 100%;
   padding: 2.7rem 3rem 2.2rem 3rem;
@@ -503,6 +508,15 @@ textarea.input-field {
   margin-bottom: 1em;
   box-shadow: 0 2px 8px var(--color-error-shadow);
   text-align: center;
+}
+
+.form-success {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: 8px;
+  color: var(--color-success-text);
 }
 
 @media (max-width: 700px) {

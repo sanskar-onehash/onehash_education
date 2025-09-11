@@ -30,30 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCounter();
     });
 
-  form.addEventListener("submit", function (e) {
-    let valid = true;
-    form.querySelectorAll("[required]").forEach((input) => {
-      if (!input.value.trim()) {
-        input.classList.add("input-error");
-        valid = false;
-      } else {
-        input.classList.remove("input-error");
-      }
-    });
-    if (!valid) {
-      e.preventDefault();
-      form.querySelector(".form-error")?.remove();
-      const error = document.createElement("div");
-      error.className = "form-error";
-      error.textContent = "Please fill all required fields.";
-      form.prepend(error);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    //
-  });
-
   form.querySelectorAll(".multi-choice-group").forEach((group) => {
     const max = parseInt(group.dataset.max, 10);
     if (!max) return;
@@ -142,6 +118,88 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("keyup", updateSubmitButton);
   }
   bindInputValidation();
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submit-btn");
+    if (submitBtn.disabled) return; // Prevent multiple submissions
+    submitBtn.disabled = true;
+    submitBtn.classList.add("submitting");
+    submitBtn.querySelector("span").textContent = "Submitting...";
+
+    let valid = true;
+    form.querySelectorAll("[required]").forEach((input) => {
+      if (
+        (input.type === "checkbox" || input.type === "radio") &&
+        !form.querySelector(`[name="${input.name}"]:checked`)
+      ) {
+        valid = false;
+      } else if (
+        input.type !== "checkbox" &&
+        input.type !== "radio" &&
+        !input.value.trim()
+      ) {
+        valid = false;
+      }
+
+      input.classList.toggle("input-error", !valid);
+    });
+
+    if (!valid) {
+      form.querySelector(".form-error")?.remove();
+      const error = document.createElement("div");
+      error.className = "form-error";
+      error.textContent = "Please fill all required fields.";
+      form.prepend(error);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("submitting");
+      submitBtn.querySelector("span").textContent = "Submit";
+      return;
+    }
+
+    document.querySelectorAll("[disabled]").forEach((el) => {
+      el.removeAttribute("disabled");
+    });
+
+    const formData = new FormData(form);
+    const answers = {};
+    for (let [key, value] of formData.entries()) {
+      if (answers[key]) {
+        if (Array.isArray(answers[key])) {
+          answers[key].push(value);
+        } else {
+          answers[key] = [answers[key], value];
+        }
+      } else {
+        answers[key] = value;
+      }
+    }
+
+    const payload = {
+      assessment_id: form.dataset.assessmentId,
+      answers,
+    };
+
+    frappe.call({
+      method:
+        "onehash_education.onehash_education.doctype.assessment.assessment.submit_assessment",
+      args: payload,
+      freeze: true,
+      freeze_message: "Submitting Assessment...",
+      callback: function (res) {
+        form.style.display = "none";
+        document.getElementById("success-msg").classList.remove("hide");
+      },
+      always: function () {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("submitting");
+        submitBtn.querySelector("span").textContent = "Submit";
+      },
+    });
+  });
 
   if (groups.length > 0) {
     showPage(currentPage);

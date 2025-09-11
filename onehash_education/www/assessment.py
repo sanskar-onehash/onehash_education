@@ -6,6 +6,7 @@ from onehash_education.onehash_education.doctype.assessment_question.assessment_
 
 def get_context(context):
     assessment_name = frappe.request.args.get("assessment")
+    context.no_cache = True
 
     if not assessment_name or not frappe.db.exists(
         "Assessment",
@@ -23,6 +24,12 @@ def get_context(context):
 
 def build_assessment_context(context, assessment_name: str) -> None:
     assessment_doc = frappe.get_doc("Assessment", assessment_name)
+    context.submitted = False
+
+    if assessment_doc.assessment_submission:
+        context.submitted = True
+        return
+
     assessment_master = frappe.get_doc(
         "Assessment Master", assessment_doc.assessment_master
     )
@@ -41,6 +48,7 @@ def build_assessment_context(context, assessment_name: str) -> None:
         q_type = question_doc.question_type
 
         question_data = {
+            "question_id": question_doc.name,
             "question": question_doc.question,
             "question_type": q_type,
         }
@@ -79,7 +87,9 @@ def build_assessment_context(context, assessment_name: str) -> None:
     if not found_first_heading and pre_heading_questions:
         grouped_questions.append({"heading": None, "questions": pre_heading_questions})
 
+    context.assessment_id = assessment_name
     context.title = assessment_master.title
     context.grouped_questions = grouped_questions
+    context.csrf_token = frappe.sessions.get_csrf_token()
     context.custom_script = assessment_master.script
     context.custom_style = assessment_master.styles

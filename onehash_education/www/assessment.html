@@ -8,12 +8,24 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    {{ include_style('website.bundle.css') }}
     <link rel="stylesheet" href="./assessment.css" />
     {% if custom_style %}
     <style>
       {{ custom_style }}
     </style>
     {% endif %}
+
+    <script>
+      window.frappe = {};
+      frappe.ready_events = [];
+      frappe.ready = function(fn) {
+      	frappe.ready_events.push(fn);
+      }
+      window.dev_server = {{ dev_server }};
+      window.socketio_port = {{ (frappe.socketio_port or 9000) }};
+      window.show_language_picker = {{ show_language_picker or 'false' }};
+    </script>
   </head>
   <body>
     <div class="assessment-bg"></div>
@@ -25,12 +37,13 @@
           <div class="assessment-error">{{ error }}</div>
           {% endif %}
         </header>
-        {% if not error %}
+        {% if not error and not submitted %}
         <form
           id="assessmentForm"
           class="assessment-form"
           method="post"
           autocomplete="off"
+          data-assessment-id="{{ assessment_id }}"
         >
           <ol class="assessment-questions">
             {% set ns = namespace(q_counter=0) %} {% for group in
@@ -51,17 +64,17 @@
                   {% if q.question_type == 'Integer' %}
                   <input
                     type="number"
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     step="1"
+                    name="{{ q.question_id }}"
                     required
                   />
                   {% elif q.question_type == 'Float' %}
                   <input
                     type="number"
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     step="any"
+                    name="{{ q.question_id }}"
                     required
                   />
                   {% elif q.question_type == 'Boolean' %}
@@ -69,8 +82,8 @@
                     <label>
                       <input
                         type="radio"
-                        name="answer_{{ ns.q_counter }}"
                         value="True"
+                        name="{{ q.question_id }}"
                         required
                       />
                       True
@@ -78,7 +91,7 @@
                     <label>
                       <input
                         type="radio"
-                        name="answer_{{ ns.q_counter }}"
+                        name="{{ q.question_id }}"
                         value="False"
                       />
                       False
@@ -87,8 +100,8 @@
                   {% elif q.question_type == 'Date' %}
                   <input
                     type="date"
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
+                    name="{{ q.question_id }}"
                     required
                   />
                   {% elif q.question_type == 'Single Choice' %}
@@ -97,8 +110,8 @@
                     <label class="choice-label">
                       <input
                         type="radio"
-                        name="answer_{{ ns.q_counter }}"
                         value="{{ opt }}"
+                        name="{{ q.question_id }}"
                         required
                       />
                       <span class="custom-radio"></span>
@@ -115,7 +128,7 @@
                     <label class="choice-label">
                       <input
                         type="checkbox"
-                        name="answer_{{ ns.q_counter }}[]"
+                        name="{{ q.question_id }}"
                         value="{{ opt }}"
                       />
                       <span class="custom-checkbox"></span>
@@ -126,33 +139,33 @@
                   {% elif q.question_type == 'One Word' %}
                   <input
                     type="text"
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     maxlength="50"
+                    name="{{ q.question_id }}"
                     required
                   />
                   {% elif q.question_type == 'One Line' %}
                   <input
                     type="text"
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     maxlength="120"
+                    name="{{ q.question_id }}"
                     required
                   />
                   {% elif q.question_type == 'Short Answer' %}
                   <textarea
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     rows="2"
                     maxlength="300"
+                    name="{{ q.question_id }}"
                     required
                   ></textarea>
                   {% elif q.question_type == 'Long Answer' %}
                   <textarea
-                    name="answer_{{ ns.q_counter }}"
                     class="input-field"
                     rows="5"
                     maxlength="2000"
+                    name="{{ q.question_id }}"
                     required
                   ></textarea>
                   {% endif %}
@@ -177,13 +190,33 @@
             </button>
           </div>
         </form>
+        {% endif %} {% if not error %}
+        <div
+          class="form-success {{ 'hide' if not submitted else '' }}"
+          id="success-msg"
+        >
+          <h2>Assessment Submitted</h2>
+          <p>Thank you! Your answers have been successfully submitted.</p>
+        </div>
         {% endif %}
       </div>
     </div>
+
+    <script>
+      frappe.boot = {{ boot | json }};
+      frappe.csrf_token = "{{ csrf_token }}";
+         // for backward compatibility of some libs
+      frappe.sys_defaults = frappe.boot.sysdefaults;
+    </script>
+    {{ include_script('frappe-web.bundle.js') }}
     <script src="./assessment.js"></script>
     {% if custom_script %}
     <script>
-      {{ custom_script }}
+      {
+        {
+          custom_script;
+        }
+      }
     </script>
     {% endif %}
   </body>
