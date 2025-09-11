@@ -60,6 +60,7 @@
    "options": "Email Template"
   },
   {
+   "collapsible": 1,
    "fieldname": "assessment_page_customization_section",
    "fieldtype": "Section Break",
    "label": "Assessment Page Customization"
@@ -79,7 +80,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-11 08:36:04.370990",
+ "modified": "2025-09-11 08:40:50.718597",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Assessment Master",
