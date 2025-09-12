@@ -17,6 +17,45 @@ async function fixLanguages() {
   }
 }
 
+frappe.ui.form.ControlPhone = class ControlPhone extends (
+  frappe.ui.form.ControlPhone
+) {
+  async make_input() {
+    await super.make_input();
+    this.customize_phone_field();
+  }
+
+  customize_phone_field() {
+    this.$input.off("focus", handlePhoneInputFocus(this));
+    this.$input.on("focus", handlePhoneInputFocus(this));
+  }
+};
+
+function handlePhoneInputFocus(field) {
+  return () => {
+    if (!field.country_code_picker.country) {
+      field.$input.blur();
+
+      // Delay the click to allow event propagation to finish
+      setTimeout(() => {
+        field.$wrapper.popover("show");
+        $("body").on("click.phone-popover", (ev) => {
+          if (!$(ev.target).parents().is(".popover")) {
+            field.$wrapper.popover("hide");
+          }
+        });
+        $(window).on("hashchange.phone-popover", () => {
+          field.$wrapper.popover("hide");
+        });
+        field.$wrapper.on("hidden.bs.popover", () => {
+          $("body").off("click.phone-popover");
+          $(window).off("hashchange.phone-popover");
+        });
+      }, 250);
+    }
+  };
+}
+
 frappe.ready(function () {
   const frm = frappe.web_form;
   const frmDoc = frappe.web_form_doc;
@@ -48,8 +87,6 @@ frappe.ready(function () {
     setupDOMListeners();
 
     runCustomScript();
-
-    customizePhoneFields();
   }
 
   function setupFormListeners() {
@@ -186,14 +223,6 @@ frappe.ready(function () {
     };
   }
 
-  function customizePhoneFields() {
-    frm.fields_list.forEach((field) => {
-      if (field.df.fieldtype === "Phone") {
-        setupPhoneField(field);
-      }
-    });
-  }
-
   function refreshLinkFilters() {
     if (frm.get_value("correspondence_country")) {
       frm.fields_dict.correspondence_state.get_query = () => ({
@@ -217,59 +246,6 @@ frappe.ready(function () {
       frm.fields_dict.permanent_city.get_query = () => ({
         filters: { state: frm.get_value("permanent_state") },
       });
-    }
-  }
-
-  function setupPhoneField(field) {
-    const originalReadOnly = field.df.read_only;
-    field.df.read_only = true;
-    field.refresh();
-
-    const setFieldInputListeners = () => {
-      field.$input.off("focus", handlePhoneInputFocus);
-      field.$input.on("focus", handlePhoneInputFocus);
-
-      field.df.read_only = originalReadOnly;
-      field.refresh();
-    };
-
-    if (field.$input) {
-      setFieldInputListeners();
-    } else {
-      // There is no event fired when input is ready,
-      // the one which is fired: `field.df.on_make` doesn't consider
-      // that the make_input can be an async function
-      const inputWaitInterval = setInterval(() => {
-        if (field.$input) {
-          clearInterval(inputWaitInterval);
-          setFieldInputListeners();
-        }
-      }, 150);
-    }
-  }
-
-  function handlePhoneInputFocus(e) {
-    const { fieldname } = this.dataset;
-    const field = frm.fields_dict[fieldname];
-    if (!field.country_code_picker.country) {
-      field.$input.blur();
-
-      // Delay the click to allow event propagation to finish
-      setTimeout(() => {
-        field.$wrapper.popover("show");
-        $("body").on("click.phone-popover", (ev) => {
-          if (!$(ev.target).parents().is(".popover")) {
-            field.$wrapper.popover("hide");
-          }
-        });
-        $(window).on("hashchange.phone-popover", () => {
-          field.$wrapper.popover("hide");
-        });
-        field.$wrapper.on("hidden.bs.popover", () => {
-          $("body").off("click.phone-popover");
-          $(window).off("hashchange.phone-popover");
-        });
-      }, 250);
     }
   }
 
