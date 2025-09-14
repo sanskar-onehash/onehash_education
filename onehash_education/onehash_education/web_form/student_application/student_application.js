@@ -20,9 +20,36 @@ async function fixLanguages() {
 frappe.ui.form.ControlPhone = class ControlPhone extends (
   frappe.ui.form.ControlPhone
 ) {
+  constructor(opts) {
+    super(opts);
+    $.extend(this, opts);
+
+    this.mandatory_depends_on_fix = this.df.mandatory_depends_on;
+    this.read_only_depends_on_fix = this.df.read_only_depends_on;
+
+    this.df.mandatory_depends_on = "";
+    this.df.read_only_depends_on = "";
+  }
   async make_input() {
     await super.make_input();
     this.customize_phone_field();
+
+    if (this.mandatory_depends_on_fix) {
+      this.df.mandatory_depends_on = this.mandatory_depends_on_fix;
+      this.layout.set_dependant_property(
+        this.mandatory_depends_on_fix,
+        this.df.fieldname,
+        "reqd",
+      );
+    }
+    if (this.read_only_depends_on_fix) {
+      this.df.read_only_depends_on = this.read_only_depends_on_fix;
+      this.layout.set_dependant_property(
+        this.mandatory_depends_on_fix,
+        this.df.fieldname,
+        "hidden",
+      );
+    }
   }
 
   customize_phone_field() {
