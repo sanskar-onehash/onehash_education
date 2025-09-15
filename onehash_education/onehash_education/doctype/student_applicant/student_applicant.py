@@ -2,7 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.model.document import Document, DocStatus
+from frappe.model.document import Document
 
 DEFAULT_WELCOME_TEMPLATE = "new_user"
 
@@ -18,10 +18,6 @@ class StudentApplicant(Document):
     def before_save(self):
         self.sync_addresses()
         self.clear_name_for_new_child_entries()
-
-        if self.submitted and not self.get_db_value("submitted"):
-            self.run_method("before_submit")
-            self.docstatus = DocStatus.submitted()
 
     def before_insert(self):
         if (
