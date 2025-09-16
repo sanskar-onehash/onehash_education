@@ -1,17 +1,19 @@
 import frappe
 
+from onehash_education.onehash_education.doctype.student_applicant.student_applicant import (
+    get_applicant_custom_scripts,
+)
+
 
 def get_context(context):
-    education_settings = frappe.get_single("Education Settings")
     convert_autocomplete_back_to_link(context.web_form_doc.web_form_fields)
 
-    # Add custom js
-    if education_settings.get("web_form_js"):
-        context.web_form_doc.custom_script = education_settings.get("web_form_js")
-
-    # Add custom css
-    if education_settings.get("web_form_css"):
-        context.web_form_doc.custom_style = education_settings.get("web_form_css")
+    # Add custom js & css
+    custom_scripts = get_applicant_custom_scripts()
+    if custom_scripts.get("script"):
+        context.web_form_doc.custom_script = custom_scripts.get("script")
+    if custom_scripts.get("style"):
+        context.web_form_doc.custom_style = custom_scripts.get("style")
 
 
 def convert_autocomplete_back_to_link(web_form_fields):

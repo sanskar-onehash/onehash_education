@@ -146,6 +146,15 @@ def send_student_application(
     return student_applicant_doc.name
 
 
+@frappe.whitelist()
+def get_applicant_custom_scripts():
+    education_settings = frappe.get_single("Education Settings")
+    return {
+        "script": education_settings.get("web_form_js"),
+        "style": education_settings.get("web_form_css"),
+    }
+
+
 def send_student_login_mail(student_user_doc, education_settings):
     add_args = {
         "link": student_user_doc.reset_password(),
