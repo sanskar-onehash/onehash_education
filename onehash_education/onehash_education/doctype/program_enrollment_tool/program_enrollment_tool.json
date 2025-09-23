@@ -10,6 +10,7 @@
   "column_break_xflo",
   "academic_year",
   "academic_term",
+  "enrollment_date",
   "section_break_lwrn",
   "get_students",
   "students",
@@ -105,12 +106,19 @@
    "label": "New Academic Term",
    "mandatory_depends_on": "eval:doc.academic_term",
    "options": "Academic Term"
+  },
+  {
+   "default": "__today",
+   "fieldname": "enrollment_date",
+   "fieldtype": "Date",
+   "label": "Enrollment Date",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-23 10:16:57.158755",
+ "modified": "2025-09-23 11:33:00.249810",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment Tool",

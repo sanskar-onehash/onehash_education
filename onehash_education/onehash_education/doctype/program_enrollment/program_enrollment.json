@@ -12,7 +12,8 @@
   "column_break_mzzv",
   "year_group",
   "academic_year",
-  "academic_term"
+  "academic_term",
+  "enrollment_date"
  ],
  "fields": [
   {
@@ -67,12 +68,19 @@
    "fieldtype": "Link",
    "label": "Academic Term",
    "options": "Academic Term"
+  },
+  {
+   "default": "__today",
+   "fieldname": "enrollment_date",
+   "fieldtype": "Date",
+   "label": "Enrollment Date",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-23 08:34:58.482028",
+ "modified": "2025-09-23 11:32:17.288507",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment",

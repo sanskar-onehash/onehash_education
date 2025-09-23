@@ -1,4 +1,5 @@
 import frappe
+from frappe import utils
 
 
 @frappe.whitelist(allow_guest=True)
@@ -73,6 +74,7 @@ def enroll_student(applicant_name):
     program_enrollment.student_name = student.student_name
     program_enrollment.year_group = student_applicant.year_group
     program_enrollment.academic_year = student_applicant.academic_year
+    program_enrollment.enrollment_date = utils.nowdate()
     program_enrollment.save()
 
     frappe.db.set_value("Student Applicant", applicant_name, "enrolled", 1)

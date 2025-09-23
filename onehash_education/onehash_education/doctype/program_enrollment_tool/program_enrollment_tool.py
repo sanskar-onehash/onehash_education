@@ -75,6 +75,7 @@ class ProgramEnrollmentTool(Document):
                 prog_enrollment.year_group = self.new_year_group
                 prog_enrollment.academic_year = self.new_academic_year
                 prog_enrollment.academic_term = self.new_academic_term
+                prog_enrollment.enrollment_date = self.enrollment_date
                 prog_enrollment.save()
             elif student.student_applicant:
                 call_whitelisted_function(
@@ -87,6 +88,7 @@ class ProgramEnrollmentTool(Document):
 
                 prog_enrollment.academic_year = self.academic_year
                 prog_enrollment.academic_term = self.academic_term
+                prog_enrollment.enrollment_date = self.enrollment_date
                 prog_enrollment.save()
         frappe.msgprint(_("{0} Students have been enrolled").format(total))
         frappe.response["message"] = "success"
