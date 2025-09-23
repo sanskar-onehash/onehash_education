@@ -19,7 +19,7 @@
   "enroll_students",
   "column_break_cjlt",
   "new_academic_year",
-  "new_academic_term"
+  "new_academic_terms"
  ],
  "fields": [
   {
@@ -100,25 +100,24 @@
    "options": "Academic Year"
   },
   {
-   "depends_on": "eval:doc.get_students_from==\"Program Enrollment\";",
-   "fieldname": "new_academic_term",
-   "fieldtype": "Link",
-   "label": "New Academic Term",
-   "mandatory_depends_on": "eval:doc.academic_term",
-   "options": "Academic Term"
-  },
-  {
    "default": "Today",
    "fieldname": "enrollment_date",
    "fieldtype": "Date",
    "label": "Enrollment Date",
    "reqd": 1
+  },
+  {
+   "fieldname": "new_academic_terms",
+   "fieldtype": "Table MultiSelect",
+   "label": "New Academic Terms",
+   "mandatory_depends_on": "eval:doc.get_students_from==\"Program Enrollment\";",
+   "options": "Academic Terms"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-23 11:59:31.409948",
+ "modified": "2025-09-23 12:13:38.735850",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment Tool",
