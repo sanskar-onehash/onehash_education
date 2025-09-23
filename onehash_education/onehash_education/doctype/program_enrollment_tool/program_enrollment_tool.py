@@ -18,42 +18,33 @@ class ProgramEnrollmentTool(Document):
         elif not self.academic_year:
             frappe.throw(_("Mandatory field - Academic Year"))
         else:
-            # TODO: Update the logic to handle academic_terms (table)
-            condition = (
-                "and academic_term=%(academic_term)s" if self.academic_term else " "
-            )
             if self.get_students_from == "Student Applicant":
                 students = frappe.db.sql(
                     """select name as student_applicant, applicant_name as student_name from `tabStudent Applicant`
-					where enrolled=0 and year_group=%(year_group)s and academic_year=%(academic_year)s {0}""".format(
-                        condition
-                    ),
+					where enrolled=0 and year_group=%(year_group)s and academic_year=%(academic_year)s""",
                     self.as_dict(),
                     as_dict=1,
                 )
             elif self.get_students_from == "Program Enrollment":
-                students = frappe.db.sql(
-                    """select student, student_name from `tabProgram Enrollment`
-					where year_group=%(year_group)s and academic_year=%(academic_year)s {0} and docstatus != 2""".format(
-                        condition
-                    ),
-                    self.as_dict(),
-                    as_dict=1,
-                )
+                AcademicTerms = frappe.qb.DocType("Academic Terms")
+                ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
+                Student = frappe.qb.DocType("Student")
 
-                student_list = [d.student for d in students]
-                if student_list:
-                    inactive_students = frappe.db.sql(
-                        """
-						select name as student, student_name from `tabStudent` where name in (%s) and enabled = 0"""
-                        % ", ".join(["%s"] * len(student_list)),
-                        tuple(student_list),
-                        as_dict=1,
+                students = (
+                    frappe.qb.from_(ProgramEnrollment)
+                    .join(AcademicTerms)
+                    .on(AcademicTerms.parent == ProgramEnrollment.name)
+                    .join(Student)
+                    .on(Student.name == ProgramEnrollment.student)
+                    .where(
+                        (ProgramEnrollment.year_group == self.year_group)
+                        & (ProgramEnrollment.academic_year == self.academic_year)
+                        & (ProgramEnrollment.docstatus != 2)
+                        & (AcademicTerms.academic_term == self.academic_term)
+                        & (Student.enabled == 1)
                     )
-
-                    for student in students:
-                        if student.student in [d.student for d in inactive_students]:
-                            students.remove(student)
+                    .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
+                ).run(as_dict=True)
 
         if students:
             return students
