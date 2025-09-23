@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Program Enrollment", {
   onload: function (frm) {
-    frm.set_query("academic_term", function () {
+    frm.set_query("academic_term", "academic_terms", function () {
       return {
         filters: {
           academic_year: frm.doc.academic_year,
@@ -17,7 +17,7 @@ frappe.ui.form.on("Program Enrollment", {
           "onehash_education.onehash_education.doctype.program_enrollment.program_enrollment.get_students",
         filters: {
           academic_year: frm.doc.academic_year,
-          academic_term: frm.doc.academic_term,
+          academic_term: ["in", frm.doc.academic_terms],
         },
       };
     });

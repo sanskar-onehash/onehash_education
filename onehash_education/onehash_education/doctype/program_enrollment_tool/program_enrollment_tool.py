@@ -18,6 +18,7 @@ class ProgramEnrollmentTool(Document):
         elif not self.academic_year:
             frappe.throw(_("Mandatory field - Academic Year"))
         else:
+            # TODO: Update the logic to handle academic_terms (table)
             condition = (
                 "and academic_term=%(academic_term)s" if self.academic_term else " "
             )
