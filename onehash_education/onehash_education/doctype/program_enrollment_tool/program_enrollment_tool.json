@@ -24,7 +24,8 @@
   {
    "fieldname": "get_students_from",
    "fieldtype": "Select",
-   "label": "Get Students From"
+   "label": "Get Students From",
+   "options": "\nStudent Applicant\nProgram Enrollment"
   },
   {
    "fieldname": "year_group",
@@ -109,7 +110,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-23 08:50:17.154353",
+ "modified": "2025-09-23 10:16:57.158755",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment Tool",
