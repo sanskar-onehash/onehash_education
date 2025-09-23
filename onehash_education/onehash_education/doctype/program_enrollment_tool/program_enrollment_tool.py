@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils.safe_exec import call_whitelisted_function
 
 
 class ProgramEnrollmentTool(Document):
@@ -76,7 +77,7 @@ class ProgramEnrollmentTool(Document):
                 prog_enrollment.academic_term = self.new_academic_term
                 prog_enrollment.save()
             elif student.student_applicant:
-                frappe.call(
+                call_whitelisted_function(
                     "onehash_education.api.enroll_student",
                     applicant_name=student.student_applicant,
                 )
