@@ -23,7 +23,7 @@ class ProgramEnrollmentTool(Document):
             if self.get_students_from == "Student Applicant":
                 students = frappe.db.sql(
                     """select name as student_applicant, applicant_name as student_name from `tabStudent Applicant`
-					where enrolled=1 and year_group=%(year_group)s and academic_year=%(academic_year)s {0}""".format(
+					where enrolled=0 and year_group=%(year_group)s and academic_year=%(academic_year)s {0}""".format(
                         condition
                     ),
                     self.as_dict(),
