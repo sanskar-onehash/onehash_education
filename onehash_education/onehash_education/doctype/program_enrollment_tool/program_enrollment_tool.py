@@ -76,11 +76,16 @@ class ProgramEnrollmentTool(Document):
                 prog_enrollment.academic_term = self.new_academic_term
                 prog_enrollment.save()
             elif student.student_applicant:
-                prog_enrollment = frappe.call(
+                frappe.call(
                     "onehash_education.api.enroll_student",
                     applicant_name=student.student_applicant,
                 )
+                prog_enrollment = frappe.get_doc(
+                    "Program Enrollment", frappe.response["message"]
+                )
+
                 prog_enrollment.academic_year = self.academic_year
                 prog_enrollment.academic_term = self.academic_term
                 prog_enrollment.save()
         frappe.msgprint(_("{0} Students have been enrolled").format(total))
+        frappe.response["message"] = "success"

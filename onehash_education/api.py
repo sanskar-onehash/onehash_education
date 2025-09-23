@@ -79,4 +79,5 @@ def enroll_student(applicant_name):
     frappe.publish_realtime(
         "enroll_student_progress", {"progress": [2, 4]}, user=frappe.session.user
     )
-    return program_enrollment
+
+    frappe.response["message"] = program_enrollment.name
