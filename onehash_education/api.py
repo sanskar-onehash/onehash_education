@@ -33,3 +33,50 @@ def get_admission_years_and_groups():
         ]
 
     return admission_data
+
+
+@frappe.whitelist()
+def enroll_student(applicant_name):
+    frappe.publish_realtime(
+        "enroll_student_progress", {"progress": [1, 4]}, user=frappe.session.user
+    )
+    student_applicant = frappe.db.get_value(
+        "Student Applicant",
+        applicant_name,
+        [
+            "year_group",
+            "academic_year",
+            "first_name",
+            "middle_name",
+            "last_name",
+            "applicant_name",
+            "student_image",
+        ],
+        as_dict=True,
+    )
+    if not student_applicant:
+        frappe.throw("Student Applicant not found.")
+
+    student = frappe.new_doc("Student")
+    student.enabled = True
+    student.first_name = student_applicant.first_name
+    student.middle_name = student_applicant.middle_name
+    student.last_name = student_applicant.last_name
+    student.student_name = student_applicant.applicant_name
+    student.user_id = student_applicant.student_user
+    student.student_applicant = applicant_name
+    student.student_image = student_applicant.student_image
+    student.save()
+
+    program_enrollment = frappe.new_doc("Program Enrollment")
+    program_enrollment.student = student.name
+    program_enrollment.student_name = student.student_name
+    program_enrollment.year_group = student_applicant.year_group
+    program_enrollment.academic_year = student_applicant.academic_year
+    program_enrollment.save()
+
+    frappe.db.set_value("Student Applicant", applicant_name, "enrolled", 1)
+    frappe.publish_realtime(
+        "enroll_student_progress", {"progress": [2, 4]}, user=frappe.session.user
+    )
+    return program_enrollment

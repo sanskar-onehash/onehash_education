@@ -31,6 +31,7 @@
   "form_completion",
   "government_id",
   "transfer_certificate",
+  "enrolled",
   "extra_details_section",
   "aadhaar_number",
   "aadhaar_document",
@@ -1137,12 +1138,20 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "enrolled",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Enrolled",
+   "permlevel": 1
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-15 13:55:30.374198",
+ "modified": "2025-09-23 09:17:42.356684",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
