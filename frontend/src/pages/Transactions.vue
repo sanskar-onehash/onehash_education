@@ -34,7 +34,7 @@
           />
 
           <Button
-            v-if="column.key === 'invoice' && row.status === 'Paid'"
+            v-if="column.key === 'invoice'"
             @click="openInvoicePDF(row)"
             class="hover:bg-gray-900 hover:text-white"
             icon-left="download"
