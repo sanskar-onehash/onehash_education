@@ -1,5 +1,7 @@
 import frappe
-from frappe import utils
+from pypika import Order
+from frappe import utils as frappe_utils
+from onehash_education import utils
 
 
 @frappe.whitelist(allow_guest=True)
@@ -67,6 +69,7 @@ def enroll_student(applicant_name):
     student.user_id = student_applicant.student_user
     student.student_applicant = applicant_name
     student.student_image = student_applicant.student_image
+    student.customer = student_applicant.customer
     student.save()
 
     program_enrollment = frappe.new_doc("Program Enrollment")
@@ -74,7 +77,7 @@ def enroll_student(applicant_name):
     program_enrollment.student_name = student.student_name
     program_enrollment.year_group = student_applicant.year_group
     program_enrollment.academic_year = student_applicant.academic_year
-    program_enrollment.enrollment_date = utils.nowdate()
+    program_enrollment.enrollment_date = frappe_utils.nowdate()
     program_enrollment.save()
 
     frappe.db.set_value("Student Applicant", applicant_name, "enrolled", 1)
@@ -83,3 +86,89 @@ def enroll_student(applicant_name):
     )
 
     frappe.response["message"] = program_enrollment.name
+
+
+@frappe.whitelist()
+def get_user_info():
+    if frappe.session.user == "Guest":
+        frappe.throw("Authentication failed", exc=frappe.AuthenticationError)
+
+    current_user = frappe.db.get_list(
+        "User",
+        fields=["name", "email", "enabled", "user_image", "full_name", "user_type"],
+        filters={"name": frappe.session.user},
+    )[0]
+    current_user["session_user"] = True
+    return current_user
+
+
+@frappe.whitelist()
+def get_students():
+    user = frappe.session.user
+    students = frappe.db.get_list(
+        "Student",
+        fields=[
+            "customer",
+            "name",
+            "student_applicant",
+            "student_image",
+            "student_name",
+        ],
+        filters={"user_id": user, "enabled": 1},
+    )
+
+    return students
+
+
+@frappe.whitelist()
+def get_customer_transactions(customer, page_length=20, page=0):
+    if not customer:
+        frappe.throw("Customer is required.")
+
+    frappe.has_permission("Customer", "read", customer, throw=True)
+
+    Customer = frappe.qb.DocType("Customer")
+    SalesInvoice = frappe.qb.DocType("Sales Invoice")
+    PaymentEntryReference = frappe.qb.DocType("Payment Entry Reference")
+
+    transactions = (
+        frappe.qb.from_(SalesInvoice)
+        .join(Customer)
+        .on((Customer.name == customer) & (Customer.name == SalesInvoice.customer))
+        .left_join(PaymentEntryReference)
+        .on(
+            (PaymentEntryReference.reference_doctype == "Sales Invoice")
+            & (PaymentEntryReference.parenttype == "Payment Entry")
+            & (SalesInvoice.name == PaymentEntryReference.reference_name)
+        )
+        .select(
+            SalesInvoice.name.as_("invoice"),
+            SalesInvoice.currency,
+            SalesInvoice.due_date,
+            SalesInvoice.status,
+            SalesInvoice.outstanding_amount,
+            SalesInvoice.grand_total,
+            SalesInvoice.custom_academic_year.as_("academic_year"),
+            SalesInvoice.custom_year_group.as_("year_group"),
+            PaymentEntryReference.parent.as_("receipt"),
+        )
+        .orderby(SalesInvoice.creation, order=Order.desc)
+        .limit(page_length)
+        .offset(page)
+        .run(as_dict=True)
+    )
+
+    return {
+        "transactions": transactions,
+        "invoice_format": utils.get_default_print_format("Sales Invoice"),
+        "receipt_format": utils.get_default_print_format("Payment Entry"),
+    }
+
+
+@frappe.whitelist()
+def get_school_abbr_logo():
+    abbr = frappe.db.get_single_value(
+        "Education Settings", "school_college_name_abbreviation"
+    )
+    logo = frappe.db.get_single_value("Education Settings", "school_college_logo")
+    return {"name": abbr, "logo": logo}

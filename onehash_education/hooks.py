@@ -83,7 +83,7 @@ web_include_js = "onehash_education-web.bundle.js"
 # ------------
 
 before_install = "onehash_education.install.before_install"
-# after_install = "onehash_education.install.after_install"
+after_install = "onehash_education.install.after_install"
 
 # Uninstallation
 # ------------

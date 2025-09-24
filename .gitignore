@@ -6,3 +6,5 @@ tags
 node_modules
 __pycache__
 dist/
+onehash_education/public/frontend
+onehash_education/www/student-portal.html
