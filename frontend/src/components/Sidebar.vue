@@ -43,12 +43,17 @@
 <script setup>
 import { useStorage } from '@vueuse/core'
 import SidebarLink from '@/components/SidebarLink.vue'
-import { Banknote, ArrowLeftToLine } from 'lucide-vue-next'
+import { Banknote, ArrowLeftToLine, Wallet } from 'lucide-vue-next'
 
 import UserDropdown from './UserDropdown.vue'
 import { createResource } from 'frappe-ui'
 
 const links = [
+  {
+    label: 'Pay Fees',
+    to: '/pay-fee',
+    icon: Wallet,
+  },
   {
     label: 'Transactions',
     to: '/transactions',

@@ -203,6 +203,89 @@ def get_customer_transactions(customer, page_length=20, page=0):
 
 
 @frappe.whitelist()
+def get_invoices_to_pay(customer):
+    if not customer:
+        frappe.throw("Customer is required.")
+
+    frappe.has_permission("Customer", "read", customer, throw=True)
+
+    invoice_open_statuses = [
+        "Submitted",
+        "Partly Paid",
+        "Unpaid",
+        "Unpaid and Discounted",
+        "Partly Paid and Discounted",
+        "Overdue and Discounted",
+        "Overdue",
+    ]
+
+    SalesInvoice = frappe.qb.DocType("Sales Invoice")
+    SalesInvoiceItem = frappe.qb.DocType("Sales Invoice Item")
+
+    invoices = (
+        frappe.qb.from_(SalesInvoice)
+        .join(SalesInvoiceItem)
+        .on(
+            (SalesInvoiceItem.parenttype == "Sales Invoice")
+            & (SalesInvoiceItem.parent == SalesInvoice.name)
+        )
+        .select(
+            SalesInvoice.name,
+            SalesInvoice.due_date,
+            SalesInvoice.currency,
+            SalesInvoice.grand_total,
+            SalesInvoice.outstanding_amount.as_("payable_amount"),
+            SalesInvoiceItem.amount.as_("item_amount"),
+            SalesInvoiceItem.item_name,
+        )
+        .where(
+            (SalesInvoice.status.isin(invoice_open_statuses))
+            & (SalesInvoice.customer == customer)
+        )
+        .run(as_dict=True)
+    )
+
+    grouped_invoices = []
+
+    last_invoice = None
+    for invoice in invoices:
+
+        if last_invoice and invoice["name"] != invoice.name:
+            grouped_invoices.append(last_invoice)
+            last_invoice = None
+
+        if not last_invoice:
+            last_invoice = {
+                "name": invoice.name,
+                "due_date": invoice.due_date,
+                "currency": invoice.currency,
+                "grand_total": invoice.grand_total,
+                "grand_total_formatted": frappe_utils.fmt_money(
+                    invoice.grand_total, currency=invoice.currency
+                ),
+                "payable_amount": invoice.payable_amount,
+                "payable_amount_formatted": frappe_utils.fmt_money(
+                    invoice.payable_amount, currency=invoice.currency
+                ),
+                "items": [],
+            }
+
+        item = {
+            "item_name": invoice.item_name,
+            "item_amount": invoice.item_amount,
+            "item_amount_formatted": frappe_utils.fmt_money(
+                invoice.item_amount, currency=invoice.currency
+            ),
+        }
+        if item not in last_invoice["items"]:
+            last_invoice["items"].append(item)
+
+    if last_invoice and last_invoice not in grouped_invoices:
+        grouped_invoices.append(last_invoice)
+    return grouped_invoices
+
+
+@frappe.whitelist()
 def get_school_abbr_logo():
     abbr = frappe.db.get_single_value(
         "Education Settings", "school_college_name_abbreviation"

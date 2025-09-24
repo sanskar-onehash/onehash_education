@@ -6,8 +6,13 @@ import { studentStore } from '@/stores/student'
 const routes = [
   { path: '/', name: 'Home', component: () => import('@/pages/Home.vue') },
   {
+    path: '/pay-fee',
+    name: 'Pay Fees',
+    component: () => import('@/pages/PayFee.vue'),
+  },
+  {
     path: '/transactions',
-    name: 'Fees',
+    name: 'Transactions',
     component: () => import('@/pages/Transactions.vue'),
   },
   // {
