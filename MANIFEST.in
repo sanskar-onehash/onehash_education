@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include onehash_education *.css
+recursive-include onehash_education *.csv
+recursive-include onehash_education *.html
+recursive-include onehash_education *.ico
+recursive-include onehash_education *.js
+recursive-include onehash_education *.json
+recursive-include onehash_education *.md
+recursive-include onehash_education *.png
+recursive-include onehash_education *.py
+recursive-include onehash_education *.svg
+recursive-include onehash_education *.txt
+recursive-exclude onehash_education *.pyc
