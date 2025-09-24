@@ -10,6 +10,7 @@
   "student_name",
   "sales_invoice",
   "amended_from",
+  "status",
   "column_break_mzzv",
   "year_group",
   "academic_year",
@@ -83,12 +84,19 @@
    "label": "Sales Invoice",
    "options": "Sales Invoice",
    "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nUpcoming\nActive\nExpired",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-24 05:37:25.632817",
+ "modified": "2025-09-24 15:58:20.270023",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment",
