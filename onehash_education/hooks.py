@@ -148,23 +148,26 @@ after_install = "onehash_education.install.after_install"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"onehash_education.tasks.all"
-# 	],
-# 	"daily": [
-# 		"onehash_education.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"onehash_education.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"onehash_education.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"onehash_education.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    # 	"all": [
+    # 		"onehash_education.tasks.all"
+    # 	],
+    # 	"hourly": [
+    # 		"onehash_education.tasks.hourly"
+    # 	],
+    # 	"daily": [
+    # 		"onehash_education.tasks.daily"
+    # 	],
+    "daily_long": [
+        "onehash_education.onehash_education.doctype.program_enrollment.program_enrollment.update_program_enrollment_status"
+    ],
+    # 	"weekly": [
+    # 		"onehash_education.tasks.weekly"
+    # 	],
+    # 	"monthly": [
+    # 		"onehash_education.tasks.monthly"
+    # 	],
+}
 
 # Testing
 # -------
