@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/assets/education/frontend/ && yarn copy-html-entry",
+    "build": "vite build --base=/assets/onehash_education/frontend/ && yarn copy-html-entry",
     "preview": "vite preview",
     "copy-html-entry": "cp ../onehash_education/public/frontend/index.html ../onehash_education/www/student-portal.html"
   },
