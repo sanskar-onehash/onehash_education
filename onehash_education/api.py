@@ -119,6 +119,7 @@ def get_students():
                 "student_name",
             ],
             filters={"user_id": user, "enabled": 1},
+            order_by="creation asc",
         )
 
     applicants = frappe.db.get_list(
@@ -130,6 +131,7 @@ def get_students():
             "applicant_name as student_name",
         ],
         filters={"student_user": user, "enrolled": 0},
+        order_by="creation asc",
     )
     for applicant in applicants:
         applicant["is_applicant"] = True
