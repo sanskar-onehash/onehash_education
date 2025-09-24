@@ -177,7 +177,10 @@ def get_customer_transactions(customer, page_length=20, page=0):
             PaymentEntry.name.as_("receipt"),
             PaymentEntry.posting_date.as_("payment_date"),
         )
-        .where(((SalesInvoice.status != "Paid") | (PaymentEntry.name.isnotnull())))
+        .where(
+            (SalesInvoice.docstatus == 1)
+            & ((SalesInvoice.status != "Paid") | (PaymentEntry.name.isnotnull()))
+        )
         .orderby(SalesInvoice.creation, order=Order.desc)
         .limit(page_length)
         .offset(page)
