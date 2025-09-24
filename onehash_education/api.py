@@ -105,17 +105,35 @@ def get_user_info():
 @frappe.whitelist()
 def get_students():
     user = frappe.session.user
-    students = frappe.db.get_list(
-        "Student",
+    user_roles = frappe.get_roles()
+    students = []
+
+    if "Student" in user_roles:
+        students = frappe.db.get_list(
+            "Student",
+            fields=[
+                "customer",
+                "name",
+                "student_applicant",
+                "student_image",
+                "student_name",
+            ],
+            filters={"user_id": user, "enabled": 1},
+        )
+
+    applicants = frappe.db.get_list(
+        "Student Applicant",
         fields=[
             "customer",
-            "name",
-            "student_applicant",
+            "name as student_applicant",
             "student_image",
-            "student_name",
+            "applicant_name as student_name",
         ],
-        filters={"user_id": user, "enabled": 1},
+        filters={"student_user": user, "enrolled": 0},
     )
+    for applicant in applicants:
+        applicant["is_applicant"] = True
+    students.extend(applicants)
 
     return students
 
@@ -130,6 +148,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
     Customer = frappe.qb.DocType("Customer")
     SalesInvoice = frappe.qb.DocType("Sales Invoice")
     PaymentEntryReference = frappe.qb.DocType("Payment Entry Reference")
+    PaymentEntry = frappe.qb.DocType("Payment Entry")
 
     transactions = (
         frappe.qb.from_(SalesInvoice)
@@ -141,22 +160,37 @@ def get_customer_transactions(customer, page_length=20, page=0):
             & (PaymentEntryReference.parenttype == "Payment Entry")
             & (SalesInvoice.name == PaymentEntryReference.reference_name)
         )
+        .left_join(PaymentEntry)
+        .on(
+            (PaymentEntry.docstatus == 1)
+            & (PaymentEntry.name == PaymentEntryReference.parent)
+        )
         .select(
             SalesInvoice.name.as_("invoice"),
             SalesInvoice.currency,
             SalesInvoice.due_date,
             SalesInvoice.status,
             SalesInvoice.outstanding_amount,
-            SalesInvoice.grand_total,
+            SalesInvoice.grand_total.as_("amount"),
             SalesInvoice.custom_academic_year.as_("academic_year"),
             SalesInvoice.custom_year_group.as_("year_group"),
-            PaymentEntryReference.parent.as_("receipt"),
+            PaymentEntry.name.as_("receipt"),
+            PaymentEntry.posting_date.as_("payment_date"),
         )
+        .where(((SalesInvoice.status != "Paid") | (PaymentEntry.name.isnotnull())))
         .orderby(SalesInvoice.creation, order=Order.desc)
         .limit(page_length)
         .offset(page)
         .run(as_dict=True)
     )
+
+    for transaction in transactions:
+        if transaction.amount and transaction.currency:
+            transaction["formatted_amount"] = frappe_utils.fmt_money(
+                transaction.amount, currency=transaction.currency
+            )
+        else:
+            transaction["formatted_amount"] = transaction.amount
 
     return {
         "transactions": transactions,

@@ -40,13 +40,6 @@
             icon-left="download"
             label="Download Invoice"
           />
-          <Button
-            v-if="column.key === 'invoice' && row.status !== 'Paid'"
-            @click="payInvoice(row)"
-            class="hover:bg-gray-900 hover:text-white flex flex-column items-center justify-center"
-            icon-left="credit-card"
-            label="Pay Now"
-          />
 
           <Button
             v-if="column.key === 'receipt' && row.status === 'Paid'"
@@ -54,6 +47,13 @@
             class="hover:bg-gray-900 hover:text-white"
             icon-left="download"
             label="Download Receipt"
+          />
+          <Button
+            v-if="column.key === 'receipt' && row.status !== 'Paid'"
+            @click="payInvoice(row)"
+            class="hover:bg-gray-900 hover:text-white flex flex-column items-center justify-center"
+            icon-left="credit-card"
+            label="Pay Now"
           />
         </ListRowItem>
       </ListRow>
@@ -79,18 +79,18 @@ import {
 import { studentStore } from '@/stores/student'
 import MissingData from '@/components/MissingData.vue'
 
-const { getStudentInfo } = studentStore()
-let studentInfo = getStudentInfo().value
+const { getCurrentStudentInfo } = studentStore()
+let currentStudentInfo = getCurrentStudentInfo().value
 
 const feesResource = createResource({
   url: 'onehash_education.api.get_customer_transactions',
   params: {
-    customer: studentInfo.customer,
+    customer: currentStudentInfo.customer,
   },
   onSuccess: (response) => {
     invoiceFormat = response?.invoice_format
     receiptFormat = response?.receipt_format
-    const transactions = (response?.invoices || []).sort((a, b) => {
+    const transactions = (response?.transactions || []).sort((a, b) => {
       const statusOrder = { Overdue: 0, Unpaid: 1, 'Partly Paid': 2, Paid: 3 }
 
       const statusA = statusOrder[a.status]
@@ -109,8 +109,8 @@ const tableData = reactive({
   rows: [],
   columns: [
     {
-      label: 'Program',
-      key: 'program',
+      label: 'Year Group',
+      key: 'year_group',
       width: 1,
     },
     {
@@ -130,7 +130,7 @@ const tableData = reactive({
     },
     {
       label: 'Amount',
-      key: 'amount',
+      key: 'formatted_amount',
       width: 1,
     },
     {
