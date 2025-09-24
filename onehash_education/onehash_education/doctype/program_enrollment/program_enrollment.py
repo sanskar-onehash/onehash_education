@@ -86,6 +86,54 @@ def get_students(doctype, txt, searchfield, start, page_len, filters):
     )
 
 
+@frappe.whitelist()
+def get_active_enrollment(student):
+    if not student:
+        frappe.throw("Student ID is required")
+
+    current_date = utils.getdate()
+
+    result = frappe.db.sql(
+        """
+        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year
+        FROM `tabProgram Enrollment` pe
+        JOIN `tabAcademic Year` ay ON pe.academic_year = ay.name
+        WHERE pe.student = %s
+        AND %s BETWEEN ay.year_start_date AND ay.year_end_date
+        ORDER BY ay.year_start_date ASC
+        LIMIT 1
+    """,
+        (student, current_date),
+        as_dict=True,
+    )
+
+    return result[0] if result else None
+
+
+@frappe.whitelist()
+def get_nearest_enrollment(student):
+    if not student:
+        frappe.throw("Student ID is required")
+
+    current_date = utils.getdate()
+
+    result = frappe.db.sql(
+        """
+        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year
+        FROM `tabProgram Enrollment` pe
+        JOIN `tabAcademic Year` ay ON pe.academic_year = ay.name
+        WHERE pe.student = %s
+        AND ay.year_start_date > %s
+        ORDER BY ay.year_start_date ASC
+        LIMIT 1
+    """,
+        (student, current_date),
+        as_dict=True,
+    )
+
+    return result[0] if result else None
+
+
 def update_program_enrollment_status():
     now_date = utils.getdate()
     doc_updates = {}
