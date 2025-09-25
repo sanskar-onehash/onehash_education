@@ -12,7 +12,7 @@
         v-for="(invoice, idx) in invoices"
         :key="invoice.id"
         class="border shadow-sm"
-        @click="toggleInvoiceSelection(invoice)"
+        @click="handleInvoiceCardClick(invoice)"
       >
         <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
           <div class="flex items-center space-x-3">
@@ -180,6 +180,15 @@ onMounted(() => {
   externalScriptApiStore.currentPage = 'pay-fee'
   calculateTotal()
 })
+
+function handleInvoiceCardClick(invoice) {
+  const selection = window.getSelection()
+  if (selection && selection.toString().length > 0) {
+    return
+  }
+
+  toggleInvoiceSelection(invoice)
+}
 
 function formatCurrency(val, cur) {
   return new Intl.NumberFormat('en-IN', {
