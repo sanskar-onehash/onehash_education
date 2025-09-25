@@ -53,6 +53,11 @@ class ProgramEnrollmentTool(Document):
 
     @frappe.whitelist()
     def enroll_students(self):
+        if not self.students:
+            frappe.throw("No Students found to enroll.")
+        if not self.new_academic_terms:
+            frappe.throw("No Academic Term found to enroll in.")
+
         total = len(self.students)
         for i, student in enumerate(self.students):
             frappe.publish_realtime(
@@ -80,27 +85,15 @@ class ProgramEnrollmentTool(Document):
                 call_whitelisted_function(
                     "onehash_education.api.enroll_student",
                     applicant_name=student.student_applicant,
+                    terms=[term.academic_term for term in self.new_academic_terms],
                 )
 
-                prog_enrollment = frappe.get_doc(
-                    "Program Enrollment", frappe.response["message"]
-                )
-                prog_enrollment.academic_year = self.academic_year
-
-                if self.new_academic_terms:
-                    for academic_term in self.new_academic_terms or []:
-                        prog_enrollment.append(
-                            "academic_terms",
-                            {"academic_term": academic_term.academic_term},
-                        )
-                elif self.academic_term:
-                    prog_enrollment.append(
-                        "academic_terms",
-                        {"academic_term": self.academic_term},
+                for program_enrolled in frappe.response["message"]:
+                    prog_enrollment = frappe.get_doc(
+                        "Program Enrollment", program_enrolled
                     )
-
-                prog_enrollment.enrollment_date = self.enrollment_date
-
-                prog_enrollment.save()
+                    prog_enrollment.academic_year = self.academic_year
+                    prog_enrollment.enrollment_date = self.enrollment_date
+                    prog_enrollment.save()
         frappe.msgprint(_("{0} Students have been enrolled").format(total))
         frappe.response["message"] = "success"

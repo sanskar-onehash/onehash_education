@@ -14,8 +14,9 @@
   "column_break_mzzv",
   "year_group",
   "academic_year",
-  "academic_terms",
-  "enrollment_date"
+  "academic_term",
+  "enrollment_date",
+  "created_by_enrollment_tool"
  ],
  "fields": [
   {
@@ -73,12 +74,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "academic_terms",
-   "fieldtype": "Table MultiSelect",
-   "label": "Academic Terms",
-   "options": "Academic Terms"
-  },
-  {
    "fieldname": "sales_invoice",
    "fieldtype": "Link",
    "label": "Sales Invoice",
@@ -91,12 +86,25 @@
    "label": "Status",
    "options": "\nUpcoming\nActive\nExpired",
    "read_only": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term"
+  },
+  {
+   "default": "0",
+   "fieldname": "created_by_enrollment_tool",
+   "fieldtype": "Check",
+   "label": "Created by Enrollment Tool",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-24 15:58:20.270023",
+ "modified": "2025-09-25 11:52:10.136689",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment",

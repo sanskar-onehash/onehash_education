@@ -111,13 +111,14 @@
    "fieldtype": "Table MultiSelect",
    "label": "New Academic Terms",
    "mandatory_depends_on": "eval:doc.get_students_from==\"Program Enrollment\";",
-   "options": "Academic Terms"
+   "options": "Academic Terms",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-23 12:13:38.735850",
+ "modified": "2025-09-25 11:47:22.259577",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment Tool",

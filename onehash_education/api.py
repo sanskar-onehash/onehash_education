@@ -39,10 +39,16 @@ def get_admission_years_and_groups():
 
 
 @frappe.whitelist()
-def enroll_student(applicant_name):
+def enroll_student(applicant_name, terms):
     frappe.publish_realtime(
         "enroll_student_progress", {"progress": [1, 4]}, user=frappe.session.user
     )
+
+    if isinstance(terms, str):
+        terms = frappe.parse_json(terms)
+    if not terms:
+        frappe.throw("Terms are required")
+
     student_applicant = frappe.db.get_value(
         "Student Applicant",
         applicant_name,
@@ -72,20 +78,25 @@ def enroll_student(applicant_name):
     student.customer = student_applicant.customer
     student.save()
 
-    program_enrollment = frappe.new_doc("Program Enrollment")
-    program_enrollment.student = student.name
-    program_enrollment.student_name = student.student_name
-    program_enrollment.year_group = student_applicant.year_group
-    program_enrollment.academic_year = student_applicant.academic_year
-    program_enrollment.enrollment_date = frappe_utils.nowdate()
-    program_enrollment.save()
+    program_enrollments = []
+    for term in terms:
+        program_enrollment = frappe.new_doc("Program Enrollment")
+        program_enrollment.student = student.name
+        program_enrollment.student_name = student.student_name
+        program_enrollment.year_group = student_applicant.year_group
+        program_enrollment.academic_year = student_applicant.academic_year
+        program_enrollment.academic_term = term
+        program_enrollment.enrollment_date = frappe_utils.nowdate()
+        program_enrollment.created_by_enrollment_tool = True
+        program_enrollment.save()
+        program_enrollments.append(program_enrollment.name)
 
     frappe.db.set_value("Student Applicant", applicant_name, "enrolled", 1)
     frappe.publish_realtime(
         "enroll_student_progress", {"progress": [2, 4]}, user=frappe.session.user
     )
 
-    frappe.response["message"] = program_enrollment.name
+    frappe.response["message"] = program_enrollments
 
 
 @frappe.whitelist()
