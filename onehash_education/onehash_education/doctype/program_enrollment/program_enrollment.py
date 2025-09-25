@@ -25,11 +25,11 @@ class ProgramEnrollment(Document):
 
     def set_status(self):
         current_date = utils.getdate()
-        academic_year_doc = frappe.get_doc("Academic Year", self.academic_year)
+        academic_term_doc = frappe.get_doc("Academic Term", self.academic_term)
 
-        if academic_year_doc.year_start_date > current_date:
+        if academic_term_doc.term_start_date > current_date:
             self.status = "Upcoming"
-        elif academic_year_doc.year_end_date < current_date:
+        elif academic_term_doc.term_end_date < current_date:
             self.status = "Expired"
         else:
             self.status = "Active"
@@ -95,12 +95,12 @@ def get_active_enrollment(student):
 
     result = frappe.db.sql(
         """
-        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year
+        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year, pe.academic_term
         FROM `tabProgram Enrollment` pe
-        JOIN `tabAcademic Year` ay ON pe.academic_year = ay.name
+        JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
-        AND %s BETWEEN ay.year_start_date AND ay.year_end_date
-        ORDER BY ay.year_start_date ASC
+        AND %s BETWEEN at.term_start_date AND at.term_end_date
+        ORDER BY at.term_start_date ASC
         LIMIT 1
     """,
         (student, current_date),
@@ -119,12 +119,12 @@ def get_nearest_enrollment(student):
 
     result = frappe.db.sql(
         """
-        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year
+        SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year, pe.academic_term
         FROM `tabProgram Enrollment` pe
-        JOIN `tabAcademic Year` ay ON pe.academic_year = ay.name
+        JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
-        AND ay.year_start_date > %s
-        ORDER BY ay.year_start_date ASC
+        AND at.term_start_date > %s
+        ORDER BY at.term_start_date ASC
         LIMIT 1
     """,
         (student, current_date),
@@ -139,31 +139,31 @@ def update_program_enrollment_status():
     doc_updates = {}
 
     ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
-    AcademicYear = frappe.qb.DocType("Academic Year")
+    AcademicTerm = frappe.qb.DocType("Academic Term")
 
     pes_to_update = (
         frappe.qb.from_(ProgramEnrollment)
-        .join(AcademicYear)
-        .on(AcademicYear.name == ProgramEnrollment.academic_year)
+        .join(AcademicTerm)
+        .on(AcademicTerm.name == ProgramEnrollment.academic_term)
         .select(
             ProgramEnrollment.name,
             ProgramEnrollment.status,
-            AcademicYear.year_start_date,
-            AcademicYear.year_end_date,
+            AcademicTerm.term_start_date,
+            AcademicTerm.term_end_date,
         )
         .where(
             (
                 (ProgramEnrollment.status != "Upcoming")
-                & (AcademicYear.year_start_date > now_date)
+                & (AcademicTerm.term_start_date > now_date)
             )
             | (
                 (ProgramEnrollment.status != "Active")
-                & (AcademicYear.year_start_date < now_date)
-                & (AcademicYear.year_end_date > now_date)
+                & (AcademicTerm.term_start_date < now_date)
+                & (AcademicTerm.term_end_date > now_date)
             )
             | (
                 (ProgramEnrollment.status != "Expired")
-                & (AcademicYear.year_end_date < now_date)
+                & (AcademicTerm.term_end_date < now_date)
             )
         )
         .run(as_dict=True)
@@ -172,9 +172,9 @@ def update_program_enrollment_status():
     for pe_to_update in pes_to_update:
         update = {"status": "Active"}
 
-        if utils.getdate(pe_to_update.year_start_date) > now_date:
+        if utils.getdate(pe_to_update.term_start_date) > now_date:
             update = {"status": "Upcoming"}
-        elif utils.getdate(pe_to_update.year_end_date) < now_date:
+        elif utils.getdate(pe_to_update.term_end_date) < now_date:
             update = {"status": "Expired"}
 
         doc_updates[pe_to_update.name] = update
