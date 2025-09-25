@@ -18,7 +18,8 @@
       </div>
       <Card
         v-for="(invoice, idx) in invoices"
-        :key="invoice.id"
+        :key="invoice.name"
+        :data-invoice-id="invoice.name"
         class="border shadow-sm"
         @click="handleInvoiceCardClick(invoice)"
       >
@@ -31,7 +32,7 @@
               />
             </div>
             <div>
-              <div class="font-medium">Invoice: {{ invoice.id }}</div>
+              <div class="font-medium">Invoice: {{ invoice.name }}</div>
               <div class="text-sm text-gray-500">
                 Due Date: {{ invoice.due_date }}
               </div>
