@@ -1,22 +1,24 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2025-09-23 08:27:41.131145",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_c56a",
+  "naming_series",
   "student",
   "student_name",
   "sales_invoice",
-  "amended_from",
   "status",
   "column_break_mzzv",
   "year_group",
   "academic_year",
   "academic_term",
   "enrollment_date",
-  "created_by_enrollment_tool"
+  "created_by_enrollment_tool",
+  "amended_from"
  ],
  "fields": [
   {
@@ -99,15 +101,25 @@
    "fieldtype": "Check",
    "label": "Created by Enrollment Tool",
    "read_only": 1
+  },
+  {
+   "default": "EDU-ENR-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "\nEDU-ENR-.YYYY.-",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-25 11:52:10.136689",
+ "modified": "2025-09-25 12:03:14.623975",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
