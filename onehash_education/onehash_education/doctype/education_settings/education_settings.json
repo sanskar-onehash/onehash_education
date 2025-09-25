@@ -16,9 +16,7 @@
   "customization_tab",
   "applicant_form_section",
   "web_form_js",
-  "web_form_css",
-  "accounting_tab",
-  "application_items"
+  "web_form_css"
  ],
  "fields": [
   {
@@ -72,17 +70,6 @@
    "options": "CSS"
   },
   {
-   "fieldname": "accounting_tab",
-   "fieldtype": "Tab Break",
-   "label": "Accounting"
-  },
-  {
-   "fieldname": "application_items",
-   "fieldtype": "Table MultiSelect",
-   "label": "Application Items",
-   "options": "Education Items"
-  },
-  {
    "fieldname": "school_college_name_abbreviation",
    "fieldtype": "Data",
    "label": "School / College Name Abbreviation"
@@ -101,7 +88,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-24 08:33:10.720482",
+ "modified": "2025-09-25 05:40:06.738390",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
