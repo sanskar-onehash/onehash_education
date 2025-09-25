@@ -18,4 +18,46 @@ import Sidebar from '@/components/Sidebar.vue'
 import Navbar from '@/components/Navbar.vue'
 import { RouterView } from 'vue-router'
 import { Toasts } from 'frappe-ui'
+import { createResource } from 'frappe-ui'
+import { useExternalScriptApi } from '@/stores/external_script_api'
+
+const stylingResource = createResource({
+  url: 'onehash_education.onehash_education.doctype.education_settings.education_settings.get_portal_css',
+  auto: true,
+  onSuccess: (css) => {
+    const existing = document.getElementById('external-css-style')
+    if (existing) {
+      existing.remove()
+    }
+
+    const style = document.createElement('style')
+    style.id = 'external-css-style'
+    style.innerHTML = css
+    document.head.appendChild(style)
+  },
+  onError: (err) => {
+    console.error('Failed to fetch portal CSS:', err)
+  },
+})
+
+const scriptResource = createResource({
+  url: 'onehash_education.onehash_education.doctype.education_settings.education_settings.get_portal_js',
+  auto: true,
+  onSuccess: (jsCode) => {
+    const externalScriptStore = useExternalScriptApi()
+
+    const context = externalScriptStore
+
+    try {
+      const fn = new Function(jsCode)
+
+      fn(context)
+    } catch (err) {
+      console.error('Failed to execute external JS:', err)
+    }
+  },
+  onError: (err) => {
+    console.error('Failed to fetch portal JS:', err)
+  },
+})
 </script>

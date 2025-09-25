@@ -115,10 +115,12 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { Button, Card, Checkbox, createResource, Dialog } from 'frappe-ui'
 import { studentStore } from '@/stores/student'
+import { useExternalScriptApi } from '@/stores/external_script_api'
 import MissingData from '@/components/MissingData.vue'
 
 const { getCurrentStudentInfo } = studentStore()
 let currentStudentInfo = getCurrentStudentInfo().value
+const externalScriptApiStore = useExternalScriptApi()
 
 let invoices = reactive([])
 
@@ -168,13 +170,14 @@ function onPayNow() {
     return
   }
 
-  console.log(
-    'Proceed to pay invoices:',
-    selectedInvoices.value.map((i) => i.id),
-  )
+  externalScriptApiStore.emit('pay-now', {
+    invoices: selectedInvoices,
+    student: currentStudentInfo,
+  })
 }
 
 onMounted(() => {
+  externalScriptApiStore.currentPage = 'pay-fee'
   calculateTotal()
 })
 

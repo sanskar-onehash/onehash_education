@@ -16,7 +16,10 @@
   "customization_tab",
   "applicant_form_section",
   "web_form_js",
-  "web_form_css"
+  "web_form_css",
+  "student_portal_section",
+  "portal_js",
+  "portal_css"
  ],
  "fields": [
   {
@@ -82,13 +85,29 @@
   {
    "fieldname": "column_break_vywu",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student_portal_section",
+   "fieldtype": "Section Break",
+   "label": "Student Portal"
+  },
+  {
+   "fieldname": "portal_js",
+   "fieldtype": "Code",
+   "label": "Portal JS",
+   "options": "JS"
+  },
+  {
+   "fieldname": "portal_css",
+   "fieldtype": "Code",
+   "label": "Portal CSS"
   }
  ],
  "image_field": "school_college_logo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-25 05:40:06.738390",
+ "modified": "2025-09-25 06:16:01.952500",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
