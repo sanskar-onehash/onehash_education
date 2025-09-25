@@ -12,13 +12,16 @@
         v-for="(invoice, idx) in invoices"
         :key="invoice.id"
         class="border shadow-sm"
+        @click="toggleInvoiceSelection(invoice)"
       >
         <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
           <div class="flex items-center space-x-3">
-            <Checkbox
-              v-model="invoice.selected"
-              @update:model-value="calculateTotal"
-            />
+            <div @click.stop>
+              <Checkbox
+                v-model="invoice.selected"
+                @update:model-value="calculateTotal"
+              />
+            </div>
             <div>
               <div class="font-medium">Invoice: {{ invoice.id }}</div>
               <div class="text-sm text-gray-500">
@@ -85,11 +88,32 @@
       />
     </div>
   </div>
+  <Dialog
+    v-model="showNoSelectionDialog"
+    :options="{
+      title: 'No Invoices Selected',
+      message: 'Please select at least one invoice to proceed with payment.',
+      size: 'md',
+      icon: {
+        name: 'alert-triangle',
+        appearance: 'warning',
+      },
+      actions: [
+        {
+          label: 'OK',
+          variant: 'solid',
+          onClick: () => {
+            showNoSelectionDialog = false
+          },
+        },
+      ],
+    }"
+  />
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { Button, Card, Checkbox, createResource } from 'frappe-ui'
+import { Button, Card, Checkbox, createResource, Dialog } from 'frappe-ui'
 import { studentStore } from '@/stores/student'
 import MissingData from '@/components/MissingData.vue'
 
@@ -100,6 +124,7 @@ let invoices = reactive([])
 
 const totalAmount = ref(0)
 const currency = ref('INR')
+const showNoSelectionDialog = ref(false)
 
 const selectedInvoices = computed(() => invoices.filter((inv) => inv.selected))
 
@@ -122,11 +147,9 @@ const invoiceResource = createResource({
   auto: true,
 })
 
-function formatCurrency(val, cur) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: cur || 'INR',
-  }).format(val)
+function toggleInvoiceSelection(invoice) {
+  invoice.selected = !invoice.selected
+  calculateTotal()
 }
 
 function calculateTotal() {
@@ -141,7 +164,7 @@ function calculateTotal() {
 
 function onPayNow() {
   if (selectedInvoices.value.length === 0) {
-    alert('Please select at least one invoice to pay.')
+    showNoSelectionDialog.value = true
     return
   }
 
@@ -154,6 +177,13 @@ function onPayNow() {
 onMounted(() => {
   calculateTotal()
 })
+
+function formatCurrency(val, cur) {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: cur || 'INR',
+  }).format(val)
+}
 </script>
 
 <style scoped></style>
