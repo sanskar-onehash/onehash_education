@@ -8,6 +8,14 @@
     />
 
     <div v-else class="space-y-4">
+      <div class="flex justify-end">
+        <Button
+          :label="areAllSelected ? 'Unselect All' : 'Select All'"
+          variant="outline"
+          size="sm"
+          @click="toggleSelectAll"
+        />
+      </div>
       <Card
         v-for="(invoice, idx) in invoices"
         :key="invoice.id"
@@ -129,6 +137,9 @@ const currency = ref('INR')
 const showNoSelectionDialog = ref(false)
 
 const selectedInvoices = computed(() => invoices.filter((inv) => inv.selected))
+const areAllSelected = computed(() => {
+  return invoices.length > 0 && invoices.every((inv) => inv.selected)
+})
 
 const invoiceResource = createResource({
   url: 'onehash_education.api.get_invoices_to_pay',
@@ -151,6 +162,12 @@ const invoiceResource = createResource({
 
 function toggleInvoiceSelection(invoice) {
   invoice.selected = !invoice.selected
+  calculateTotal()
+}
+
+function toggleSelectAll() {
+  const newValue = !areAllSelected.value
+  invoices.forEach((inv) => (inv.selected = newValue))
   calculateTotal()
 }
 
