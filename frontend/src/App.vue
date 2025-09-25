@@ -46,12 +46,12 @@ const scriptResource = createResource({
   onSuccess: (jsCode) => {
     const externalScriptStore = useExternalScriptApi()
 
-    const context = externalScriptStore
+    const ctx = externalScriptStore
 
     try {
-      const fn = new Function(jsCode)
+      const fn = new Function('ctx', jsCode)
 
-      fn(context)
+      fn(ctx)
     } catch (err) {
       console.error('Failed to execute external JS:', err)
     }
