@@ -60,6 +60,8 @@ def enroll_student(applicant_name, terms):
             "last_name",
             "applicant_name",
             "student_image",
+            "student_user",
+            "customer",
         ],
         as_dict=True,
     )
