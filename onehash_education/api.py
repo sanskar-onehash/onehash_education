@@ -265,7 +265,7 @@ def get_invoices_to_pay(customer):
     last_invoice = None
     for invoice in invoices:
 
-        if last_invoice and invoice["name"] != invoice.name:
+        if last_invoice and invoice.name != last_invoice["name"]:
             grouped_invoices.append(last_invoice)
             last_invoice = None
 
