@@ -1,8 +1,8 @@
-import { toast } from 'frappe-ui'
+import { toast, createResource } from 'frappe-ui'
 
-export function createToast(options) {
-  toast({
-    position: 'bottom-right',
-    ...options,
-  })
+export { toast, createResource }
+
+export default {
+  toast,
+  createResource,
 }

@@ -1,3 +1,4 @@
+import utils from '@/utils'
 import { defineStore } from 'pinia'
 
 export const useExternalScriptApi = defineStore('externalScriptApi', {
@@ -6,6 +7,7 @@ export const useExternalScriptApi = defineStore('externalScriptApi', {
     api: {},
     currentPage: null,
     events: {},
+    utils,
   }),
   actions: {
     add_data(key, data) {
