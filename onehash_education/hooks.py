@@ -70,6 +70,13 @@ web_include_js = "onehash_education-web.bundle.js"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+# Routes
+# ----------
+
+website_route_rules = [
+    {"from_route": "/student-portal/<path:app_path>", "to_route": "student-portal"},
+]
+
 # Jinja
 # ----------
 
