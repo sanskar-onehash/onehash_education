@@ -39,7 +39,7 @@ class ProgramEnrollment(Document):
             "Program Enrollment",
             {
                 "student": self.student,
-                "program": self.program,
+                "year_group": self.year_group,
                 "academic_year": self.academic_year,
                 "academic_term": self.academic_term,
                 "docstatus": ("<", 2),
