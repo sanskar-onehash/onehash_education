@@ -10,4 +10,4 @@ class AcademicTerm(Document):
     def before_insert(self):
 
         if not self.title:
-            self.update({"title": f"{self.academic_year} ({self.term_name})"})
+            self.update({"title": f"{self.term_name} ({self.academic_year})"})
