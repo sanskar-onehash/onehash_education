@@ -171,7 +171,7 @@ function onPayNow() {
   }
 
   externalScriptApiStore.emit('pay-now', {
-    invoices: selectedInvoices,
+    invoices: selectedInvoices.value,
     student: currentStudentInfo,
   })
 }
