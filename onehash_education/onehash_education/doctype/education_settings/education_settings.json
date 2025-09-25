@@ -100,14 +100,15 @@
   {
    "fieldname": "portal_css",
    "fieldtype": "Code",
-   "label": "Portal CSS"
+   "label": "Portal CSS",
+   "options": "CSS"
   }
  ],
  "image_field": "school_college_logo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-25 06:16:01.952500",
+ "modified": "2025-09-25 08:59:53.936289",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
