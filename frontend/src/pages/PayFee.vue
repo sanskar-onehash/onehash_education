@@ -126,6 +126,8 @@ import { studentStore } from '@/stores/student'
 import { useExternalScriptApi } from '@/stores/external_script_api'
 import MissingData from '@/components/MissingData.vue'
 
+const PAGE_NAME = 'pay-fee'
+
 const { getCurrentStudentInfo } = studentStore()
 let currentStudentInfo = getCurrentStudentInfo().value
 const externalScriptApiStore = useExternalScriptApi()
@@ -194,8 +196,10 @@ function onPayNow() {
 }
 
 onMounted(() => {
-  externalScriptApiStore.currentPage = 'pay-fee'
   calculateTotal()
+
+  externalScriptApiStore.currentPage = PAGE_NAME
+  externalScriptApiStore.emit('mounted', PAGE_NAME)
 })
 
 function handleInvoiceCardClick(invoice) {
