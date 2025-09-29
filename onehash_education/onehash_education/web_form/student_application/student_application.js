@@ -6,6 +6,11 @@ frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
 frappe.boot.sysdefaults.link_field_results_limit = 50;
 
 const LOCAL_STORAGE_DOC_KEY = "custom_doc";
+const ATTACHMENT_FIELDS = ["Attach", "Attach Image"];
+const FILE_UPLOAD_OPTIONS = {
+  disable_file_browser: true,
+  make_attachments_public: true,
+};
 
 async function fixLanguages() {
   for (let language of frappe.web_form.doc.language_proficiency || []) {
@@ -104,8 +109,10 @@ frappe.ready(function () {
 
   function setupForm() {
     setupFormUI();
+    setupAttachFields();
 
     loadFromLocalStorage();
+    setupFields();
 
     refreshLinkFilters();
     refreshCalculatedFields();
@@ -301,6 +308,18 @@ frappe.ready(function () {
       $(".save-btn-custom").show();
       $(".submit-btn-custom").show();
     }
+  }
+
+  function setupFields() {
+    frm.set_df_property("year_group", "hidden", !frm.doc.academic_year);
+  }
+
+  function setupAttachFields() {
+    frm.fields_list.forEach((field) => {
+      if (ATTACHMENT_FIELDS.includes(field.df.fieldtype)) {
+        field.df.options = FILE_UPLOAD_OPTIONS;
+      }
+    });
   }
 
   function runCustomScript() {
@@ -504,15 +523,15 @@ frappe.ready(function () {
     await triggerBeforeSubmit(frm);
     await frm.set_value("submitted", 1);
     try {
-      handleSave();
+      await handleSave();
     } catch (err) {
       await frm.set_value("submitted", 0);
     }
   }
 
-  function handleSave() {
+  async function handleSave() {
     clearLocalStorageDoc();
-    setFormCompletion(frm);
+    await setFormCompletion(frm);
     $submitBtn.click();
   }
 
@@ -553,7 +572,7 @@ function clearLocalStorageDoc() {
   window.localStorage.removeItem(LOCAL_STORAGE_DOC_KEY);
 }
 
-function setFormCompletion(frm) {
+async function setFormCompletion(frm) {
   let totalFields = 0.0;
   let filledFields = 0.0;
 
@@ -574,5 +593,5 @@ function setFormCompletion(frm) {
     }
   }
 
-  frm.set_value("form_completion", (filledFields / totalFields) * 100);
+  await frm.set_value("form_completion", (filledFields / totalFields) * 100);
 }

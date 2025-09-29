@@ -191,6 +191,14 @@ html {
   color: var(--white);
 }
 
+.submit-btn {
+  display: none !important;
+}
+
+.modal-dialog[role="document"] .modal-footer .btn-secondary {
+  display: none !important;
+}
+
 /* Section Divider */
 
 .form-section {
@@ -603,6 +611,9 @@ html {
 }
 .attachments .attachment:hover .file-name span {
   text-decoration: underline;
+}
+.file-preview .frappe-checkbox:nth-child(2) {
+  display: none !important;
 }
 .success-page {
   border: 2px solid var(--accent);
