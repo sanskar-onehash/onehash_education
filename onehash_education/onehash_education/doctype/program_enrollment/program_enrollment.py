@@ -10,6 +10,7 @@ class ProgramEnrollment(Document):
     def validate(self):
         self.set_student_name()
         self.validate_duplication()
+        self.validate_acadmic_term()
 
     def before_save(self):
         self.set_status()
@@ -48,6 +49,11 @@ class ProgramEnrollment(Document):
         )
         if enrollment:
             frappe.throw(frappe._("Student is already enrolled."))
+
+    def validate_acadmic_term(self):
+        frappe.get_doc("Academic Term", self.academic_term).validate_term_date_range(
+            self.academic_year
+        )
 
 
 @frappe.whitelist()

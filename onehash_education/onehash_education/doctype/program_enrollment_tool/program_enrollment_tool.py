@@ -11,40 +11,45 @@ class ProgramEnrollmentTool(Document):
     @frappe.whitelist()
     def get_students(self):
         students = []
+
         if not self.get_students_from:
             frappe.throw(_("Mandatory field - Get Students From"))
         elif not self.year_group:
             frappe.throw(_("Mandatory field - Year Group"))
         elif not self.academic_year:
             frappe.throw(_("Mandatory field - Academic Year"))
-        else:
-            if self.get_students_from == "Student Applicant":
-                students = frappe.db.sql(
-                    """select name as student_applicant, applicant_name as student_name from `tabStudent Applicant`
-					where enrolled=0 and year_group=%(year_group)s and academic_year=%(academic_year)s""",
-                    self.as_dict(),
-                    as_dict=1,
-                )
-            elif self.get_students_from == "Program Enrollment":
-                AcademicTerms = frappe.qb.DocType("Academic Terms")
-                ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
-                Student = frappe.qb.DocType("Student")
+        elif self.acadmic_term:
+            frappe.get_doc("Acadmic Term", self.academic_term).validate_term_date_range(
+                self.academic_year
+            )
 
-                students = (
-                    frappe.qb.from_(ProgramEnrollment)
-                    .join(AcademicTerms)
-                    .on(AcademicTerms.parent == ProgramEnrollment.name)
-                    .join(Student)
-                    .on(Student.name == ProgramEnrollment.student)
-                    .where(
-                        (ProgramEnrollment.year_group == self.year_group)
-                        & (ProgramEnrollment.academic_year == self.academic_year)
-                        & (ProgramEnrollment.docstatus != 2)
-                        & (AcademicTerms.academic_term == self.academic_term)
-                        & (Student.enabled == 1)
-                    )
-                    .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
-                ).run(as_dict=True)
+        if self.get_students_from == "Student Applicant":
+            students = frappe.db.sql(
+                """select name as student_applicant, applicant_name as student_name from `tabStudent Applicant`
+                where enrolled=0 and year_group=%(year_group)s and academic_year=%(academic_year)s""",
+                self.as_dict(),
+                as_dict=1,
+            )
+        elif self.get_students_from == "Program Enrollment":
+            AcademicTerms = frappe.qb.DocType("Academic Terms")
+            ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
+            Student = frappe.qb.DocType("Student")
+
+            students = (
+                frappe.qb.from_(ProgramEnrollment)
+                .join(AcademicTerms)
+                .on(AcademicTerms.parent == ProgramEnrollment.name)
+                .join(Student)
+                .on(Student.name == ProgramEnrollment.student)
+                .where(
+                    (ProgramEnrollment.year_group == self.year_group)
+                    & (ProgramEnrollment.academic_year == self.academic_year)
+                    & (ProgramEnrollment.docstatus != 2)
+                    & (AcademicTerms.academic_term == self.academic_term)
+                    & (Student.enabled == 1)
+                )
+                .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
+            ).run(as_dict=True)
 
         if students:
             return students
