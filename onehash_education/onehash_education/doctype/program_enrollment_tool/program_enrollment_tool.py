@@ -19,9 +19,9 @@ class ProgramEnrollmentTool(Document):
         elif not self.academic_year:
             frappe.throw(_("Mandatory field - Academic Year"))
         elif self.academic_term:
-            frappe.get_doc("Academic Term", self.academic_term).validate_term_date_range(
-                self.academic_year
-            )
+            frappe.get_doc(
+                "Academic Term", self.academic_term
+            ).validate_term_date_range(self.academic_year)
 
         if self.get_students_from == "Student Applicant":
             students = frappe.db.sql(
@@ -74,18 +74,19 @@ class ProgramEnrollmentTool(Document):
                 if not self.new_academic_year:
                     frappe.throw("New Academic Year is required.")
 
-                prog_enrollment = frappe.new_doc("Program Enrollment")
-                prog_enrollment.student = student.student
-                prog_enrollment.student_name = student.student_name
-                prog_enrollment.year_group = self.new_year_group
-                prog_enrollment.academic_year = self.new_academic_year
-                for academic_term in self.new_academic_terms or []:
-                    prog_enrollment.append(
-                        "academic_terms", {"academic_term": academic_term.academic_term}
+                for new_academic_term in self.new_academic_terms or []:
+                    prog_enrollment = frappe.new_doc("Program Enrollment")
+                    prog_enrollment.update(
+                        {
+                            "student": student.student,
+                            "student_name": student.student_name,
+                            "year_group": self.new_year_group,
+                            "academic_year": self.new_academic_year,
+                            "academic_term": new_academic_term,
+                            "enrollment_date": self.enrollment_date,
+                        }
                     )
-                prog_enrollment.enrollment_date = self.enrollment_date
-
-                prog_enrollment.save()
+                    prog_enrollment.save()
             elif student.student_applicant:
                 call_whitelisted_function(
                     "onehash_education.api.enroll_student",
