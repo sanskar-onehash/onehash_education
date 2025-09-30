@@ -82,7 +82,7 @@ class ProgramEnrollmentTool(Document):
                             "student_name": student.student_name,
                             "year_group": self.new_year_group,
                             "academic_year": self.new_academic_year,
-                            "academic_term": new_academic_term,
+                            "academic_term": new_academic_term.academic_term,
                             "enrollment_date": self.enrollment_date,
                         }
                     )
