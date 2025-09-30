@@ -62,7 +62,7 @@ frappe.ui.form.on("Program Enrollment Tool", {
             frappe.show_alert({
               indicator: "green",
               message:
-                "Successfully generated the invoices, please check the list and submit them to confirm.",
+                "Successfully enrolled students, please check the list and submit them to confirm.",
             });
           }
         },
