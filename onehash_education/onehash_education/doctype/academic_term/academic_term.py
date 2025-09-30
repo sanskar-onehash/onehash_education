@@ -17,7 +17,7 @@ class AcademicTerm(Document):
 
         self.validate_term_date_range()
 
-    def validate_term_date_range(self, academic_year):
+    def validate_term_date_range(self, academic_year=None):
         if not academic_year:
             academic_year = self.academic_year
 
