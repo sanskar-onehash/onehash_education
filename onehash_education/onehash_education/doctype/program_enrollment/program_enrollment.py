@@ -14,9 +14,11 @@ class ProgramEnrollment(Document):
 
     def before_save(self):
         self.set_status()
+        self.validate()
 
     def before_submit(self):
         self.set_status()
+        self.validate()
 
     def set_student_name(self):
         if not self.student_name:
