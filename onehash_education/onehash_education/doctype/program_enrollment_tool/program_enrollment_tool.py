@@ -18,8 +18,8 @@ class ProgramEnrollmentTool(Document):
             frappe.throw(_("Mandatory field - Year Group"))
         elif not self.academic_year:
             frappe.throw(_("Mandatory field - Academic Year"))
-        elif self.acadmic_term:
-            frappe.get_doc("Acadmic Term", self.academic_term).validate_term_date_range(
+        elif self.academic_term:
+            frappe.get_doc("Academic Term", self.academic_term).validate_term_date_range(
                 self.academic_year
             )
 
