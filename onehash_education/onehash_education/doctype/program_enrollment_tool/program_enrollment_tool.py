@@ -31,21 +31,21 @@ class ProgramEnrollmentTool(Document):
                 as_dict=1,
             )
         elif self.get_students_from == "Program Enrollment":
-            AcademicTerms = frappe.qb.DocType("Academic Terms")
+            if not self.academic_term:
+                frappe.throw(_("Mandatory field - Academic Term"))
+
             ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
             Student = frappe.qb.DocType("Student")
 
             students = (
                 frappe.qb.from_(ProgramEnrollment)
-                .join(AcademicTerms)
-                .on(AcademicTerms.parent == ProgramEnrollment.name)
                 .join(Student)
                 .on(Student.name == ProgramEnrollment.student)
                 .where(
                     (ProgramEnrollment.year_group == self.year_group)
                     & (ProgramEnrollment.academic_year == self.academic_year)
                     & (ProgramEnrollment.docstatus != 2)
-                    & (AcademicTerms.academic_term == self.academic_term)
+                    & (ProgramEnrollment.academic_term == self.academic_term)
                     & (Student.enabled == 1)
                 )
                 .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
