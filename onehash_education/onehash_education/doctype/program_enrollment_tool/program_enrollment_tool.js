@@ -22,27 +22,55 @@ frappe.ui.form.on("Program Enrollment Tool", {
     });
   },
 
-  get_students: function (frm) {
-    frm.set_value("students", []);
-    frappe.call({
-      method: "get_students",
-      doc: frm.doc,
-      callback: function (r) {
-        if (r.message) {
-          frm.set_value("students", r.message);
-        }
-      },
-    });
+  get_students: async function (frm) {
+    try {
+      frappe.dom.freeze("Fetching Students...");
+
+      frm.set_value("students", []);
+      await frappe.call({
+        method: "get_students",
+        doc: frm.doc,
+        callback: function (r) {
+          if (r.message) {
+            frm.set_value("students", r.message);
+            frappe.hide_msgprint(true);
+            frappe.show_alert({
+              indicator: "green",
+              message: "Successfully fetched students.",
+            });
+          }
+        },
+      });
+    } catch (error) {
+      frappe.throw(error);
+    } finally {
+      frappe.dom.unfreeze();
+    }
   },
 
-  enroll_students: function (frm) {
-    frappe.call({
-      method: "enroll_students",
-      doc: frm.doc,
-      callback: function (r) {
-        frm.set_value("students", []);
-        frappe.hide_msgprint(true);
-      },
-    });
+  enroll_students: async function (frm) {
+    try {
+      frappe.dom.freeze("Enrolling Students...");
+
+      await frappe.call({
+        method: "enroll_students",
+        doc: frm.doc,
+        callback: function (r) {
+          if (r.message) {
+            frm.set_value("students", []);
+            frappe.hide_msgprint(true);
+            frappe.show_alert({
+              indicator: "green",
+              message:
+                "Successfully generated the invoices, please check the list and submit them to confirm.",
+            });
+          }
+        },
+      });
+    } catch (error) {
+      frappe.throw(error);
+    } finally {
+      frappe.dom.unfreeze();
+    }
   },
 });
