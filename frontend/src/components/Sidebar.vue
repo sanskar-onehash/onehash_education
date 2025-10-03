@@ -43,8 +43,12 @@
 <script setup>
 import { useStorage } from '@vueuse/core'
 import SidebarLink from '@/components/SidebarLink.vue'
-import { Banknote, ArrowLeftToLine, Wallet } from 'lucide-vue-next'
-
+import {
+  Banknote,
+  ArrowLeftToLine,
+  Wallet,
+  ClipboardList,
+} from 'lucide-vue-next'
 import UserDropdown from './UserDropdown.vue'
 import { createResource } from 'frappe-ui'
 
@@ -58,6 +62,11 @@ const links = [
     label: 'Transactions',
     to: '/transactions',
     icon: Banknote,
+  },
+  {
+    label: 'Applications',
+    to: '/applications',
+    icon: ClipboardList,
   },
 ]
 

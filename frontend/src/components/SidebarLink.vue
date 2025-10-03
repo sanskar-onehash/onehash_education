@@ -54,7 +54,11 @@ const props = defineProps({
 })
 
 function handleClick() {
-  router.push(props.to)
+  if (router.currentRoute.value.path === props.to) {
+    router.go(0)
+  } else {
+    router.push(props.to)
+  }
 }
 
 let isActive = computed(() => {

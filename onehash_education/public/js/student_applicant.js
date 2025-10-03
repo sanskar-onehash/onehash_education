@@ -31,6 +31,17 @@ if (window.location.pathname === "/student-application/list") {
   });
 }
 
+if (window.location.pathname.startsWith("/student-application")) {
+	function triggerHeightResize() {
+		const height = document.body.scrollHeight
+		window.parent.postMessage({ height }, '*')
+	}
+
+	window.addEventListener('DOMContentLoaded', triggerHeightResize)
+	window.addEventListener('load', triggerHeightResize)
+	window.addEventListener('resize', triggerHeightResize)
+}
+
 function redirectToStudentApplicationList() {
   window.location.href = window.location.origin + "/student-application/list";
 }

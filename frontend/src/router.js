@@ -14,7 +14,12 @@ const routes = [
     path: '/transactions',
     name: 'Transactions',
     component: () => import('@/pages/Transactions.vue'),
+  },{
+    path: '/applications',
+    name: 'Applications',
+    component: () => import('@/pages/Applications.vue'),
   },
+
   // {
   //   path: '/:catchAll(.*)',
   //   redirect: '/transactions',
