@@ -78,6 +78,7 @@ def enroll_student(applicant_name, terms):
     student.student_applicant = applicant_name
     student.student_image = student_applicant.student_image
     student.customer = student_applicant.customer
+    student.guardian = student_applicant.guardian
     student.save()
 
     program_enrollments = []
