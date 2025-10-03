@@ -77,9 +77,10 @@ def send_student_application(
     last_name,
     student_email,
     middle_name=None,
-    parent_first_name=None,
-    parent_middle_name=None,
-    parent_last_name=None,
+    guardian=None,
+    guardian_first_name=None,
+    guardian_middle_name=None,
+    guardian_last_name=None,
     gender=None,
     birth_date=None,
     phone=None,
@@ -98,9 +99,9 @@ def send_student_application(
             {
                 "doctype": "User",
                 "email": student_email,
-                "first_name": parent_first_name or first_name,
-                "middle_name": parent_middle_name or middle_name,
-                "last_name": parent_last_name or last_name,
+                "first_name": guardian_first_name or first_name,
+                "middle_name": guardian_middle_name or middle_name,
+                "last_name": guardian_last_name or last_name,
                 "gender": gender,
                 "birth_date": birth_date,
                 "phone": phone,
@@ -130,6 +131,7 @@ def send_student_application(
             "gender": gender,
             "date_of_birth": birth_date,
             "student_user": student_user,
+            "guardian": guardian
         }
     ).save()
     frappe.db.set_value(

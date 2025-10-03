@@ -125,8 +125,17 @@
   }
  ],
  "image_field": "image",
- "links": [],
- "modified": "2025-09-07 08:57:22.905520",
+ "links": [
+  {
+   "link_doctype": "Student",
+   "link_fieldname": "guardian"
+  },
+  {
+   "link_doctype": "Student Applicant",
+   "link_fieldname": "guardian"
+  }
+ ],
+ "modified": "2025-10-03 11:17:29.907509",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",

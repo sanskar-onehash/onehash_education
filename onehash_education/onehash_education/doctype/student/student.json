@@ -13,6 +13,7 @@
   "middle_name",
   "last_name",
   "student_name",
+  "guardian",
   "column_break_neej",
   "user_id",
   "student_applicant",
@@ -98,12 +99,18 @@
    "label": "Naming Series",
    "options": "\nEDU-STU-.YYYY.-",
    "reqd": 1
+  },
+  {
+   "fieldname": "guardian",
+   "fieldtype": "Link",
+   "label": "Guardian",
+   "options": "Guardian"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 12:01:07.637232",
+ "modified": "2025-10-03 11:00:13.802108",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student",
