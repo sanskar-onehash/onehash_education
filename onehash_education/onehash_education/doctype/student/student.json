@@ -54,6 +54,8 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "student_applicant.student_user",
+   "fetch_if_empty": 1,
    "fieldname": "user_id",
    "fieldtype": "Link",
    "label": "User ID",
@@ -79,6 +81,8 @@
    "read_only": 1
   },
   {
+   "fetch_from": "student_applicant.student_image",
+   "fetch_if_empty": 1,
    "fieldname": "student_image",
    "fieldtype": "Attach Image",
    "hidden": 1,
@@ -86,6 +90,8 @@
    "width": "10"
   },
   {
+   "fetch_from": "student_applicant.customer",
+   "fetch_if_empty": 1,
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer",
@@ -101,6 +107,8 @@
    "reqd": 1
   },
   {
+   "fetch_from": "student_applicant.guardian",
+   "fetch_if_empty": 1,
    "fieldname": "guardian",
    "fieldtype": "Link",
    "label": "Guardian",
@@ -110,10 +118,11 @@
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-03 11:00:13.802108",
+ "modified": "2025-10-03 14:01:52.972915",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
