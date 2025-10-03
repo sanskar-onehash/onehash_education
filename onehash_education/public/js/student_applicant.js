@@ -32,6 +32,11 @@ if (window.location.pathname === "/student-application/list") {
 }
 
 if (window.location.pathname.startsWith("/student-application")) {
+  if (window.self !== window.top) {
+    // Inside Iframe
+    $('.navbar').hide()
+  }
+
 	function triggerHeightResize() {
 		const height = document.body.scrollHeight
 		window.parent.postMessage({ height }, '*')
