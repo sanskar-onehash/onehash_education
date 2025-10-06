@@ -28,6 +28,12 @@
             <div @click.stop>
               <Checkbox
                 v-model="invoice.selected"
+                :disabled="invoice.disabled"
+                :ref="
+                  (el) =>
+                    (checkboxRefs[invoice.name] =
+                      el?.$el?.querySelector('input'))
+                "
                 @update:model-value="calculateTotal"
               />
             </div>
@@ -92,6 +98,7 @@
         icon-left="credit-card"
         variant="solid"
         size="md"
+        id="btn-pay_now"
         :disabled="selectedInvoices.length === 0"
         @click="onPayNow"
       />
@@ -138,10 +145,17 @@ let invoices = reactive([])
 const totalAmount = ref(0)
 const currency = ref('INR')
 const showNoSelectionDialog = ref(false)
+const checkboxRefs = reactive({})
 
 const selectedInvoices = computed(() => invoices.filter((inv) => inv.selected))
 const areAllSelected = computed(() => {
-  return invoices.length > 0 && invoices.every((inv) => inv.selected)
+  return (
+    invoices.length > 0 &&
+    invoices.every((inv) => {
+      const el = checkboxRefs[inv.name]
+      return el?.disabled || inv.selected
+    })
+  )
 })
 
 const invoiceResource = createResource({
@@ -156,6 +170,7 @@ const invoiceResource = createResource({
       ...response.map((invoice) => ({
         ...invoice,
         selected: true,
+        disabled: invoice.payable_amount <= 0,
       })),
     )
     calculateTotal()
@@ -170,7 +185,14 @@ function toggleInvoiceSelection(invoice) {
 
 function toggleSelectAll() {
   const newValue = !areAllSelected.value
-  invoices.forEach((inv) => (inv.selected = newValue))
+
+  invoices.forEach((inv) => {
+    const checkboxEl = checkboxRefs[inv.name]
+    if (checkboxEl && !checkboxEl.disabled) {
+      inv.selected = newValue
+    }
+  })
+
   calculateTotal()
 }
 
