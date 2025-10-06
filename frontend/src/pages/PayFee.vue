@@ -1,5 +1,5 @@
 <template>
-  <div class="px-5 py-6 space-y-6">
+  <div class="px-5 py-6 space-y-6" :id="PAGE_NAME">
     <h2 class="text-2xl font-semibold">Pay Fees</h2>
 
     <MissingData

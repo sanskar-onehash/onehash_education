@@ -1,5 +1,5 @@
 <template>
-  <iframe ref="iframeEl" :src="iframeSrc"></iframe>
+  <iframe id="applications-iframe" ref="iframeEl" :src="iframeSrc"></iframe>
 </template>
 
 <script setup>
