@@ -1,13 +1,18 @@
 <template>
   <div :id="PAGE_NAME">
-    <iframe id="applications-iframe" ref="iframeEl" :src="iframeSrc"></iframe>
+    <iframe
+      id="applications-iframe"
+      ref="iframeEl"
+      :src="iframeSrc"
+      class="w-full min-h-full"
+    ></iframe>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const PAGE_NAME = 'pay-fee'
+const PAGE_NAME = 'applications'
 
 const iframeSrc = ref('')
 const iframeEl = ref(null)
