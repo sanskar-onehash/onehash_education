@@ -1,5 +1,7 @@
 <template>
-  <div class="h-min-[500px]">Home</div>
+  <div class="h-min-[500px]" :id="PAGE_NAME">Home</div>
 </template>
 
-<script setup></script>
+<script setup>
+const PAGE_NAME = 'home'
+</script>

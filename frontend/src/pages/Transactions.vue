@@ -1,67 +1,69 @@
 <template>
-  <div v-if="tableData.rows.length > 0" class="px-5 py-4">
-    <ListView
-      :columns="tableData.columns"
-      :rows="tableData.rows"
-      :options="{
-        selectable: false,
-        showTooltip: false,
-        onRowClick: () => {},
-      }"
-      row-key="id"
-      v-if="tableData.rows.length > 0"
-    >
-      <ListHeader>
-        <ListHeaderItem
-          v-for="column in tableData.columns"
-          :key="column.key"
-          :item="column"
-        />
-      </ListHeader>
-      <ListRow
-        v-for="row in tableData.rows"
-        :key="row.id"
-        :row="row"
-        v-slot="{ column, item }"
+  <div :id="PAGE_NAME">
+    <div v-if="tableData.rows.length > 0" class="px-5 py-4">
+      <ListView
+        :columns="tableData.columns"
+        :rows="tableData.rows"
+        :options="{
+          selectable: false,
+          showTooltip: false,
+          onRowClick: () => {},
+        }"
+        row-key="id"
+        v-if="tableData.rows.length > 0"
       >
-        <ListRowItem :item="item" :align="column.align">
-          <Badge
-            v-if="column.key === 'status'"
-            variant="subtle"
-            :theme="badgeColor(row.status) || 'gray'"
-            size="md"
-            :label="item"
+        <ListHeader>
+          <ListHeaderItem
+            v-for="column in tableData.columns"
+            :key="column.key"
+            :item="column"
           />
+        </ListHeader>
+        <ListRow
+          v-for="row in tableData.rows"
+          :key="row.id"
+          :row="row"
+          v-slot="{ column, item }"
+        >
+          <ListRowItem :item="item" :align="column.align">
+            <Badge
+              v-if="column.key === 'status'"
+              variant="subtle"
+              :theme="badgeColor(row.status) || 'gray'"
+              size="md"
+              :label="item"
+            />
 
-          <Button
-            v-if="column.key === 'invoice'"
-            @click="openInvoicePDF(row)"
-            class="hover:bg-gray-900 hover:text-white"
-            icon-left="download"
-            label="Download Invoice"
-          />
+            <Button
+              v-if="column.key === 'invoice'"
+              @click="openInvoicePDF(row)"
+              class="hover:bg-gray-900 hover:text-white"
+              icon-left="download"
+              label="Download Invoice"
+            />
 
-          <Button
-            v-if="column.key === 'receipt' && row.status === 'Paid'"
-            @click="openReceiptPDF(row)"
-            class="hover:bg-gray-900 hover:text-white"
-            icon-left="download"
-            label="Download Receipt"
-          />
-          <Button
-            v-if="column.key === 'receipt' && row.status !== 'Paid'"
-            @click="payInvoice(row)"
-            class="hover:bg-gray-900 hover:text-white flex flex-column items-center justify-center"
-            icon-left="credit-card"
-            label="Pay Now"
-          />
-        </ListRowItem>
-      </ListRow>
-    </ListView>
-  </div>
+            <Button
+              v-if="column.key === 'receipt' && row.status === 'Paid'"
+              @click="openReceiptPDF(row)"
+              class="hover:bg-gray-900 hover:text-white"
+              icon-left="download"
+              label="Download Receipt"
+            />
+            <Button
+              v-if="column.key === 'receipt' && row.status !== 'Paid'"
+              @click="payInvoice(row)"
+              class="hover:bg-gray-900 hover:text-white flex flex-column items-center justify-center"
+              icon-left="credit-card"
+              label="Pay Now"
+            />
+          </ListRowItem>
+        </ListRow>
+      </ListView>
+    </div>
 
-  <div v-else>
-    <MissingData message="No Transactions found" />
+    <div v-else>
+      <MissingData message="No Transactions found" />
+    </div>
   </div>
 </template>
 
@@ -78,6 +80,8 @@ import {
 } from 'frappe-ui'
 import { studentStore } from '@/stores/student'
 import MissingData from '@/components/MissingData.vue'
+
+const PAGE_NAME = 'transactions'
 
 const { getCurrentStudentInfo } = studentStore()
 let currentStudentInfo = getCurrentStudentInfo().value

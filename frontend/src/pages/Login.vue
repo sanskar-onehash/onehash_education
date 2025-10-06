@@ -1,5 +1,5 @@
 <template>
-  <div class="m-3 flex flex-row items-center justify-center">
+  <div class="m-3 flex flex-row items-center justify-center" :id="PAGE_NAME">
     <Card title="Login to your FrappeUI App!" class="w-full max-w-md mt-4">
       <form class="flex flex-col space-y-2 w-full" @submit.prevent="submit">
         <Input
@@ -24,6 +24,8 @@
 
 <script setup>
 import { session } from '@/stores/session'
+
+const PAGE_NAME = 'login'
 
 function submit(e) {
   let formData = new FormData(e.target)

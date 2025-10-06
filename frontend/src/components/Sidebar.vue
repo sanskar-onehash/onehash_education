@@ -2,6 +2,7 @@
   <div
     class="flex h-full flex-col justify-between transition-all duration-300 ease-in-out"
     :class="isSidebarCollapsed ? 'w-12' : 'w-56'"
+    :id="COMPONENT_NAME"
   >
     <div class="flex flex-col overflow-hidden">
       <UserDropdown
@@ -51,6 +52,8 @@ import {
 } from 'lucide-vue-next'
 import UserDropdown from './UserDropdown.vue'
 import { createResource } from 'frappe-ui'
+
+const COMPONENT_NAME = 'sidebar'
 
 const links = [
   {

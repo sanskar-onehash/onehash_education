@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="flex h-screen w-screen">
-      <div class="h-full border-r bg-gray-50">
+    <div class="flex h-screen w-screen" id="page">
+      <div class="h-full border-r bg-gray-50" id="side-content">
         <Sidebar />
       </div>
-      <div class="flex-1 flex flex-col h-full overflow-auto">
-        <Navbar />
+      <div class="flex-1 flex flex-col h-full overflow-auto" id="main-content">
         <router-view class="flex-1 overflow-auto" />
       </div>
     </div>
@@ -15,7 +14,6 @@
 
 <script setup>
 import Sidebar from '@/components/Sidebar.vue'
-import Navbar from '@/components/Navbar.vue'
 import { RouterView } from 'vue-router'
 import { Toasts } from 'frappe-ui'
 import { createResource } from 'frappe-ui'
