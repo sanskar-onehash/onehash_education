@@ -157,11 +157,11 @@ const areAllSelected = computed(() => {
   )
 })
 
-studentStore.$subscribe((mutation, state) => {
+function fetchStudentInvoices() {
   const invoiceResource = createResource({
     url: 'onehash_education.api.get_invoices_to_pay',
     params: {
-      customer: state.currentStudentInfo.customer,
+      customer: studentStore.currentStudentInfo.customer,
     },
     onSuccess: (response) => {
       invoices.splice(
@@ -177,7 +177,10 @@ studentStore.$subscribe((mutation, state) => {
     },
     auto: true,
   })
-})
+}
+
+fetchStudentInvoices()
+studentStore.$subscribe(fetchStudentInvoices)
 
 function toggleInvoiceSelection(invoice) {
   invoice.selected = !invoice.selected

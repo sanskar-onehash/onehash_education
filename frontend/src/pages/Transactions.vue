@@ -87,11 +87,11 @@ const PAGE_NAME = 'transactions'
 const router = useRouter()
 const studentStore = useStudentStore()
 
-studentStore.$subscribe((mutation, state) => {
+function fetchTransactions() {
   const feesResource = createResource({
     url: 'onehash_education.api.get_customer_transactions',
     params: {
-      customer: state.currentStudentInfo.customer,
+      customer: studentStore.currentStudentInfo.customer,
     },
     onSuccess: (response) => {
       invoiceFormat = response?.invoice_format
@@ -110,7 +110,10 @@ studentStore.$subscribe((mutation, state) => {
     },
     auto: true,
   })
-})
+}
+
+fetchTransactions()
+studentStore.$subscribe(fetchTransactions)
 
 const tableData = reactive({
   rows: [],
