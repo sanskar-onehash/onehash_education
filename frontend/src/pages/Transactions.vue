@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import {
   ListView,
   ListHeader,
@@ -78,35 +78,38 @@ import {
   Badge,
   createResource,
 } from 'frappe-ui'
-import { studentStore } from '@/stores/student'
+import { useRouter } from 'vue-router'
+import { useStudentStore } from '@/stores/student'
 import MissingData from '@/components/MissingData.vue'
 
 const PAGE_NAME = 'transactions'
 
-const { getCurrentStudentInfo } = studentStore()
-let currentStudentInfo = getCurrentStudentInfo().value
+const router = useRouter()
+const studentStore = useStudentStore()
 
-const feesResource = createResource({
-  url: 'onehash_education.api.get_customer_transactions',
-  params: {
-    customer: currentStudentInfo.customer,
-  },
-  onSuccess: (response) => {
-    invoiceFormat = response?.invoice_format
-    receiptFormat = response?.receipt_format
-    const transactions = (response?.transactions || []).sort((a, b) => {
-      const statusOrder = { Overdue: 0, Unpaid: 1, 'Partly Paid': 2, Paid: 3 }
+studentStore.$subscribe((mutation, state) => {
+  const feesResource = createResource({
+    url: 'onehash_education.api.get_customer_transactions',
+    params: {
+      customer: state.currentStudentInfo.customer,
+    },
+    onSuccess: (response) => {
+      invoiceFormat = response?.invoice_format
+      receiptFormat = response?.receipt_format
+      const transactions = (response?.transactions || []).sort((a, b) => {
+        const statusOrder = { Overdue: 0, Unpaid: 1, 'Partly Paid': 2, Paid: 3 }
 
-      const statusA = statusOrder[a.status]
-      const statusB = statusOrder[b.status]
+        const statusA = statusOrder[a.status]
+        const statusB = statusOrder[b.status]
 
-      if (statusA !== statusB) {
-        return statusA - statusB
-      }
-    })
-    tableData.rows = transactions
-  },
-  auto: true,
+        if (statusA !== statusB) {
+          return statusA - statusB
+        }
+      })
+      tableData.rows = transactions
+    },
+    auto: true,
+  })
 })
 
 const tableData = reactive({
@@ -169,8 +172,8 @@ const openReceiptPDF = (row) => {
   window.open(url, '_blank')
 }
 
-const payInvoice = (row) => {
-  //TODO: Redirect to payment collection page
+const payInvoice = (_) => {
+  router.push('/pay-fee')
 }
 
 const badgeColor = (status) => {

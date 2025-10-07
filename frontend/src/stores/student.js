@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { createResource } from 'frappe-ui'
 
-export const studentStore = defineStore('education-student', () => {
-  const studentInfo = ref({})
-  const currentStudentInfo = ref({})
+export const useStudentStore = defineStore('education-student', () => {
+  const studentInfo = ref([])
+  const currentStudentInfo = ref(null)
 
   const student = createResource({
     url: 'onehash_education.api.get_students',
@@ -29,10 +29,16 @@ export const studentStore = defineStore('education-student', () => {
     return currentStudentInfo
   }
 
+  function setCurrentStudent(idx) {
+    currentStudentInfo.value = studentInfo.value[idx]
+  }
+
   return {
     student,
     studentInfo,
+    currentStudentInfo,
     getStudentInfo,
     getCurrentStudentInfo,
+    setCurrentStudent,
   }
 })

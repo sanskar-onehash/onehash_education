@@ -3,11 +3,11 @@ import { createResource } from 'frappe-ui'
 import { usersStore } from '@/stores/user'
 import router from '@/router'
 import { ref, computed } from 'vue'
-import { studentStore } from '@/stores/student'
+import { useStudentStore } from '@/stores/student'
 
 export const sessionStore = defineStore('education-session', () => {
   const { user: currentUser } = usersStore()
-  const { student } = studentStore()
+  const studentStore = useStudentStore()
 
   function sessionUser() {
     let cookies = new URLSearchParams(document.cookie.split('; ').join('&'))
@@ -28,7 +28,7 @@ export const sessionStore = defineStore('education-session', () => {
     onSuccess() {
       currentUser.reload()
       sessionUser.reload()
-      student.reload()
+      studentStore.student.reload()
       user.value = sessionUser()
       login.reset()
       router.replace({ path: '/' })

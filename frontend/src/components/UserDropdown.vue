@@ -32,7 +32,7 @@
             {{ educationSettings?.name || 'Education' }}
           </div>
           <div class="mt-1 text-sm text-gray-700 leading-none">
-            {{ user.data.full_name }}
+            {{ studentStore.currentStudentInfo.student_name }}
           </div>
         </div>
 
@@ -58,11 +58,11 @@
 <script setup>
 import { Dropdown, FeatherIcon, Avatar } from 'frappe-ui'
 import { sessionStore } from '@/stores/session'
-import { usersStore } from '@/stores/user'
+import { useStudentStore } from '@/stores/student'
 import { School } from 'lucide-vue-next'
 
-const { user } = usersStore()
 const { logout } = sessionStore()
+const studentStore = useStudentStore()
 defineOptions({
   inheritAttrs: false,
 })
@@ -75,12 +75,13 @@ const props = defineProps({
 })
 
 const userDropdownOptions = [
-  {
+  ...studentStore.studentInfo.map((student, idx) => ({
     icon: 'user',
-    label: 'Profile',
-    // TODO: Show/Redirect to user profile
-    onClick: () => {},
-  },
+    label: student.student_name,
+    onClick: () => {
+      studentStore.setCurrentStudent(idx)
+    },
+  })),
   {
     icon: 'log-out',
     label: 'Log out',

@@ -130,14 +130,13 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { Button, Card, Checkbox, createResource, Dialog } from 'frappe-ui'
-import { studentStore } from '@/stores/student'
+import { useStudentStore } from '@/stores/student'
 import { useExternalScriptApi } from '@/stores/external_script_api'
 import MissingData from '@/components/MissingData.vue'
 
 const PAGE_NAME = 'pay-fee'
 
-const { getCurrentStudentInfo } = studentStore()
-let currentStudentInfo = getCurrentStudentInfo().value
+const studentStore = useStudentStore()
 const externalScriptApiStore = useExternalScriptApi()
 
 let invoices = reactive([])
@@ -158,24 +157,26 @@ const areAllSelected = computed(() => {
   )
 })
 
-const invoiceResource = createResource({
-  url: 'onehash_education.api.get_invoices_to_pay',
-  params: {
-    customer: currentStudentInfo.customer,
-  },
-  onSuccess: (response) => {
-    invoices.splice(
-      0,
-      invoices.length,
-      ...response.map((invoice) => ({
-        ...invoice,
-        selected: true,
-        disabled: invoice.payable_amount <= 0,
-      })),
-    )
-    calculateTotal()
-  },
-  auto: true,
+studentStore.$subscribe((mutation, state) => {
+  const invoiceResource = createResource({
+    url: 'onehash_education.api.get_invoices_to_pay',
+    params: {
+      customer: state.currentStudentInfo.customer,
+    },
+    onSuccess: (response) => {
+      invoices.splice(
+        0,
+        invoices.length,
+        ...response.map((invoice) => ({
+          ...invoice,
+          selected: true,
+          disabled: invoice.payable_amount <= 0,
+        })),
+      )
+      calculateTotal()
+    },
+    auto: true,
+  })
 })
 
 function toggleInvoiceSelection(invoice) {
@@ -214,7 +215,7 @@ function onPayNow() {
 
   externalScriptApiStore.emit('pay-now', {
     invoices: selectedInvoices.value,
-    student: currentStudentInfo,
+    student: studentStore.currentStudentInfo,
   })
 }
 
@@ -241,5 +242,3 @@ function formatCurrency(val, cur) {
   }).format(val)
 }
 </script>
-
-<style scoped></style>

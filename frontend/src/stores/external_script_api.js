@@ -1,8 +1,12 @@
 import utils from '@/utils'
 import { defineStore } from 'pinia'
+import { usersStore } from '@/stores/user'
+import { useStudentStore } from '@/stores/student'
+import { sessionStore } from '@/stores/session'
 
 export const useExternalScriptApi = defineStore('externalScriptApi', {
   state: () => ({
+    stores: { usersStore, useStudentStore, sessionStore },
     data: {},
     api: {},
     currentPage: null,
