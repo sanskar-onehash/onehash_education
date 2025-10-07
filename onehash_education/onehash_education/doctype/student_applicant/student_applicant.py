@@ -20,11 +20,6 @@ class StudentApplicant(Document):
         self.clear_name_for_new_child_entries()
 
     def before_insert(self):
-        if (
-            "Student Applicant" in frappe.get_roles()
-            and frappe.session.user != "Administrator"
-        ):
-            frappe.throw("Student Applicant can not create an application by his own.")
         self.set_missing_values()
 
     def clear_name_for_new_child_entries(self):
@@ -131,7 +126,7 @@ def send_student_application(
             "gender": gender,
             "date_of_birth": birth_date,
             "student_user": student_user,
-            "guardian": guardian
+            "guardian": guardian,
         }
     ).save()
     frappe.db.set_value(
