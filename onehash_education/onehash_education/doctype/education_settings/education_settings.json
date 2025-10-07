@@ -5,7 +5,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "school_college_name_abbreviation",
+  "school_college_abbreviation",
+  "school_college_name",
   "school_college_logo",
   "column_break_vywu",
   "current_academic_year",
@@ -67,11 +68,6 @@
    "options": "CSS"
   },
   {
-   "fieldname": "school_college_name_abbreviation",
-   "fieldtype": "Data",
-   "label": "School / College Name Abbreviation"
-  },
-  {
    "fieldname": "school_college_logo",
    "fieldtype": "Attach Image",
    "label": "School / College Logo"
@@ -96,13 +92,23 @@
    "fieldtype": "Code",
    "label": "Portal CSS",
    "options": "CSS"
+  },
+  {
+   "fieldname": "school_college_abbreviation",
+   "fieldtype": "Data",
+   "label": "School / College Abbreviation"
+  },
+  {
+   "fieldname": "school_college_name",
+   "fieldtype": "Data",
+   "label": "School / College Name"
   }
  ],
  "image_field": "school_college_logo",
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-10-07 09:16:57.959621",
+ "modified": "2025-10-07 11:09:48.558806",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",

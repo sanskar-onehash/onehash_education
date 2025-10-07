@@ -304,7 +304,7 @@ def get_invoices_to_pay(customer):
 @frappe.whitelist()
 def get_school_abbr_logo():
     abbr = frappe.db.get_single_value(
-        "Education Settings", "school_college_name_abbreviation"
+        "Education Settings", "school_college_abbreviation"
     )
     logo = frappe.db.get_single_value("Education Settings", "school_college_logo")
     return {"name": abbr, "logo": logo}
