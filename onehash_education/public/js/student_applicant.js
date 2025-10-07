@@ -1,67 +1,52 @@
-const studentApplicationTasks = [];
-if (window.location.pathname === "/student-application/list") {
-  $(".button-new").remove();
+const studentApplicationTasks = []
+if (window.location.pathname === '/student-application/list') {
+  $('.button-new').remove()
 
-  studentApplicationTasks.push(() => {
-    const webFormListInterval = setInterval(() => {
-      if (!frappe.web_form_list || !frappe.web_form_list.data) {
-        return;
-      }
-      clearInterval(webFormListInterval);
-
-      if (frappe.web_form_list.data.length === 1) {
-        window.location.href =
-          window.location.origin +
-          `/student-application/${frappe.web_form_list.data[0].name}`;
-      }
-    }, 300);
-
-    runCustomScript();
-  });
-} else if (window.location.pathname === "/student-application/new") {
-  redirectToStudentApplicationList();
-} else if (window.location.pathname === "/") {
+  studentApplicationTasks.push(runCustomScript)
+} else if (window.location.pathname === '/student-application/new') {
+  redirectToStudentApplicationList()
+} else if (window.location.pathname === '/') {
   studentApplicationTasks.push(() => {
     if (
       frappe.web_form_doc &&
-      frappe.web_form_doc.title === "Student Application"
+      frappe.web_form_doc.title === 'Student Application'
     ) {
-      redirectToStudentApplicationList();
+      redirectToStudentApplicationList()
     }
-  });
+  })
 }
 
-if (window.location.pathname.startsWith("/student-application")) {
+if (window.location.pathname.startsWith('/student-application')) {
   if (window.self !== window.top) {
     // Inside Iframe
     $('.navbar').hide()
   }
 
-	function triggerHeightResize() {
-		const height = document.body.scrollHeight
-		window.parent.postMessage({ height }, '*')
-	}
+  function triggerHeightResize() {
+    const height = document.body.scrollHeight
+    window.parent.postMessage({ height }, '*')
+  }
 
-	window.addEventListener('DOMContentLoaded', triggerHeightResize)
-	window.addEventListener('load', triggerHeightResize)
-	window.addEventListener('resize', triggerHeightResize)
+  window.addEventListener('DOMContentLoaded', triggerHeightResize)
+  window.addEventListener('load', triggerHeightResize)
+  window.addEventListener('resize', triggerHeightResize)
 }
 
 function redirectToStudentApplicationList() {
-  window.location.href = window.location.origin + "/student-application/list";
+  window.location.href = window.location.origin + '/student-application/list'
 }
 
 frappe.ready(() => {
-  studentApplicationTasks.forEach((task) => task());
-});
+  studentApplicationTasks.forEach((task) => task())
+})
 
 function runCustomScript() {
   if (frappe.web_form_doc.custom_script) {
-    const customScript = new Function(frappe.web_form_doc.custom_script);
-    customScript();
+    const customScript = new Function(frappe.web_form_doc.custom_script)
+    customScript()
   }
   if (frappe.web_form_doc.custom_style) {
-    const $style = $(`<style>${frappe.web_form_doc.custom_style}</style>`);
-    $("head").append($style);
+    const $style = $(`<style>${frappe.web_form_doc.custom_style}</style>`)
+    $('head').append($style)
   }
 }
