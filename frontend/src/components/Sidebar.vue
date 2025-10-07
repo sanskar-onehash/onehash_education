@@ -49,6 +49,7 @@ import {
   ArrowLeftToLine,
   Wallet,
   ClipboardList,
+  Home,
 } from 'lucide-vue-next'
 import UserDropdown from './UserDropdown.vue'
 import { createResource } from 'frappe-ui'
@@ -56,6 +57,7 @@ import { createResource } from 'frappe-ui'
 const COMPONENT_NAME = 'sidebar'
 
 const links = [
+  { label: 'Home', to: '/', icon: Home },
   {
     label: 'Pay Fees',
     to: '/pay-fee',
