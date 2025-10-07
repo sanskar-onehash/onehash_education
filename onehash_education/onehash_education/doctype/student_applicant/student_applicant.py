@@ -3,8 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-
-DEFAULT_WELCOME_TEMPLATE = "new_user"
+from frappe.core.doctype.communication.email import make as make_communication
 
 
 class StudentApplicant(Document):
@@ -79,6 +78,8 @@ def send_student_application(
     gender=None,
     birth_date=None,
     phone=None,
+    reference_doctype=None,
+    reference_doc=None,
 ):
     education_settings = frappe.get_doc(
         "Education Settings",
@@ -137,23 +138,46 @@ def send_student_application(
         update_modified=False,
     )
 
-    if student_user_doc:
-        send_student_login_mail(student_user_doc, education_settings)
+    context = {
+        "user": student_user_doc,
+        "applicant": student_applicant_doc,
+        "guardian_docname": guardian,
+    }
+    email_template = education_settings.application_email_template
+    if not email_template:
+        frappe.throw("No Email Template found to send application mail.")
+
+    _send_email(
+        email_template, student_email, reference_doctype, reference_doc, context
+    )
 
     return student_applicant_doc.name
 
 
-def send_student_login_mail(student_user_doc, education_settings):
-    add_args = {
-        "link": student_user_doc.reset_password(),
-        "site_url": frappe.utils.get_url(),
-    }
-    subject = education_settings.get("application_email_subject")
-    email_template = education_settings.get("application_email_template")
+def _send_email(
+    email_template, recipients, reference_doctype, reference_doc, context={}
+):
+    email_template = frappe.get_doc("Email Template", email_template)
 
-    if not subject:
-        subject = f"Welcome to {frappe.defaults.get_defaults().company}"
+    context.update(
+        {"reference_doctype": reference_doctype, "reference_doc": reference_doc}
+    )
 
-    student_user_doc.send_login_mail(
-        subject, DEFAULT_WELCOME_TEMPLATE, add_args, custom_template=email_template
+    subject = frappe.render_template(email_template.subject, context)
+    content = frappe.render_template(
+        (
+            email_template.response_html
+            if email_template.use_html
+            else email_template.response
+        ),
+        context,
+    )
+
+    make_communication(
+        reference_doctype,
+        reference_doc,
+        content=content,
+        subject=subject,
+        recipients=recipients,
+        send_email=True,
     )

@@ -11,7 +11,6 @@
   "current_academic_year",
   "current_academic_term",
   "email_tab",
-  "application_email_subject",
   "application_email_template",
   "customization_tab",
   "applicant_form_section",
@@ -38,11 +37,6 @@
    "fieldname": "email_tab",
    "fieldtype": "Tab Break",
    "label": "Email"
-  },
-  {
-   "fieldname": "application_email_subject",
-   "fieldtype": "Data",
-   "label": "Application Email Subject"
   },
   {
    "fieldname": "application_email_template",
@@ -108,7 +102,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-25 08:59:53.936289",
+ "modified": "2025-10-07 09:16:57.959621",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Education Settings",
