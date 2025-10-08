@@ -3,8 +3,6 @@ if (window.location.pathname === '/student-application/list') {
   $('.button-new').remove()
 
   studentApplicationTasks.push(runCustomScript)
-} else if (window.location.pathname === '/student-application/new') {
-  redirectToStudentApplicationList()
 } else if (window.location.pathname === '/') {
   studentApplicationTasks.push(() => {
     if (
