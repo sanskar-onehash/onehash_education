@@ -120,6 +120,13 @@ def get_active_enrollment(student):
 
 @frappe.whitelist()
 def get_nearest_enrollment(student):
+    upcoming_enrollments = get_upcoming_enrollments(student)
+
+    return upcoming_enrollments[0] if upcoming_enrollments else None
+
+
+@frappe.whitelist()
+def get_upcoming_enrollments(student):
     if not student:
         frappe.throw("Student ID is required")
 
@@ -133,13 +140,12 @@ def get_nearest_enrollment(student):
         WHERE pe.student = %s
         AND at.term_start_date > %s
         ORDER BY at.term_start_date ASC
-        LIMIT 1
     """,
         (student, current_date),
         as_dict=True,
     )
 
-    return result[0] if result else None
+    return result or None
 
 
 def update_program_enrollment_status():
