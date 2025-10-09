@@ -126,6 +126,7 @@ def get_students():
         students = frappe.db.get_list(
             "Student",
             fields=[
+                "name as id",
                 "customer",
                 "name",
                 "student_applicant",
@@ -139,6 +140,7 @@ def get_students():
     applicants = frappe.db.get_list(
         "Student Applicant",
         fields=[
+            "name as id",
             "customer",
             "name as student_applicant",
             "student_image",
@@ -247,6 +249,7 @@ def get_invoices_to_pay(customer):
         )
         .select(
             SalesInvoice.name,
+            SalesInvoice.posting_date,
             SalesInvoice.due_date,
             SalesInvoice.currency,
             SalesInvoice.grand_total,
@@ -273,6 +276,7 @@ def get_invoices_to_pay(customer):
         if not last_invoice:
             last_invoice = {
                 "name": invoice.name,
+                "posting_date": invoice.posting_date,
                 "due_date": invoice.due_date,
                 "currency": invoice.currency,
                 "grand_total": invoice.grand_total,
