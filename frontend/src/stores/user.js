@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { createResource } from 'frappe-ui'
-import router from '@/router'
 
 export const usersStore = defineStore('education-users', () => {
   const user = createResource({
@@ -11,7 +10,7 @@ export const usersStore = defineStore('education-users', () => {
       console.log(error)
       console.log(error.exc_type)
       if (error && error.exc_type === 'AuthenticationError') {
-        router.push('/login')
+        window.location.href = '/login'
       }
     },
   })
