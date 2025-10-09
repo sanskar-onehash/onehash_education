@@ -12,7 +12,7 @@
           !educationSettings.loading && educationSettings.data
         "
       />
-      <div class="flex flex-col overflow-y-auto">
+      <div class="flex flex-col">
         <SidebarLink
           :label="link.label"
           :to="link.to"
