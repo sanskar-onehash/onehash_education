@@ -11,9 +11,7 @@ class AcademicTerm(Document):
         self.validate_term_date_range()
 
     def before_insert(self):
-
-        if not self.title:
-            self.update({"title": f"{self.term_name} ({self.academic_year})"})
+        self.update({"title": f"{self.term_name} ({self.academic_year})"})
 
         self.validate_term_date_range()
 
