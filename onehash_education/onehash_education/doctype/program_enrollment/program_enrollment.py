@@ -95,7 +95,7 @@ def get_students(doctype, txt, searchfield, start, page_len, filters):
 
 
 @frappe.whitelist()
-def get_active_enrollment(student):
+def get_active_enrollments(student):
     if not student:
         frappe.throw("Student ID is required")
 
@@ -109,13 +109,12 @@ def get_active_enrollment(student):
         WHERE pe.student = %s
         AND %s BETWEEN at.term_start_date AND at.term_end_date
         ORDER BY at.term_start_date ASC
-        LIMIT 1
     """,
         (student, current_date),
         as_dict=True,
     )
 
-    return result[0] if result else None
+    return result or None
 
 
 @frappe.whitelist()
