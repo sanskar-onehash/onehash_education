@@ -164,6 +164,9 @@ function fetchStudentInvoices() {
       customer: studentStore.currentStudentInfo.customer,
     },
     onSuccess: (invoices) => {
+      if (!invoices) {
+        return
+      }
       const outstandingInvoicesData = []
       const upcomingInvoicesData = []
       const today = new Date()
@@ -206,7 +209,9 @@ function fetchStudentCurrentPorgrams() {
       student: studentStore.currentStudentInfo.id,
     },
     onSuccess: (programs) => {
-      currentPrograms.splice(0, currentPrograms.length, ...programs)
+      if (programs) {
+        currentPrograms.splice(0, currentPrograms.length, ...programs)
+      }
     },
     auto: true,
   })
@@ -225,7 +230,9 @@ function fetchStudentUpcomingPrograms() {
       student: studentStore.currentStudentInfo.id,
     },
     onSuccess: (programs) => {
-      upcomingPrograms.splice(0, upcomingPrograms.length, ...programs)
+      if (programs) {
+        upcomingPrograms.splice(0, upcomingPrograms.length, ...programs)
+      }
     },
     auto: true,
   })
