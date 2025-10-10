@@ -62,11 +62,16 @@ def enroll_student(applicant_name, terms):
             "student_image",
             "student_user",
             "customer",
+            "enrolled",
         ],
         as_dict=True,
     )
     if not student_applicant:
         frappe.throw("Student Applicant not found.")
+    if student_applicant.enrolled or frappe.db.exists(
+        "Student", {"student_applicant": applicant_name}
+    ):
+        frappe.throw("Applicant is already enrolled")
 
     student = frappe.new_doc("Student")
     student.enabled = True
