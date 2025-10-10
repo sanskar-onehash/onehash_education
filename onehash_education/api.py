@@ -200,10 +200,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
             PaymentEntry.name.as_("receipt"),
             PaymentEntry.posting_date.as_("payment_date"),
         )
-        .where(
-            (SalesInvoice.docstatus == 1)
-            & ((SalesInvoice.status != "Paid") | (PaymentEntry.name.isnotnull()))
-        )
+        .where((SalesInvoice.docstatus == 1))
         .orderby(SalesInvoice.creation, order=Order.desc)
         .limit(page_length)
         .offset(page)
@@ -211,7 +208,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
     )
 
     for transaction in transactions:
-        if transaction.amount and transaction.currency:
+        if transaction.amount is not None and transaction.currency:
             transaction["formatted_amount"] = frappe_utils.fmt_money(
                 transaction.amount, currency=transaction.currency
             )

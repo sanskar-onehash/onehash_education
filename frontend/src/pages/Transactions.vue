@@ -43,7 +43,7 @@
             />
 
             <Button
-              v-if="column.key === 'receipt' && row.status === 'Paid'"
+              v-if="column.key === 'receipt' && row.receipt"
               @click="openReceiptPDF(row)"
               class="hover:bg-gray-900 hover:text-white"
               icon-left="download"
