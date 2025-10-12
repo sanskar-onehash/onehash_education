@@ -7,6 +7,7 @@
  "field_order": [
   "get_students_from",
   "year_group",
+  "active_enrollments",
   "column_break_xflo",
   "academic_year",
   "academic_term",
@@ -114,12 +115,19 @@
    "label": "New Academic Terms",
    "options": "Academic Terms",
    "reqd": 1
+  },
+  {
+   "default": "1",
+   "depends_on": "eval: doc.get_students_from === \"Program Enrollment\"",
+   "fieldname": "active_enrollments",
+   "fieldtype": "Check",
+   "label": "Active Enrollments"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-10-08 15:53:05.764728",
+ "modified": "2025-10-10 17:42:15.072762",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Program Enrollment Tool",

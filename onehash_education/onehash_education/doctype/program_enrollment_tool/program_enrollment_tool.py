@@ -37,17 +37,24 @@ class ProgramEnrollmentTool(Document):
             ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
             Student = frappe.qb.DocType("Student")
 
+            enrollment_conditions = (
+                (ProgramEnrollment.year_group == self.year_group)
+                & (ProgramEnrollment.academic_year == self.academic_year)
+                & (ProgramEnrollment.docstatus == 1)
+                & (ProgramEnrollment.academic_term == self.academic_term)
+                & (Student.enabled == 1)
+                & (ProgramEnrollment.status != "Expired")
+            )
+            if self.active_enrollments:
+                enrollment_conditions = enrollment_conditions & (
+                    ProgramEnrollment.status == "Active"
+                )
+
             students = (
                 frappe.qb.from_(ProgramEnrollment)
                 .join(Student)
                 .on(Student.name == ProgramEnrollment.student)
-                .where(
-                    (ProgramEnrollment.year_group == self.year_group)
-                    & (ProgramEnrollment.academic_year == self.academic_year)
-                    & (ProgramEnrollment.docstatus != 2)
-                    & (ProgramEnrollment.academic_term == self.academic_term)
-                    & (Student.enabled == 1)
-                )
+                .where(enrollment_conditions)
                 .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
             ).run(as_dict=True)
 
