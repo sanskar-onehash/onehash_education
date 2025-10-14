@@ -108,6 +108,7 @@ def get_active_enrollments(student):
         JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
         AND %s BETWEEN at.term_start_date AND at.term_end_date
+        AND pe.docstatus = 1
         ORDER BY at.term_start_date ASC
     """,
         (student, current_date),
@@ -138,6 +139,7 @@ def get_upcoming_enrollments(student):
         JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
         AND at.term_start_date > %s
+        AND pe.docstatus = 1
         ORDER BY at.term_start_date ASC
     """,
         (student, current_date),
