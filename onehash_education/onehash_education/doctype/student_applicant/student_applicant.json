@@ -21,6 +21,8 @@
   "date_of_birth",
   "age_as_on",
   "primary_nationality",
+  "is_oci_holder",
+  "oci_card",
   "mother_tongue",
   "food_preferences",
   "column_break_whgm",
@@ -199,18 +201,18 @@
    "fieldname": "first_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Student First Name",
+   "label": "Student's First Name",
    "reqd": 1
   },
   {
    "fieldname": "middle_name",
    "fieldtype": "Data",
-   "label": "Student Middle Name"
+   "label": "Student's Middle Name"
   },
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
-   "label": "Student Last Name"
+   "label": "Student's Last Name"
   },
   {
    "fieldname": "gender",
@@ -413,7 +415,7 @@
    "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)",
    "fieldname": "father_organization",
    "fieldtype": "Data",
-   "label": "Father's Organization",
+   "label": "Father's Organisation",
    "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.father_occupation)"
   },
   {
@@ -489,23 +491,23 @@
   {
    "fieldname": "guardian_title",
    "fieldtype": "Link",
-   "label": "Guardian Title",
+   "label": "Title",
    "options": "Salutation"
   },
   {
    "fieldname": "guardian_name",
    "fieldtype": "Data",
-   "label": "Guardian Name"
+   "label": "Guardian's Name"
   },
   {
    "fieldname": "guardian_mobile_number",
    "fieldtype": "Phone",
-   "label": "Guardian Mobile Number"
+   "label": "Guardian's Mobile Number"
   },
   {
    "fieldname": "guardian_email",
    "fieldtype": "Data",
-   "label": "Guardian Email"
+   "label": "Guardian's Email"
   },
   {
    "fieldname": "column_break_wuzi",
@@ -514,27 +516,27 @@
   {
    "fieldname": "guardian_occupation",
    "fieldtype": "Select",
-   "label": "Guardian Occupation",
+   "label": "Guardian's Occupation",
    "options": "\nAgriculture\nBusiness\nDefence\nGovernment Sector\nHomemaker\nPrivate Sector\nRetired\nOther"
   },
   {
    "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)",
    "fieldname": "guardian_designation",
    "fieldtype": "Data",
-   "label": "Guardian Designation",
+   "label": "Guardian's Designation",
    "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)"
   },
   {
    "depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)",
    "fieldname": "guardian_organization",
    "fieldtype": "Data",
-   "label": "Guardian Organization",
+   "label": "Guardian's Organisation",
    "mandatory_depends_on": "eval: [\"Business\", \"Defence\", \"Government Sector\", \"Private Sector\", \"Other\"].includes(doc.guardian_occupation)"
   },
   {
    "fieldname": "guardian_educational_qualification",
    "fieldtype": "Link",
-   "label": "Guardian Educational Qualification",
+   "label": "Guardian's Educational Qualification",
    "options": "Educational Qualification Master"
   },
   {
@@ -911,7 +913,7 @@
   {
    "fieldname": "student_image",
    "fieldtype": "Attach Image",
-   "label": "Student Image",
+   "label": "Student's Image",
    "reqd": 1
   },
   {
@@ -974,7 +976,7 @@
    "depends_on": "eval: doc.guardian_occupation === \"Other\"",
    "fieldname": "guardian_occupation_other",
    "fieldtype": "Data",
-   "label": "Guardian Occupation Other",
+   "label": "Guardian's Occupation Other",
    "mandatory_depends_on": "eval: doc.guardian_occupation === \"Other\""
   },
   {
@@ -1054,17 +1056,17 @@
   {
    "fieldname": "father_image",
    "fieldtype": "Attach Image",
-   "label": "Father Image"
+   "label": "Father's Image"
   },
   {
    "fieldname": "mother_image",
    "fieldtype": "Attach Image",
-   "label": "Mother Image"
+   "label": "Mother's Image"
   },
   {
    "fieldname": "guardian_image",
    "fieldtype": "Attach Image",
-   "label": "Guardian Image"
+   "label": "Guardian's Image"
   },
   {
    "fieldname": "allergies_attachment",
@@ -1161,13 +1163,26 @@
    "fieldname": "permanent_address_section",
    "fieldtype": "Section Break",
    "label": "Permanent Address"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.primary_nationality!==\"Indian\"",
+   "fieldname": "is_oci_holder",
+   "fieldtype": "Check",
+   "label": "Is the pupil an OCI card holder?"
+  },
+  {
+   "depends_on": "is_oci_holder",
+   "fieldname": "oci_card",
+   "fieldtype": "Attach",
+   "label": "Upload OCI Card"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-10-23 08:17:51.985751",
+ "modified": "2025-10-27 11:36:39.877506",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student Applicant",
