@@ -392,7 +392,11 @@ frappe.ready(function () {
   }
 
   function handleStepClick(e, stepIdEl) {
-    frm.current_section = +stepIdEl.dataset.stepId;
+    toggleSection(+stepIdEl.dataset.stepId);
+  }
+
+  function toggleSection(nextSectionNumber) {
+    frm.current_section = nextSectionNumber;
     frm.toggle_section();
   }
 
@@ -408,28 +412,38 @@ frappe.ready(function () {
   }
 
   function validateMandatories() {
-    if (!frm.doc.submitted) return;
-
     const errors = [];
     const invalidFields = [];
+    let firstErroredField = null;
 
     frm.fields_list.forEach((field) => {
       if (field.get_value) {
         let value = field.get_value();
+        let isErrored = false;
         if (
           field.df.reqd &&
           is_null(typeof value === "string" ? strip_html(value) : value)
-        )
+        ) {
+          isErrored = true;
           errors.push(__(field.df.label));
+        }
 
         if (
           field.df.reqd &&
           field.df.fieldtype === "Text Editor" &&
           is_null(strip_html(cstr(value)))
-        )
+        ) {
+          isErrored = true;
           errors.push(__(field.df.label));
+        }
 
-        if (field.df.invalid) invalidFields.push(__(field.df.label));
+        if (field.df.invalid) {
+          isErrored = true;
+          invalidFields.push(__(field.df.label));
+        }
+        if (isErrored && !firstErroredField) {
+          firstErroredField = field;
+        }
       }
     });
 
@@ -444,18 +458,25 @@ frappe.ready(function () {
     }
 
     if (errors.length) {
-      message += __(
-        "Mandatory fields required:",
-        null,
-        "Error message in web form",
-      );
+      message += __("Mandatory fields required");
       message += "<br><br><ul><li>" + errors.join("<li>") + "</ul>";
     }
 
+    if (firstErroredField) {
+      toggleSection(
+        firstErroredField.$wrapper.closest(".form-page").index() - 1,
+      );
+      $([document.documentElement, document.body]).animate(
+        {
+          scrollTop: firstErroredField.$wrapper.offset().top - 150,
+        },
+        500,
+      );
+    }
     if (invalidFields.length || errors.length) {
       frm.set_value("submitted", 0);
       frappe.throw({
-        title: __("Error", null, "Title of error message in web form"),
+        title: __("Error"),
         message: message,
         indicator: "orange",
       });
@@ -513,7 +534,8 @@ frappe.ready(function () {
     window.location.href = path;
   }
 
-  function handleCustomSave(e) {
+  async function handleCustomSave(e) {
+    await frm.set_value("submitted", 0);
     handleSave();
   }
 
