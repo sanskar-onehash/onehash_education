@@ -130,6 +130,11 @@ frappe.ready(function () {
     frm.on("permanent_country", handlePermanentCountryChange);
     frm.on("permanent_state", handlePermanentStateChange);
     frm.on("academic_year", handleAcademicYearChange);
+    frm.after_save = handleAfterSave;
+  }
+
+  function handleAfterSave() {
+    frappe.show_alert({ indicator: "green", message: "Changes Saved" });
   }
 
   function refreshCalculatedFields() {

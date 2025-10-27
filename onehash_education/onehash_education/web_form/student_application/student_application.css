@@ -35,8 +35,12 @@
   max-width: 1200px;
   min-height: 70vh;
   transition: box-shadow 0.2s;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
+}
+
+.success-page {
+	display: none !important;
 }
 
 .form-grid-container .form-grid {
