@@ -1,5 +1,5 @@
-// Fixes overflowing S.No.
-frappe._messages["No.:Title of the 'row number' column"] = "S.No.";
+// Fixes overflowing Sr.No.
+frappe._messages["No.:Title of the 'row number' column"] = "Sr.No.";
 // clientsideStylesFix();
 
 // Increase link fields list size
