@@ -35,7 +35,7 @@
  "list_title": "Student Applications",
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-10-27 11:32:13.339242",
+ "modified": "2025-10-27 11:40:11.121184",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
@@ -405,7 +405,7 @@
   {
    "allow_read_on_all_link_options": 0,
    "default": "0",
-   "depends_on": "eval: doc.primary_nationality!==\"Indian\"",
+   "depends_on": "eval: doc.primary_nationality && doc.primary_nationality!==\"Indian\"",
    "fieldname": "is_oci_holder",
    "fieldtype": "Check",
    "hidden": 0,
