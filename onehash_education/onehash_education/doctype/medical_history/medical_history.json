@@ -18,8 +18,7 @@
    "fieldname": "health_issue",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Health Issue",
-   "reqd": 1
+   "label": "Health Issue"
   },
   {
    "fieldname": "date_of_treatment",
@@ -55,7 +54,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-07-16 12:28:13.889539",
+ "modified": "2025-10-27 11:47:29.802610",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Medical History",
