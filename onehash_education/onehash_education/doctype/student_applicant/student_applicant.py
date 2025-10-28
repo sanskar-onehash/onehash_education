@@ -105,7 +105,7 @@ def send_student_application(
             }
         )
         student_user_doc.add_roles("Student Applicant")
-        student_user_doc = student_user_doc.save()
+        student_user_doc = student_user_doc.save(ignore_permissions=True)
         student_user = student_user_doc.name
 
         student_user_permission = frappe.get_doc(
