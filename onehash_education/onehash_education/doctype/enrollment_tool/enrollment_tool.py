@@ -58,10 +58,18 @@ class EnrollmentTool(Document):
                 .select(Enrollment.student, Enrollment.student_name)
             ).run(as_dict=True)
 
-        if students:
-            return students
-        else:
-            frappe.throw(_("No students Found"))
+            seen_students = set()
+            unique_students = [
+                student
+                for student in students
+                if (student_id := student.get("student")) not in seen_students
+                and not seen_students.add(student_id)
+            ]
+
+            if not unique_students:
+                frappe.throw(_("No students Found"))
+
+            return unique_students
 
     @frappe.whitelist()
     def enroll_students(self):
