@@ -17,6 +17,11 @@
  "is_standard": 1,
  "list_columns": [
   {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name"
+  },
+  {
    "fieldname": "academic_year",
    "fieldtype": "Link",
    "label": "Academic Year"
@@ -35,7 +40,7 @@
  "list_title": "Student Applications",
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-10-27 15:18:50.079566",
+ "modified": "2025-10-29 08:56:34.167212",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
