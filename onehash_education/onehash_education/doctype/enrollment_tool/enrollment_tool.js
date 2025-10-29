@@ -1,7 +1,7 @@
 // Copyright (c) 2025, OneHash and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Program Enrollment Tool", {
+frappe.ui.form.on("Enrollment Tool", {
   setup: function (frm) {
     frm.add_fetch("student", "title", "student_name");
     frm.add_fetch("student_applicant", "title", "student_name");
@@ -11,15 +11,6 @@ frappe.ui.form.on("Program Enrollment Tool", {
     frm.disable_save();
 
     frm.fields_dict.enroll_students.$input.addClass(" btn btn-primary");
-
-    frappe.realtime.on("program_enrollment_tool", function (data) {
-      frappe.hide_msgprint(true);
-      frappe.show_progress(
-        __("Enrolling students..."),
-        data.progress[0],
-        data.progress[1],
-      );
-    });
   },
 
   get_students: async function (frm) {

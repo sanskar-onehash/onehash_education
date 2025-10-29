@@ -29,12 +29,12 @@
               <span class="font-semibold">{{ currentStudent.id }}</span>
             </p>
             <p
-              v-if="currentPrograms.length"
+              v-if="currentEnrollments.length"
               class="text-md font-semibold text-indigo-700 mt-2"
             >
-              {{ currentPrograms[0].year_group }} -
+              {{ currentEnrollments[0].year_group }} -
               <span class="font-normal">{{
-                currentPrograms[0].academic_term
+                currentEnrollments[0].academic_term
               }}</span>
             </p>
           </div>
@@ -43,25 +43,25 @@
 
       <div class="flex flex-col sm:flex-row justify-between gap-8">
         <Card
-          v-if="currentPrograms.length"
+          v-if="currentEnrollments.length"
           class="p-6 shadow-lg rounded-lg w-full sm:w-1/2"
-          title="Current Programs"
+          title="Current Enrollments"
         >
           <ul class="space-y-2 text-gray-600">
-            <li v-for="program in currentPrograms" :key="program.name">
-              {{ `${program.year_group} - ${program.academic_term}` }}
+            <li v-for="enrollment in currentEnrollments" :key="enrollment.name">
+              {{ `${enrollment.year_group} - ${enrollment.academic_term}` }}
             </li>
           </ul>
         </Card>
 
         <Card
-          v-if="upcomingPrograms.length"
+          v-if="upcomingEnrollments.length"
           class="p-6 shadow-lg rounded-lg w-full sm:w-1/2"
-          title="Upcoming Programs"
+          title="Upcoming Enrollments"
         >
           <ul class="space-y-2 text-gray-600">
-            <li v-for="program in upcomingPrograms" :key="program.name">
-              {{ `${program.year_group} - ${program.academic_term}` }}
+            <li v-for="enrollment in upcomingEnrollments" :key="enrollment.name">
+              {{ `${enrollment.year_group} - ${enrollment.academic_term}` }}
             </li>
           </ul>
         </Card>
@@ -150,8 +150,8 @@ const PAGE_NAME = 'home'
 const router = useRouter()
 const studentStore = useStudentStore()
 
-const currentPrograms = reactive([])
-const upcomingPrograms = reactive([])
+const currentEnrollments = reactive([])
+const upcomingEnrollments = reactive([])
 const outstandingInvoices = reactive([])
 const upcomingInvoices = reactive([])
 
@@ -198,40 +198,40 @@ function fetchStudentInvoices() {
 
 function fetchStudentCurrentPorgrams() {
   if (studentStore.currentStudentInfo.is_applicant) {
-    if (currentPrograms.length) {
-      currentPrograms.splice(0, currentPrograms.length)
+    if (currentEnrollments.length) {
+      currentEnrollments.splice(0, currentEnrollments.length)
     }
     return
   }
   createResource({
-    url: 'onehash_education.onehash_education.doctype.program_enrollment.program_enrollment.get_active_enrollments',
+    url: 'onehash_education.onehash_education.doctype.enrollment.enrollment.get_active_enrollments',
     params: {
       student: studentStore.currentStudentInfo.id,
     },
-    onSuccess: (programs) => {
-      if (programs) {
-        currentPrograms.splice(0, currentPrograms.length, ...programs)
+    onSuccess: (enrollments) => {
+      if (enrollments) {
+        currentEnrollments.splice(0, currentEnrollments.length, ...enrollments)
       }
     },
     auto: true,
   })
 }
 
-function fetchStudentUpcomingPrograms() {
+function fetchStudentUpcomingEnrollments() {
   if (studentStore.currentStudentInfo.is_applicant) {
-    if (upcomingPrograms.length) {
-      upcomingPrograms.splice(0, upcomingPrograms.length)
+    if (upcomingEnrollments.length) {
+      upcomingEnrollments.splice(0, upcomingEnrollments.length)
     }
     return
   }
   createResource({
-    url: 'onehash_education.onehash_education.doctype.program_enrollment.program_enrollment.get_upcoming_enrollments',
+    url: 'onehash_education.onehash_education.doctype.enrollment.enrollment.get_upcoming_enrollments',
     params: {
       student: studentStore.currentStudentInfo.id,
     },
-    onSuccess: (programs) => {
-      if (programs) {
-        upcomingPrograms.splice(0, upcomingPrograms.length, ...programs)
+    onSuccess: (enrollments) => {
+      if (enrollments) {
+        upcomingEnrollments.splice(0, upcomingEnrollments.length, ...enrollments)
       }
     },
     auto: true,
@@ -241,7 +241,7 @@ function fetchStudentUpcomingPrograms() {
 function fetchDynamicData() {
   fetchStudentInvoices()
   fetchStudentCurrentPorgrams()
-  fetchStudentUpcomingPrograms()
+  fetchStudentUpcomingEnrollments()
 }
 
 fetchDynamicData()

@@ -86,25 +86,25 @@ def enroll_student(applicant_name, terms):
     student.guardian = student_applicant.guardian
     student.save()
 
-    program_enrollments = []
+    enrollments = []
     for term in terms:
-        program_enrollment = frappe.new_doc("Program Enrollment")
-        program_enrollment.student = student.name
-        program_enrollment.student_name = student.student_name
-        program_enrollment.year_group = student_applicant.year_group
-        program_enrollment.academic_year = student_applicant.academic_year
-        program_enrollment.academic_term = term
-        program_enrollment.enrollment_date = frappe_utils.nowdate()
-        program_enrollment.created_by_enrollment_tool = True
-        program_enrollment.save()
-        program_enrollments.append(program_enrollment.name)
+        enrollment = frappe.new_doc("Enrollment")
+        enrollment.student = student.name
+        enrollment.student_name = student.student_name
+        enrollment.year_group = student_applicant.year_group
+        enrollment.academic_year = student_applicant.academic_year
+        enrollment.academic_term = term
+        enrollment.enrollment_date = frappe_utils.nowdate()
+        enrollment.created_by_enrollment_tool = True
+        enrollment.save()
+        enrollments.append(enrollment.name)
 
     frappe.db.set_value("Student Applicant", applicant_name, "enrolled", 1)
     frappe.publish_realtime(
         "enroll_student_progress", {"progress": [2, 4]}, user=frappe.session.user
     )
 
-    frappe.response["message"] = program_enrollments
+    frappe.response["message"] = enrollments
 
 
 @frappe.whitelist()

@@ -7,7 +7,7 @@ from frappe.model.document import Document
 from frappe.utils.safe_exec import call_whitelisted_function
 
 
-class ProgramEnrollmentTool(Document):
+class EnrollmentTool(Document):
     @frappe.whitelist()
     def get_students(self):
         students = []
@@ -30,32 +30,32 @@ class ProgramEnrollmentTool(Document):
                 self.as_dict(),
                 as_dict=1,
             )
-        elif self.get_students_from == "Program Enrollment":
+        elif self.get_students_from == "Enrollment":
             if not self.academic_term:
                 frappe.throw(_("Mandatory field - Academic Term"))
 
-            ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
+            Enrollment = frappe.qb.DocType("Enrollment")
             Student = frappe.qb.DocType("Student")
 
             enrollment_conditions = (
-                (ProgramEnrollment.year_group == self.year_group)
-                & (ProgramEnrollment.academic_year == self.academic_year)
-                & (ProgramEnrollment.docstatus == 1)
-                & (ProgramEnrollment.academic_term == self.academic_term)
+                (Enrollment.year_group == self.year_group)
+                & (Enrollment.academic_year == self.academic_year)
+                & (Enrollment.docstatus == 1)
+                & (Enrollment.academic_term == self.academic_term)
                 & (Student.enabled == 1)
-                & (ProgramEnrollment.status != "Expired")
+                & (Enrollment.status != "Expired")
             )
             if self.active_enrollments:
                 enrollment_conditions = enrollment_conditions & (
-                    ProgramEnrollment.status == "Active"
+                    Enrollment.status == "Active"
                 )
 
             students = (
-                frappe.qb.from_(ProgramEnrollment)
+                frappe.qb.from_(Enrollment)
                 .join(Student)
-                .on(Student.name == ProgramEnrollment.student)
+                .on(Student.name == Enrollment.student)
                 .where(enrollment_conditions)
-                .select(ProgramEnrollment.student, ProgramEnrollment.student_name)
+                .select(Enrollment.student, Enrollment.student_name)
             ).run(as_dict=True)
 
         if students:
@@ -73,7 +73,7 @@ class ProgramEnrollmentTool(Document):
         total = len(self.students)
         for i, student in enumerate(self.students):
             frappe.publish_realtime(
-                "program_enrollment_tool",
+                "enrollment_tool",
                 dict(progress=[i + 1, total]),
                 user=frappe.session.user,
             )
@@ -82,8 +82,8 @@ class ProgramEnrollmentTool(Document):
                     frappe.throw("New Academic Year is required.")
 
                 for new_academic_term in self.new_academic_terms or []:
-                    prog_enrollment = frappe.new_doc("Program Enrollment")
-                    prog_enrollment.update(
+                    enrollment = frappe.new_doc("Enrollment")
+                    enrollment.update(
                         {
                             "student": student.student,
                             "student_name": student.student_name,
@@ -93,7 +93,7 @@ class ProgramEnrollmentTool(Document):
                             "enrollment_date": self.enrollment_date,
                         }
                     )
-                    prog_enrollment.save()
+                    enrollment.save()
             elif student.student_applicant:
                 call_whitelisted_function(
                     "onehash_education.api.enroll_student",
@@ -101,12 +101,10 @@ class ProgramEnrollmentTool(Document):
                     terms=[term.academic_term for term in self.new_academic_terms],
                 )
 
-                for program_enrolled in frappe.response["message"]:
-                    prog_enrollment = frappe.get_doc(
-                        "Program Enrollment", program_enrolled
-                    )
-                    prog_enrollment.academic_year = self.academic_year
-                    prog_enrollment.enrollment_date = self.enrollment_date
-                    prog_enrollment.save()
+                for enrolled in frappe.response["message"]:
+                    enrollment = frappe.get_doc("Enrollment", enrolled)
+                    enrollment.academic_year = self.academic_year
+                    enrollment.enrollment_date = self.enrollment_date
+                    enrollment.save()
         frappe.msgprint(_("{0} Students have been enrolled").format(total))
         frappe.response["message"] = "success"

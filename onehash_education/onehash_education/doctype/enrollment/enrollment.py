@@ -6,7 +6,7 @@ from frappe import utils
 from frappe.model.document import Document
 
 
-class ProgramEnrollment(Document):
+class Enrollment(Document):
     def validate(self):
         self.set_student_name()
         self.validate_duplication()
@@ -39,7 +39,7 @@ class ProgramEnrollment(Document):
 
     def validate_duplication(self):
         enrollment = frappe.db.exists(
-            "Program Enrollment",
+            "Enrollment",
             {
                 "student": self.student,
                 "year_group": self.year_group,
@@ -69,7 +69,7 @@ def get_students(doctype, txt, searchfield, start, page_len, filters):
         filters["academic_year"] = education_settings.current_academic_year
 
     enrolled_students = frappe.get_list(
-        "Program Enrollment",
+        "Enrollment",
         filters={
             "academic_term": filters.get("academic_term"),
             "academic_year": filters.get("academic_year"),
@@ -104,7 +104,7 @@ def get_active_enrollments(student):
     result = frappe.db.sql(
         """
         SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year, pe.academic_term
-        FROM `tabProgram Enrollment` pe
+        FROM `tabEnrollment` pe
         JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
         AND %s BETWEEN at.term_start_date AND at.term_end_date
@@ -135,7 +135,7 @@ def get_upcoming_enrollments(student):
     result = frappe.db.sql(
         """
         SELECT pe.name, pe.student_name, pe.year_group, pe.academic_year, pe.academic_term
-        FROM `tabProgram Enrollment` pe
+        FROM `tabEnrollment` pe
         JOIN `tabAcademic Term` at ON pe.academic_term = at.name
         WHERE pe.student = %s
         AND at.term_start_date > %s
@@ -149,35 +149,35 @@ def get_upcoming_enrollments(student):
     return result or None
 
 
-def update_program_enrollment_status():
+def update_enrollment_status():
     now_date = utils.getdate()
     doc_updates = {}
 
-    ProgramEnrollment = frappe.qb.DocType("Program Enrollment")
+    Enrollment = frappe.qb.DocType("Enrollment")
     AcademicTerm = frappe.qb.DocType("Academic Term")
 
     pes_to_update = (
-        frappe.qb.from_(ProgramEnrollment)
+        frappe.qb.from_(Enrollment)
         .join(AcademicTerm)
-        .on(AcademicTerm.name == ProgramEnrollment.academic_term)
+        .on(AcademicTerm.name == Enrollment.academic_term)
         .select(
-            ProgramEnrollment.name,
-            ProgramEnrollment.status,
+            Enrollment.name,
+            Enrollment.status,
             AcademicTerm.term_start_date,
             AcademicTerm.term_end_date,
         )
         .where(
             (
-                (ProgramEnrollment.status != "Upcoming")
+                (Enrollment.status != "Upcoming")
                 & (AcademicTerm.term_start_date > now_date)
             )
             | (
-                (ProgramEnrollment.status != "Active")
+                (Enrollment.status != "Active")
                 & (AcademicTerm.term_start_date < now_date)
                 & (AcademicTerm.term_end_date > now_date)
             )
             | (
-                (ProgramEnrollment.status != "Expired")
+                (Enrollment.status != "Expired")
                 & (AcademicTerm.term_end_date < now_date)
             )
         )
@@ -194,5 +194,5 @@ def update_program_enrollment_status():
 
         doc_updates[pe_to_update.name] = update
 
-    frappe.db.bulk_update("Program Enrollment", doc_updates)
+    frappe.db.bulk_update("Enrollment", doc_updates)
     frappe.db.commit()

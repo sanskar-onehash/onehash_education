@@ -1,4 +1,4 @@
-frappe.listview_settings["Program Enrollment"] = {
+frappe.listview_settings["Enrollment"] = {
   get_indicator: function (doc) {
     if (doc.status === "Upcoming") {
       return ["Upcoming", "blue", "status,=,Upcoming"];

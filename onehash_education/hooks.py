@@ -166,7 +166,7 @@ scheduler_events = {
     # 		"onehash_education.tasks.daily"
     # 	],
     "daily_long": [
-        "onehash_education.onehash_education.doctype.program_enrollment.program_enrollment.update_program_enrollment_status"
+        "onehash_education.onehash_education.doctype.enrollment.enrollment.update_enrollment_status"
     ],
     # 	"weekly": [
     # 		"onehash_education.tasks.weekly"
