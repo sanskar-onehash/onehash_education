@@ -40,7 +40,8 @@
    "fieldname": "phone_number",
    "fieldtype": "Phone",
    "in_list_view": 1,
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "reqd": 1
   },
   {
    "columns": 2,
@@ -53,7 +54,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-28 21:45:21.208905",
+ "modified": "2025-10-29 15:06:06.330663",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Quick Contacts",
