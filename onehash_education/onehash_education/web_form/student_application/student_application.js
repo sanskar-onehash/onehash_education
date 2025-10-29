@@ -545,6 +545,7 @@ frappe.ready(function () {
   }
 
   async function handleCustomSaveAndSubmit(e) {
+    handleSave();
     validateMandatories();
 
     await triggerBeforeSubmit(frm);
