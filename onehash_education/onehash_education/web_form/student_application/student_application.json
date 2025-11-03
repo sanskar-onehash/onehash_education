@@ -40,7 +40,7 @@
  "list_title": "Student Applications",
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-10-29 08:56:34.167212",
+ "modified": "2025-11-03 14:29:04.186677",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
@@ -277,6 +277,7 @@
   },
   {
    "allow_read_on_all_link_options": 0,
+   "description": "Upload a PNG or JPG file (max. size: 25MB).",
    "fieldname": "student_image",
    "fieldtype": "Attach Image",
    "hidden": 0,
@@ -735,6 +736,7 @@
   },
   {
    "allow_read_on_all_link_options": 0,
+   "description": "Upload a PNG or JPG file (max. size: 25MB).",
    "fieldname": "father_image",
    "fieldtype": "Attach Image",
    "hidden": 0,
@@ -934,6 +936,7 @@
   },
   {
    "allow_read_on_all_link_options": 0,
+   "description": "Upload a PNG or JPG file (max. size: 25MB).",
    "fieldname": "mother_image",
    "fieldtype": "Attach Image",
    "hidden": 0,
@@ -1132,6 +1135,7 @@
   },
   {
    "allow_read_on_all_link_options": 0,
+   "description": "Upload a PNG or JPG file (max. size: 25MB).",
    "fieldname": "guardian_image",
    "fieldtype": "Attach Image",
    "hidden": 0,
