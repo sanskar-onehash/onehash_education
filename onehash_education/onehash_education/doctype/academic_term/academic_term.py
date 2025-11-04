@@ -27,7 +27,7 @@ class AcademicTerm(Document):
                 "The Academic Term's start date cannot be later than the end date."
             )
 
-        academic_year_doc = frappe.get_doc("Academic Year", self.academic_year)
+        academic_year_doc = frappe.get_doc("Academic Year", academic_year)
 
         if start_date < academic_year_doc.year_start_date:
             frappe.throw(
