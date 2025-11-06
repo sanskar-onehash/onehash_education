@@ -17,6 +17,10 @@ class Enrollment(Document):
         self.validate()
 
     def before_submit(self):
+        student_doc = frappe.get_doc("Student", self.student)
+        if not student_doc.enabled:
+            frappe.throw("Student is not enabled. Can not submit enrollment.")
+
         self.set_status()
         self.validate()
 

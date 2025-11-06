@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-11-06 12:12:14.767135",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_igtd",
+  "naming_series",
+  "student_name",
+  "student",
+  "amended_from",
+  "column_break_enrx",
+  "guardian",
+  "withdrawn_on",
+  "withdrawn_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_igtd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Withdrawal",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "EDU-WTHD-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "\nEDU-WTHD-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.student_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Student Name"
+  },
+  {
+   "fieldname": "column_break_enrx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "student.guardian",
+   "fieldname": "guardian",
+   "fieldtype": "Link",
+   "label": "Guardian",
+   "options": "Guardian",
+   "read_only": 1
+  },
+  {
+   "fieldname": "withdrawn_on",
+   "fieldtype": "Datetime",
+   "label": "Withdrawn on",
+   "read_only": 1
+  },
+  {
+   "fieldname": "withdrawn_by",
+   "fieldtype": "Link",
+   "label": "Withdrawn by",
+   "options": "User",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-11-06 12:33:14.532100",
+ "modified_by": "Administrator",
+ "module": "OneHash Education",
+ "name": "Withdrawal",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
