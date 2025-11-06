@@ -108,12 +108,12 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "EDU-GRDN-YYYY-",
+   "default": "EDU-GRDN-.YYYY.-",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Naming Series",
-   "options": "EDU-GRDN-YYYY-",
+   "options": "EDU-GRDN-.YYYY.-",
    "reqd": 1
   },
   {
@@ -135,7 +135,7 @@
    "link_fieldname": "guardian"
   }
  ],
- "modified": "2025-10-03 11:17:29.907509",
+ "modified": "2025-11-06 09:05:54.009182",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Guardian",
