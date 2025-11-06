@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 
-class Withdrawal(Document):
+class StudentWithdrawal(Document):
 
     def before_submit(self):
         if frappe.db.exists(
