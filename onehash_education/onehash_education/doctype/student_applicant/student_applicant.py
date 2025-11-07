@@ -90,7 +90,11 @@ def send_student_application(
         birth_date = frappe.utils.getdate(birth_date)
     student_user_doc = None
 
-    if not student_user:
+    if student_user:
+        student_user_doc = frappe.get_doc("User", student_user)
+        student_user_doc.add_roles("Student Applicant")
+        student_user_doc = student_user_doc.save(ignore_permissions=True)
+    else:
         student_user_doc = frappe.get_doc(
             {
                 "doctype": "User",
