@@ -13,6 +13,10 @@ frappe.ui.form.on("Enrollment Tool", {
     frm.fields_dict.enroll_students.$input.addClass(" btn btn-primary");
   },
 
+  get_students_from: setupTermFilters,
+  academic_year: setupTermFilters,
+  new_academic_year: setupTermFilters,
+
   get_students: async function (frm) {
     try {
       frappe.dom.freeze("Fetching Students...");
@@ -65,3 +69,19 @@ frappe.ui.form.on("Enrollment Tool", {
     }
   },
 });
+
+function setupTermFilters(frm) {
+  frm.set_query("academic_term", () => ({
+    filters: { academic_year: frm.doc.academic_year },
+  }));
+
+  if (frm.doc.get_students_from === "Enrollment") {
+    frm.set_query("new_academic_terms", () => ({
+      filters: { academic_year: frm.doc.new_academic_year },
+    }));
+  } else {
+    frm.set_query("new_academic_terms", () => ({
+      filters: { academic_year: frm.doc.academic_year },
+    }));
+  }
+}
