@@ -100,7 +100,13 @@ function fetchTransactions() {
       invoiceFormat = response?.invoice_format
       receiptFormat = response?.receipt_format
       const transactions = (response?.transactions || []).sort((a, b) => {
-        const statusOrder = { Overdue: 0, Unpaid: 1, 'Partly Paid': 2, Paid: 3 }
+        const statusOrder = {
+          Overdue: 0,
+          Unpaid: 1,
+          'Partly Paid': 2,
+          Return: 3,
+          Paid: 4,
+        }
 
         const statusA = statusOrder[a.status]
         const statusB = statusOrder[b.status]
@@ -185,6 +191,7 @@ const payInvoice = (_) => {
 const badgeColor = (status) => {
   const badgeColorMap = {
     Paid: 'green',
+    Return: 'green',
     Unpaid: 'orange',
     Overdue: 'red',
     'Partly Paid': 'blue',
