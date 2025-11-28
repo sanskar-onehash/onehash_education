@@ -50,7 +50,10 @@
               label="Download Receipt"
             />
             <Button
-              v-if="column.key === 'receipt' && row.status !== 'Paid'"
+              v-if="
+                column.key === 'receipt' &&
+                !['Paid', 'Return'].includes(row.status)
+              "
               @click="payInvoice(row)"
               class="hover:bg-gray-900 hover:text-white flex flex-column items-center justify-center"
               icon-left="credit-card"
