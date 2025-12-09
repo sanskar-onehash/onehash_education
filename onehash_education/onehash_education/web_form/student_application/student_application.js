@@ -549,11 +549,10 @@ frappe.ready(function () {
 
   async function handleCustomSaveAndSubmit(e) {
     await handleSave();
-		frm.events.on("after_save", handleAfterSubmit);
+		frm.events.once("after_save", handleAfterSubmit);
   }
 
 	async function handleAfterSubmit() {
-		frm.events.off("after_save", handleAfterSubmit);
 		if (frm.doc.submitted) {
 			return
 		}
@@ -562,12 +561,7 @@ frappe.ready(function () {
 
 		await triggerBeforeSubmit(frm);
 		await frm.set_value("submitted", 1);
-		try {
-			await handleSave();
-		} catch (err) {
-			await frm.set_value("submitted", 0);
-		}
-
+		await handleSave();
 	}
 
   function resetSubmissionOnError() {
