@@ -12,6 +12,8 @@ const FILE_UPLOAD_OPTIONS = {
   make_attachments_public: true,
 };
 
+let savingInterval = null;
+
 async function fixLanguages() {
   for (let language of frappe.web_form.doc.language_proficiency || []) {
     await frappe.utils.fetch_link_title("Language", language.language);
@@ -134,6 +136,7 @@ frappe.ready(function () {
   }
 
   function handleAfterSave() {
+    savingInterval = clearInterval(savingInterval)
     frappe.show_alert({ indicator: "green", message: "Changes Saved" });
   }
 
@@ -567,10 +570,18 @@ frappe.ready(function () {
 
 	}
 
+  function resetSubmissionOnError() {
+    if (!window.saving && savingInterval) {
+      savingInterval = clearInterval(savingInterval);
+      frm.set_value("submitted", 0);
+    }
+  }
+
   async function handleSave() {
     clearLocalStorageDoc();
     await setFormCompletion(frm);
     await frm.save();
+    savingInterval = setInterval(resetSubmissionOnError, 300)
   }
 
   async function triggerBeforeSubmit(frm) {
