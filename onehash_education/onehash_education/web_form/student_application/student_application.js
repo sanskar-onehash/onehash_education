@@ -541,26 +541,36 @@ frappe.ready(function () {
 
   async function handleCustomSave(e) {
     await frm.set_value("submitted", 0);
-    handleSave();
+    await handleSave();
   }
 
   async function handleCustomSaveAndSubmit(e) {
-    handleSave();
-    validateMandatories();
-
-    await triggerBeforeSubmit(frm);
-    await frm.set_value("submitted", 1);
-    try {
-      await handleSave();
-    } catch (err) {
-      await frm.set_value("submitted", 0);
-    }
+    await handleSave();
+		frm.events.on("after_save", handleAfterSubmit);
   }
+
+	async function handleAfterSubmit() {
+		frm.events.off("after_save", handleAfterSubmit);
+		if (frm.doc.submitted) {
+			return
+		}
+
+		validateMandatories();
+
+		await triggerBeforeSubmit(frm);
+		await frm.set_value("submitted", 1);
+		try {
+			await handleSave();
+		} catch (err) {
+			await frm.set_value("submitted", 0);
+		}
+
+	}
 
   async function handleSave() {
     clearLocalStorageDoc();
     await setFormCompletion(frm);
-    $submitBtn.click();
+    await frm.save();
   }
 
   async function triggerBeforeSubmit(frm) {
