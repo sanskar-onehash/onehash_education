@@ -111,7 +111,7 @@
         variant="solid"
         size="md"
         id="btn-pay_now"
-        :disabled="selectedInvoices.length === 0"
+        :disabled="selectedInvoices.length === 0 || amountToPay < 1"
         @click="onPayNow"
       />
     </div>
