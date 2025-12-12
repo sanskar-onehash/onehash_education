@@ -276,6 +276,7 @@ def get_invoices_to_pay(customer):
             last_invoice = None
 
         if not last_invoice:
+            amount_paid = invoice.grand_total - invoice.payable_amount
             last_invoice = {
                 "name": invoice.name,
                 "posting_date": invoice.posting_date,
@@ -284,6 +285,10 @@ def get_invoices_to_pay(customer):
                 "grand_total": invoice.grand_total,
                 "grand_total_formatted": frappe_utils.fmt_money(
                     invoice.grand_total, currency=invoice.currency
+                ),
+                "amount_paid": amount_paid,
+                "amount_paid_formatted": frappe_utils.fmt_money(
+                    amount_paid, currency=invoice.currency
                 ),
                 "payable_amount": invoice.payable_amount,
                 "payable_amount_formatted": frappe_utils.fmt_money(

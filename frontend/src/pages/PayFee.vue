@@ -34,7 +34,7 @@
                     (checkboxRefs[invoice.name] =
                       el?.$el?.querySelector('input'))
                 "
-                @update:model-value="calculateTotal"
+                @update:model-value="updateTotal"
               />
             </div>
             <div>
@@ -82,13 +82,25 @@
       </Card>
     </div>
 
-    <div
-      v-if="invoices.length > 0"
-      class="border-t pt-6 flex justify-between items-center"
-    >
-      <div class="text-xl font-bold">Total to Pay</div>
-      <div class="text-2xl font-bold text-blue-600">
-        {{ formatCurrency(totalAmount, currency) }}
+    <div v-if="invoices.length > 0" class="flex flex-col">
+      <div class="border-t py-6 flex justify-between items-center">
+        <div class="text-xl font-bold">Total to Pay</div>
+        <div class="text-2xl font-bold text-blue-600">
+          {{ formatCurrency(totalAmount, currency) }}
+        </div>
+      </div>
+      <div class="border-y py-6 flex justify-between items-center">
+        <div class="text-xl font-bold">Amount to Pay</div>
+        <TextInput
+          :type="'number'"
+          :ref_for="true"
+          size="md"
+          variant="subtle"
+          placeholder="Amount to Pay"
+          :disabled="false"
+          v-model="amountToPay"
+          @input="validateAmountToPay"
+        />
       </div>
     </div>
 
@@ -129,7 +141,14 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { Button, Card, Checkbox, createResource, Dialog } from 'frappe-ui'
+import {
+  Button,
+  Card,
+  Checkbox,
+  createResource,
+  Dialog,
+  TextInput,
+} from 'frappe-ui'
 import { useStudentStore } from '@/stores/student'
 import { useExternalScriptApi } from '@/stores/external_script_api'
 import MissingData from '@/components/MissingData.vue'
@@ -142,6 +161,7 @@ const externalScriptApiStore = useExternalScriptApi()
 let invoices = reactive([])
 
 const totalAmount = ref(0)
+const amountToPay = ref(0)
 const currency = ref('INR')
 const showNoSelectionDialog = ref(false)
 const checkboxRefs = reactive({})
@@ -167,13 +187,27 @@ function fetchStudentInvoices() {
       invoices.splice(
         0,
         invoices.length,
-        ...response.map((invoice) => ({
-          ...invoice,
-          selected: true,
-          disabled: invoice.payable_amount <= 0,
-        })),
+        ...response.map((invoice) => {
+          const items = invoice.items
+          if (invoice.amount_paid) {
+            items.push({
+              item_name: 'Amount Paid',
+              item_amount: invoice.amount_paid * -1,
+              item_amount_formatted: formatCurrency(
+                invoice.amount_paid * -1,
+                currency.value,
+              ),
+            })
+          }
+          return {
+            ...invoice,
+            items,
+            selected: true,
+            disabled: invoice.payable_amount <= 0,
+          }
+        }),
       )
-      calculateTotal()
+      updateTotal()
     },
     auto: true,
   })
@@ -184,7 +218,6 @@ studentStore.$subscribe(fetchStudentInvoices)
 
 function toggleInvoiceSelection(invoice) {
   invoice.selected = !invoice.selected
-  calculateTotal()
 }
 
 function toggleSelectAll() {
@@ -197,7 +230,13 @@ function toggleSelectAll() {
     }
   })
 
+  updateTotal()
+}
+
+function updateTotal() {
   calculateTotal()
+
+  amountToPay.value = totalAmount.value
 }
 
 function calculateTotal() {
@@ -219,15 +258,22 @@ function onPayNow() {
   externalScriptApiStore.emit('pay-now', {
     invoices: selectedInvoices.value,
     student: studentStore.currentStudentInfo,
+    amount: amountToPay.value,
   })
 }
 
 onMounted(() => {
-  calculateTotal()
+  updateTotal()
 
   externalScriptApiStore.currentPage = PAGE_NAME
   externalScriptApiStore.emit('mounted', PAGE_NAME)
 })
+
+function validateAmountToPay() {
+  if (amountToPay.value < 0) {
+    amountToPay.value = 0
+  }
+}
 
 function handleInvoiceCardClick(invoice) {
   const selection = window.getSelection()
