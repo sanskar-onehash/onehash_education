@@ -40,7 +40,7 @@
  "list_title": "Student Applications",
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-12-01 09:56:02.792479",
+ "modified": "2025-12-18 08:52:47.893038",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
@@ -393,7 +393,7 @@
    "options": "Religion",
    "precision": "",
    "read_only": 0,
-   "reqd": 0,
+   "reqd": 1,
    "show_in_filter": 0
   },
   {
@@ -457,7 +457,7 @@
    "fieldtype": "Select",
    "hidden": 0,
    "label": "Category",
-   "mandatory_depends_on": "eval: doc.primary_nationality===\"Indian\" || !doc.primary_nationality",
+   "mandatory_depends_on": "",
    "max_length": 0,
    "max_value": 0,
    "options": "\nGeneral\nOBC\nSC\nST\nOther",
