@@ -1663,7 +1663,7 @@
    "fieldname": "medical_history",
    "fieldtype": "Table",
    "hidden": 0,
-   "label": "Please provide information related to the pupil's health including any allergies, vision or hearing issues that the school should know about.",
+   "label": "Please provide details on the pupil's health, including any allergies, vision, or hearing issues the school should be aware of.",
    "max_length": 0,
    "max_value": 0,
    "options": "Medical History",
