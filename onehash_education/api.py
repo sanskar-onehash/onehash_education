@@ -11,15 +11,23 @@ def get_admission_years():
 
 @frappe.whitelist(allow_guest=True)
 def get_admission_year_groups(academic_year):
-    return frappe.db.get_all(
-        "Year Groups",
-        ["year_group"],
-        {
-            "parenttype": "Academic Year",
-            "parentfield": "admissions_open_for",
-            "parent": academic_year,
-        },
+    AcademicYearGroups = frappe.qb.DocType("Year Groups")
+    YearGroup = frappe.qb.DocType("Year Group")
+
+    admission_year_groups = (
+        frappe.qb.from_(AcademicYearGroups)
+        .join(YearGroup)
+        .on(AcademicYearGroups.year_group == YearGroup.name)
+        .select(AcademicYearGroups.year_group)
+        .where(
+            (AcademicYearGroups.parenttype == "Academic Year")
+            & (AcademicYearGroups.parentfield == "admissions_open_for")
+            & (AcademicYearGroups.parent == academic_year)
+        )
+        .orderby(YearGroup.priority)
+        .run(as_dict=True)
     )
+    return admission_year_groups
 
 
 @frappe.whitelist(allow_guest=True)
