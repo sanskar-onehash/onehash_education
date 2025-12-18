@@ -40,7 +40,7 @@
  "list_title": "Student Applications",
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2025-12-18 10:41:15.378367",
+ "modified": "2025-12-18 10:50:15.378367",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "student-application",
@@ -2590,7 +2590,7 @@
   {
    "allow_read_on_all_link_options": 0,
    "depends_on": "attended_any_other_school",
-   "description": "Scan and upload last 2 year report card",
+   "description": "Scan and upload last 2 year report card.",
    "fieldname": "other_school_report_card",
    "fieldtype": "Attach",
    "hidden": 0,
