@@ -490,7 +490,7 @@ frappe.ready(function () {
 
     if (invalid_values.length || errors.length) {
       frappe.msgprint({
-        title: __("Errors in application form:"),
+        title: __("Please enter missing information:"),
         message: message,
         indicator: "orange",
       });
