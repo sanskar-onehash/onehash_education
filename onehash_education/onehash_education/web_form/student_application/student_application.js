@@ -136,7 +136,7 @@ frappe.ready(function () {
   }
 
   function handleAfterSave() {
-    savingInterval = clearInterval(savingInterval)
+    savingInterval = clearInterval(savingInterval);
     frappe.show_alert({ indicator: "green", message: "Changes Saved" });
   }
 
@@ -295,6 +295,8 @@ frappe.ready(function () {
     const currentYear = new Date().getFullYear();
     const today = frappe.datetime.get_today();
 
+    frm.validate_section = validateSection;
+
     frm.set_df_property(
       "age_as_on",
       "label",
@@ -403,7 +405,10 @@ frappe.ready(function () {
     toggleSection(+stepIdEl.dataset.stepId);
   }
 
-  function toggleSection(nextSectionNumber) {
+  function toggleSection(nextSectionNumber, validate = true) {
+    if (validate && !validateSection()) {
+      return;
+    }
     frm.current_section = nextSectionNumber;
     frm.toggle_section();
   }
@@ -417,6 +422,81 @@ frappe.ready(function () {
 
   function handleDiscard() {
     clearLocalStorageDoc();
+  }
+
+  function validateSection() {
+    let fields = $(`${frm.get_page(frm.current_section)} .frappe-control`);
+    let errors = [];
+    let invalid_values = [];
+
+    for (let field of fields) {
+      let fieldname = $(field).attr("data-fieldname");
+      if (!fieldname) continue;
+
+      field = frm.fields_dict[fieldname];
+
+      if (field && field.get_value) {
+        let value = field.get_value();
+        if (
+          field.df.reqd &&
+          is_null(typeof value === "string" ? strip_html(value) : value)
+        )
+          errors.push(__(field.df.label));
+
+        if (field.df.reqd && field.df.fieldtype === "Check" && !value) {
+          errors.push(__(field.df.label));
+        }
+
+        if (field.df.fieldtype === "Table") {
+          const tableRequiredColumns = {};
+          field.df.fields.forEach((field) => {
+            if (field.reqd) {
+              tableRequiredColumns[field.fieldname] = field;
+            }
+          });
+
+          field.get_value().forEach((value) => {
+            for (let col in value) {
+              if (tableRequiredColumns[col] && !value[col]) {
+                errors.push(
+                  `${__(field.df.label)}: ${tableRequiredColumns[col].label}`,
+                );
+              }
+            }
+          });
+        }
+
+        if (
+          field.df.reqd &&
+          field.df.fieldtype === "Text Editor" &&
+          is_null(strip_html(cstr(value)))
+        )
+          errors.push(__(field.df.label));
+
+        if (field.df.invalid) invalid_values.push(__(field.df.label));
+      }
+    }
+
+    let message = "";
+    if (invalid_values.length) {
+      message += "<strong>" + __("Invalid values for fields") + "</strong>";
+      message += "<br><ul><li>" + invalid_values.join("<li>") + "</ul>";
+    }
+
+    if (errors.length) {
+      message += "<strong>" + __("Mandatory fields required") + "</strong>";
+      message += "<br><ul><li>" + errors.join("<li>") + "</ul>";
+    }
+
+    if (invalid_values.length || errors.length) {
+      frappe.msgprint({
+        title: __("Errors in application form:"),
+        message: message,
+        indicator: "orange",
+      });
+    }
+
+    return !(errors.length || invalid_values.length);
   }
 
   function validateMandatories() {
@@ -473,6 +553,7 @@ frappe.ready(function () {
     if (firstErroredField) {
       toggleSection(
         firstErroredField.$wrapper.closest(".form-page").index() - 1,
+        false,
       );
       $([document.documentElement, document.body]).animate(
         {
@@ -549,20 +630,20 @@ frappe.ready(function () {
 
   async function handleCustomSaveAndSubmit(e) {
     await handleSave();
-		frm.events.once("after_save", handleAfterSubmit);
+    frm.events.once("after_save", handleAfterSubmit);
   }
 
-	async function handleAfterSubmit() {
-		if (frm.doc.submitted) {
-			return
-		}
+  async function handleAfterSubmit() {
+    if (frm.doc.submitted) {
+      return;
+    }
 
-		validateMandatories();
+    validateMandatories();
 
-		await triggerBeforeSubmit(frm);
-		await frm.set_value("submitted", 1);
-		await handleSave();
-	}
+    await triggerBeforeSubmit(frm);
+    await frm.set_value("submitted", 1);
+    await handleSave();
+  }
 
   function resetSubmissionOnError() {
     if (!window.saving && savingInterval) {
@@ -575,7 +656,7 @@ frappe.ready(function () {
     clearLocalStorageDoc();
     await setFormCompletion(frm);
     await frm.save();
-    savingInterval = setInterval(resetSubmissionOnError, 300)
+    savingInterval = setInterval(resetSubmissionOnError, 300);
   }
 
   async function triggerBeforeSubmit(frm) {
