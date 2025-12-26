@@ -146,7 +146,7 @@ def get_students():
                 "student_image",
                 "student_name",
             ],
-            filters={"user_id": user, "enabled": 1},
+            filters={"user_id": user, "has_portal_access": 1},
             order_by="creation asc",
         )
 

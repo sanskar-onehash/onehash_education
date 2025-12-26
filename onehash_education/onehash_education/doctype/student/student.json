@@ -8,6 +8,7 @@
  "field_order": [
   "naming_series",
   "enabled",
+  "has_portal_access",
   "section_break_pwub",
   "first_name",
   "middle_name",
@@ -113,12 +114,18 @@
    "fieldtype": "Link",
    "label": "Guardian",
    "options": "Guardian"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_portal_access",
+   "fieldtype": "Check",
+   "label": "Has Portal Access"
   }
  ],
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-03 14:01:52.972915",
+ "modified": "2025-12-26 08:52:52.124360",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student",
