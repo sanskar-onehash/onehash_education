@@ -116,7 +116,7 @@
    "options": "Guardian"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "has_portal_access",
    "fieldtype": "Check",
    "label": "Has Portal Access"
@@ -125,7 +125,7 @@
  "image_field": "student_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-26 08:52:52.124360",
+ "modified": "2025-12-26 08:58:58.136097",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Student",
