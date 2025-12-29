@@ -103,7 +103,6 @@ def enroll_student(applicant_name, terms):
         enrollment.academic_year = student_applicant.academic_year
         enrollment.academic_term = term
         enrollment.enrollment_date = frappe_utils.nowdate()
-        enrollment.created_by_enrollment_tool = True
         enrollment.save()
         enrollments.append(enrollment.name)
 

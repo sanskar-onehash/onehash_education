@@ -78,6 +78,26 @@ class EnrollmentTool(Document):
         if not self.new_academic_terms:
             frappe.throw("No Academic Term found to enroll in.")
 
+        standard_fields = (
+            [field.get("fieldname") for field in frappe.model.std_fields]
+            + list(frappe.model.child_table_fields)
+            + ["amended_from"]
+        )
+
+        history_doc = frappe.new_doc("Enrollment History")
+        for key, value in self.as_dict().items():
+            if key in standard_fields:
+                continue
+            if not history_doc.meta.has_field(key):
+                continue
+
+            if isinstance(value, list):
+                for row in value:
+                    history_doc.append(key, row)
+            else:
+                history_doc.set(key, value)
+        history_doc = history_doc.insert(ignore_permissions=True)
+
         total = len(self.students)
         for i, student in enumerate(self.students):
             frappe.publish_realtime(
@@ -107,12 +127,15 @@ class EnrollmentTool(Document):
                     "onehash_education.api.enroll_student",
                     applicant_name=student.student_applicant,
                     terms=[term.academic_term for term in self.new_academic_terms],
+                    history_docname=history_doc.name,
                 )
 
                 for enrolled in frappe.response["message"]:
                     enrollment = frappe.get_doc("Enrollment", enrolled)
                     enrollment.academic_year = self.academic_year
                     enrollment.enrollment_date = self.enrollment_date
+                    enrollment.created_by_enrollment_tool = True
+                    enrollment.enrollment_source = history_doc.name
                     enrollment.save()
         frappe.msgprint(
             _(f"{total} Student{'s have' if total > 1 else 'has'} been enrolled")

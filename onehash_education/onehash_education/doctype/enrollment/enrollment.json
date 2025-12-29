@@ -18,6 +18,7 @@
   "academic_term",
   "enrollment_date",
   "created_by_enrollment_tool",
+  "enrollment_source",
   "amended_from"
  ],
  "fields": [
@@ -111,12 +112,19 @@
    "label": "Naming Series",
    "options": "\nEDU-ENR-.YYYY.-",
    "reqd": 1
+  },
+  {
+   "fieldname": "enrollment_source",
+   "fieldtype": "Link",
+   "label": "Enrollment Source",
+   "options": "Enrollment History",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-25 12:31:36.109752",
+ "modified": "2025-12-29 09:04:57.414257",
  "modified_by": "Administrator",
  "module": "OneHash Education",
  "name": "Enrollment",
