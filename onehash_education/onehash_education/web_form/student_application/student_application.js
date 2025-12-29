@@ -402,13 +402,24 @@ frappe.ready(function () {
   }
 
   function handleStepClick(e, stepIdEl) {
-    toggleSection(+stepIdEl.dataset.stepId);
+    const stepId = +stepIdEl.dataset.stepId
+    toggleSection(stepId, stepId > frm.current_section);
   }
 
   function toggleSection(nextSectionNumber, validate = true) {
-    if (validate && !validateSection()) {
-      return;
+    if (validate) {
+      let isValid = true;
+      for (let i = frm.current_section; i < nextSectionNumber && isValid; i++) {
+        frm.current_section = i;
+        isValid = validateSection();
+      }
+      if (isValid) {
+        frm.current_section = nextSectionNumber;
+      }
+      frm.toggle_section()
+      return
     }
+
     frm.current_section = nextSectionNumber;
     frm.toggle_section();
   }
