@@ -119,6 +119,8 @@ class EnrollmentTool(Document):
                             "academic_year": self.new_academic_year,
                             "academic_term": new_academic_term.academic_term,
                             "enrollment_date": self.enrollment_date,
+                            "created_by_enrollment_tool": True,
+                            "enrollment_source": history_doc.name,
                         }
                     )
                     enrollment.save()
