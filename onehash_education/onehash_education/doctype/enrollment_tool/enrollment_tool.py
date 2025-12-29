@@ -114,5 +114,7 @@ class EnrollmentTool(Document):
                     enrollment.academic_year = self.academic_year
                     enrollment.enrollment_date = self.enrollment_date
                     enrollment.save()
-        frappe.msgprint(_("{0} Students have been enrolled").format(total))
+        frappe.msgprint(
+            _(f"{total} Student{'s have' if total > 1 else 'has'} been enrolled")
+        )
         frappe.response["message"] = "success"
