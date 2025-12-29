@@ -140,6 +140,6 @@ class EnrollmentTool(Document):
                     enrollment.enrollment_source = history_doc.name
                     enrollment.save()
         frappe.msgprint(
-            _(f"{total} Student{'s have' if total > 1 else 'has'} been enrolled")
+            _(f"{total} Student{'s have' if total > 1 else ' has'} been enrolled")
         )
         frappe.response["message"] = "success"
