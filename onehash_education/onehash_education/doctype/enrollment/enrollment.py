@@ -177,8 +177,8 @@ def update_enrollment_status():
             )
             | (
                 (Enrollment.status != "Active")
-                & (AcademicTerm.term_start_date < now_date)
-                & (AcademicTerm.term_end_date > now_date)
+                & (AcademicTerm.term_start_date <= now_date)
+                & (AcademicTerm.term_end_date >= now_date)
             )
             | (
                 (Enrollment.status != "Expired")
