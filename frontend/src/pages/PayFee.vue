@@ -217,7 +217,11 @@ fetchStudentInvoices()
 studentStore.$subscribe(fetchStudentInvoices)
 
 function toggleInvoiceSelection(invoice) {
-  invoice.selected = !invoice.selected
+  const checkboxEl = checkboxRefs[invoice.name]
+
+  if (checkboxEl && !checkboxEl.disabled) {
+    inv.selected = !invoice.selected
+  }
 }
 
 function toggleSelectAll() {
