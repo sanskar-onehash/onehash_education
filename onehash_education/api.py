@@ -188,6 +188,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
         .on(
             (PaymentEntryReference.reference_doctype == "Sales Invoice")
             & (PaymentEntryReference.parenttype == "Payment Entry")
+            & (PaymentEntryReference.docstatus == 1)
             & (SalesInvoice.name == PaymentEntryReference.reference_name)
         )
         .left_join(PaymentEntry)
