@@ -36,6 +36,8 @@ frappe.ui.form.ControlPhone = class ControlPhone extends (
 
     this.df.mandatory_depends_on = "";
     this.df.read_only_depends_on = "";
+
+    this.handlePhoneInputFocus = this.handlePhoneInputFocus.bind(this);
   }
   async make_input() {
     await super.make_input();
@@ -60,35 +62,35 @@ frappe.ui.form.ControlPhone = class ControlPhone extends (
   }
 
   customize_phone_field() {
-    this.$input.off("focus", handlePhoneInputFocus(this));
-    this.$input.on("focus", handlePhoneInputFocus(this));
+    this.$input.off("focus", this.handlePhoneInputFocus);
+    this.$input.on("focus", this.handlePhoneInputFocus);
+  }
+
+  handlePhoneInputFocus() {
+    if (this.country_code_picker.country) {
+      return;
+    }
+
+    this.$input.blur();
+
+    // Delay the click to allow event propagation to finish
+    setTimeout(() => {
+      this.$wrapper.popover("show");
+      $("body").on("click.phone-popover", (ev) => {
+        if (!$(ev.target).parents().is(".popover")) {
+          this.$wrapper.popover("hide");
+        }
+      });
+      $(window).on("hashchange.phone-popover", () => {
+        this.$wrapper.popover("hide");
+      });
+      this.$wrapper.on("hidden.bs.popover", () => {
+        $("body").off("click.phone-popover");
+        $(window).off("hashchange.phone-popover");
+      });
+    }, 250);
   }
 };
-
-function handlePhoneInputFocus(field) {
-  return () => {
-    if (!field.country_code_picker.country) {
-      field.$input.blur();
-
-      // Delay the click to allow event propagation to finish
-      setTimeout(() => {
-        field.$wrapper.popover("show");
-        $("body").on("click.phone-popover", (ev) => {
-          if (!$(ev.target).parents().is(".popover")) {
-            field.$wrapper.popover("hide");
-          }
-        });
-        $(window).on("hashchange.phone-popover", () => {
-          field.$wrapper.popover("hide");
-        });
-        field.$wrapper.on("hidden.bs.popover", () => {
-          $("body").off("click.phone-popover");
-          $(window).off("hashchange.phone-popover");
-        });
-      }, 250);
-    }
-  };
-}
 
 frappe.ready(function () {
   const frm = frappe.web_form;
@@ -402,7 +404,7 @@ frappe.ready(function () {
   }
 
   function handleStepClick(e, stepIdEl) {
-    const stepId = +stepIdEl.dataset.stepId
+    const stepId = +stepIdEl.dataset.stepId;
     toggleSection(stepId, stepId > frm.current_section);
   }
 
@@ -416,8 +418,8 @@ frappe.ready(function () {
       if (isValid) {
         frm.current_section = nextSectionNumber;
       }
-      frm.toggle_section()
-      return
+      frm.toggle_section();
+      return;
     }
 
     frm.current_section = nextSectionNumber;
