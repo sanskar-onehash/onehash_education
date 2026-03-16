@@ -189,7 +189,7 @@ function fetchStudentInvoices() {
         invoices.length,
         ...response.map((invoice) => {
           const items = invoice.items
-          if (invoice.amount_paid) {
+          if (invoice.amount_paid && invoice.amount_paid > 0) {
             items.push({
               item_name: 'Amount Paid',
               item_amount: invoice.amount_paid * -1,
