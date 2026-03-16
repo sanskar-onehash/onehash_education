@@ -202,7 +202,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
             SalesInvoice.due_date,
             SalesInvoice.status,
             SalesInvoice.outstanding_amount,
-            SalesInvoice.grand_total.as_("amount"),
+            SalesInvoice.base_grand_total.as_("amount"),
             SalesInvoice.custom_academic_year.as_("academic_year"),
             SalesInvoice.custom_year_group.as_("year_group"),
             PaymentEntry.name.as_("receipt"),
@@ -262,7 +262,7 @@ def get_invoices_to_pay(customer):
             SalesInvoice.posting_date,
             SalesInvoice.due_date,
             SalesInvoice.currency,
-            SalesInvoice.grand_total,
+            SalesInvoice.base_grand_total,
             SalesInvoice.outstanding_amount.as_("payable_amount"),
             SalesInvoiceItem.amount.as_("item_amount"),
             SalesInvoiceItem.item_name,
@@ -284,15 +284,15 @@ def get_invoices_to_pay(customer):
             last_invoice = None
 
         if not last_invoice:
-            amount_paid = invoice.grand_total - invoice.payable_amount
+            amount_paid = invoice.base_grand_total - invoice.payable_amount
             last_invoice = {
                 "name": invoice.name,
                 "posting_date": invoice.posting_date,
                 "due_date": invoice.due_date,
                 "currency": invoice.currency,
-                "grand_total": invoice.grand_total,
+                "grand_total": invoice.base_grand_total,
                 "grand_total_formatted": frappe_utils.fmt_money(
-                    invoice.grand_total, currency=invoice.currency
+                    invoice.base_grand_total, currency=invoice.currency
                 ),
                 "amount_paid": amount_paid,
                 "amount_paid_formatted": frappe_utils.fmt_money(
