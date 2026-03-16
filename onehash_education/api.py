@@ -201,6 +201,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
             SalesInvoice.currency,
             SalesInvoice.due_date,
             SalesInvoice.status,
+            SalesInvoice.party_account_currency.as_("account_currency"),
             SalesInvoice.outstanding_amount,
             SalesInvoice.base_grand_total.as_("amount"),
             SalesInvoice.custom_academic_year.as_("academic_year"),
@@ -218,7 +219,7 @@ def get_customer_transactions(customer, page_length=20, page=0):
     for transaction in transactions:
         if transaction.amount is not None and transaction.currency:
             transaction["formatted_amount"] = frappe_utils.fmt_money(
-                transaction.amount, currency=transaction.currency
+                transaction.amount, currency=transaction.account_currency
             )
         else:
             transaction["formatted_amount"] = transaction.amount
@@ -262,6 +263,7 @@ def get_invoices_to_pay(customer):
             SalesInvoice.posting_date,
             SalesInvoice.due_date,
             SalesInvoice.currency,
+            SalesInvoice.party_account_currency,
             SalesInvoice.base_grand_total,
             SalesInvoice.outstanding_amount.as_("payable_amount"),
             SalesInvoiceItem.amount.as_("item_amount"),
@@ -300,7 +302,7 @@ def get_invoices_to_pay(customer):
                 ),
                 "payable_amount": invoice.payable_amount,
                 "payable_amount_formatted": frappe_utils.fmt_money(
-                    invoice.payable_amount, currency=invoice.currency
+                    invoice.payable_amount, currency=invoice.party_account_currency
                 ),
                 "items": [],
             }
