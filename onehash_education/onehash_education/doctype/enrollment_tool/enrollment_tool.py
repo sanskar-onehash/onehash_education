@@ -43,7 +43,6 @@ class EnrollmentTool(Document):
                 & (Enrollment.docstatus == 1)
                 & (Enrollment.academic_term == self.academic_term)
                 & (Student.enabled == 1)
-                & (Enrollment.status != "Expired")
             )
             if self.active_enrollments:
                 enrollment_conditions = enrollment_conditions & (
