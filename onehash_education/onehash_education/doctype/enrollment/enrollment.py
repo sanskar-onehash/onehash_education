@@ -46,7 +46,6 @@ class Enrollment(Document):
             "Enrollment",
             {
                 "student": self.student,
-                "year_group": self.year_group,
                 "academic_year": self.academic_year,
                 "academic_term": self.academic_term,
                 "docstatus": ("<", 2),
@@ -54,7 +53,11 @@ class Enrollment(Document):
             },
         )
         if enrollment:
-            frappe.throw(frappe._("Student is already enrolled."))
+            frappe.throw(
+                frappe._(
+                    "Student is already enrolled for academic year {0} and term {1}."
+                ).format(self.academic_year, self.academic_term)
+            )
 
     def validate_academic_term(self):
         frappe.get_doc("Academic Term", self.academic_term).validate_term_date_range(
@@ -72,16 +75,19 @@ def get_students(doctype, txt, searchfield, start, page_len, filters):
     if not filters.get("academic_year"):
         filters["academic_year"] = education_settings.current_academic_year
 
-    enrolled_students = frappe.get_list(
-        "Enrollment",
-        filters={
-            "academic_term": filters.get("academic_term"),
-            "academic_year": filters.get("academic_year"),
-        },
-        fields=["student"],
+    enrollment_filters = {
+        "academic_term": filters.get("academic_term"),
+        "academic_year": filters.get("academic_year"),
+        "docstatus": ("<", 2),
+    }
+    if filters.get("enrollment"):
+        enrollment_filters["name"] = ("!=", filters["enrollment"])
+
+    enrolled_students = frappe.get_all(
+        "Enrollment", filters=enrollment_filters, pluck="student"
     )
 
-    students = [d.student for d in enrolled_students] if enrolled_students else [""]
+    students = enrolled_students or [""]
 
     return frappe.db.sql(
         """select
